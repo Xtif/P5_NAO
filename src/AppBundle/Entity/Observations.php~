@@ -1,0 +1,324 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Observations
+ *
+ * @ORM\Table(name="observations")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ObservationsRepository")
+ */
+class Observations
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="author", type="string", length=255)
+     */
+    private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bird_name", type="string", length=255)
+     */
+    private $birdName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bird_race", type="string", length=255)
+     */
+    private $birdRace;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+    private $content;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="decimal", precision=10, scale=0)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="decimal", precision=10, scale=0)
+     */
+    private $latitude;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="published", type="smallint")
+     */
+    private $published;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="published_at", type="datetime")
+     */
+    private $publishedAt;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="reported", type="boolean")
+     */
+    private $reported;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pictures", mappedBy="observation", cascade={"all"})
+    */
+
+    private $pictures;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users", inversedBy="observations", cascade={"all"})
+    */
+
+    private $user;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set author
+     *
+     * @param string $author
+     *
+     * @return Observations
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set birdName
+     *
+     * @param string $birdName
+     *
+     * @return Observations
+     */
+    public function setBirdName($birdName)
+    {
+        $this->birdName = $birdName;
+
+        return $this;
+    }
+
+    /**
+     * Get birdName
+     *
+     * @return string
+     */
+    public function getBirdName()
+    {
+        return $this->birdName;
+    }
+
+    /**
+     * Set birdRace
+     *
+     * @param string $birdRace
+     *
+     * @return Observations
+     */
+    public function setBirdRace($birdRace)
+    {
+        $this->birdRace = $birdRace;
+
+        return $this;
+    }
+
+    /**
+     * Get birdRace
+     *
+     * @return string
+     */
+    public function getBirdRace()
+    {
+        return $this->birdRace;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Observations
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param string $longitude
+     *
+     * @return Observations
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param string $latitude
+     *
+     * @return Observations
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set published
+     *
+     * @param integer $published
+     *
+     * @return Observations
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return int
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     *
+     * @return Observations
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * Set reported
+     *
+     * @param boolean $reported
+     *
+     * @return Observations
+     */
+    public function setReported($reported)
+    {
+        $this->reported = $reported;
+
+        return $this;
+    }
+
+    /**
+     * Get reported
+     *
+     * @return bool
+     */
+    public function getReported()
+    {
+        return $this->reported;
+    }
+}
