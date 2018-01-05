@@ -4,13 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * Users
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  */
-class Users
+class Users extends BaseUser
 {
     /**
      * @var int
@@ -19,89 +21,75 @@ class Users
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255)
-     */
-    private $username;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
-    private $firstname;
+    protected $firstname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      */
-    private $lastname;
+    protected $lastname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="adress", type="string", length=255, nullable=true)
      */
-    private $adress;
+    protected $adress;
 
     /**
      * @var int
      *
      * @ORM\Column(name="postal_code", type="integer", nullable=true)
      */
-    private $postalCode;
+    protected $postalCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      */
-    private $city;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
+    protected $city;
 
     /**
      * @var int
      *
      * @ORM\Column(name="phone", type="integer", nullable=true)
      */
-    private $phone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
+    protected $phone;
 
     /**
      * @var int
      *
      * @ORM\Column(name="status", type="smallint")
      */
-    private $status;
+    protected $status;
 
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Observations", mappedBy="user", cascade={"all"})
     */
-
-    private $observations;
+    protected $observations;
 
     /**
     * @ORM\OneToOne(targetEntity="AppBundle\Entity\UsersPictures", inversedBy="user", cascade={"all"})
     */
+    protected $picture;
 
-    private $picture;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setStatus(0);
+    }
 
     /**
      * Get id
@@ -351,13 +339,6 @@ class Users
     public function getStatus()
     {
         return $this->status;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
