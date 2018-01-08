@@ -59,16 +59,16 @@ class Users extends BaseUser
     protected $city;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="phone", type="integer", nullable=true)
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     protected $phone;
 
     /**
-     * @var int
+     * @var var string
      *
-     * @ORM\Column(name="status", type="smallint")
+     * @ORM\Column(name="status", type="string", length=255, nullable=false)
      */
     protected $status;
 
@@ -88,7 +88,7 @@ class Users extends BaseUser
     public function __construct()
     {
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setStatus(0);
+        $this->setStatus("Particulier");
     }
 
     /**
