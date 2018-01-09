@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProfileFormType extends AbstractType
 {
@@ -169,6 +170,14 @@ class ProfileFormType extends AbstractType
                     'label' => 'Email*', 
                     'translation_domain' => 'FOSUserBundle',
                     'attr' => array('class' => 'form-control col-lg-10 m-auto')
+                )
+            )
+            ->add(
+                'picture', 
+                FileType::class, 
+                array(
+                    'label' => false,
+                    'attr' => array('class' => 'col-lg-2 m-auto')
                 )
             )
         ;

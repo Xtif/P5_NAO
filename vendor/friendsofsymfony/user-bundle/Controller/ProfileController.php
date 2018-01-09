@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Controller managing the user profile.
@@ -74,6 +75,12 @@ class ProfileController extends Controller
         /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.profile.form.factory');
 
+        if ($user->getPicture() == null) {
+          $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/Avatar_utilisateur_carre.jpg'));
+        } else { 
+          $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/' . $user->getPicture()));
+        }
+
         $form = $formFactory->createForm();
         $form->setData($user);
 
@@ -82,6 +89,19 @@ class ProfileController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
+
+            // Gestion de la photo
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $user->getPicture();
+
+            $fileName = $user->getUsername() . '.' . $file->guessExtension();
+
+            $file->move(
+              $this->getParameter('users_pictures_directory'),
+              $fileName
+            );
+
+            $user->setPicture($fileName);
 
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
@@ -99,7 +119,7 @@ class ProfileController extends Controller
         }
 
         return $this->render('@FOSUser/Profile/edit.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView(), 'user' => $user
         ));
     }
 }
