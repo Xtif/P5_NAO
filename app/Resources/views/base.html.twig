@@ -1,13 +1,113 @@
 <!DOCTYPE html>
+
 <html>
+
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <meta charset = "UTF-8" />
+        <meta http-equiv = "X-UA-COMPATIBLE" content = "IE = edge" />
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1" />
+        <title>{% block title %}Nos Amis Les Oiseaux{% endblock %}</title>
+        <link rel = "icon" type = "image/x-icon" href = "{{ asset('Images/favicon.ico') }}" />
+
+        {% block stylesheets %}
+
+            <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" />
+            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />
+
+        {% endblock %}
+
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+    <body data-spy = "scroll" data-target = "#wrap">
+
+        <div id = "wrap">
+
+          {% block messages %}
+
+              <div class = "text-center" id = "flash-message"></div>
+
+          {% endblock %}
+
+          <header id = "myScrollspy" class = "flex-row">
+
+              <div id = "logo-wrap" class = "col-20">
+
+                  <a href = "#wrap"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
+
+              </div>
+
+              <div id = "icon" class = "navbar-toggle collapsed hidden-lg hidden-md hidden-sm">
+
+                  <div id = "hamburger"></div>
+
+              </div>
+
+              <nav id = "menu" class = "col-60 flex-row">
+
+                  <ul class = "list-unstyled flex-row text-center">
+
+                      <a href = "#ccm"><li class = "active">Comment ça marche ?</li></a>
+                      <a href = "#qsn"><li>Qui sommes-nous ?</li></a>
+                      <a href = "#carte"><li>Carte interative</li></a>
+                      <a href = "#observation"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                      <a href = "#tableau"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                      <a href = "#utilisateurs"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                      <a href = "#contact"><li>Nous contacter</li></a>
+
+                  </ul>
+
+              </nav>
+
+              <div id = "header-end" class = "flex-column col-20">
+
+                <div id = "header-social-medias">
+
+                    <a href = "www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
+                    <a href = "www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
+
+                </div>
+
+                <div id = "account" class = "flex-column">
+
+                    <!-- Ici seront placé les liens se connecter et mon compte en fonction des utilisateurs connectés ou non -->
+
+                    <a href = "#">Mon compte</a>
+                    <a href = "#">Se connecter</a>
+
+                </div>
+
+              </div>
+
+          </header>
+
+          {% block body %}{% endblock %}
+
+          <footer class = "flex-row">
+
+              <a href = "#">Mentions légales</a>
+              <div id = "footer-social-medias">
+
+                  <a href = "www.nao.instagram.com"><i class="fa fa-3x fa-instagram" aria-hidden="true"></i></a>
+                  <a href = "www.nao.facebook.com"><i class="fa fa-3x fa-facebook-square" aria-hidden="true"></i></a>
+
+              </div>
+              <a href = "#">Conditions générales d'utilisation</a>
+
+          </footer>
+
+        </div>
+
+        {% block javascripts %}
+
+            <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+            <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js"></script>
+            <script src = "https://use.fontawesome.com/86150c9ee5.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+        {% endblock %}
+
     </body>
+
 </html>
