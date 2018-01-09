@@ -48,4 +48,16 @@ class DefaultController extends Controller
 
     }
 
+    public function legalNoticeAction(Request $request) {
+
+        return $this->render('default/legal_notice.html.twig');
+
+    }
+
+    public function tosAction(Request $request) {
+
+        return $this->render('default/tos.html.twig');
+
+    }
+
 }
