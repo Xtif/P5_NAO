@@ -49,11 +49,11 @@
 
                       <a href = "#ccm"><li class = "active">Comment ça marche ?</li></a>
                       <a href = "#qsn"><li>Qui sommes-nous ?</li></a>
-                      <a href = "#carte"><li>Carte interative</li></a>
-                      <a href = "#observation"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
-                      <a href = "#tableau"><li>Tableau de bord</li></a> <!-- si admin connecté -->
-                      <a href = "#utilisateurs"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
-                      <a href = "#contact"><li>Nous contacter</li></a>
+                      <a href = "{{ path('map') }}"><li>Carte interative</li></a>
+                      <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                      <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                      <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                      <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
 
                   </ul>
 

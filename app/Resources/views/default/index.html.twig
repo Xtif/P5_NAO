@@ -46,7 +46,7 @@
                 <h3>Recherchez</h3>
                 <i class="fa fa-4x fa-search" aria-hidden="true"></i>
                 <p>Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
-                <a href = "#carte"><button class = "btn">Parcourir la carte</button></a>
+                <a href = "{{ path('map') }}"><button class = "btn">Parcourir la carte</button></a>
 
             </div>
 
@@ -55,7 +55,7 @@
                 <h3>Observez</h3>
                 <i class="fa fa-4x fa-binoculars" aria-hidden="true"></i>
                 <p>Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
-                <a href = "#add_obs"><button class = "btn">En savoir plus</button></a>
+                <a href = "{{ path('add_observation') }}"><button class = "btn">En savoir plus</button></a>
 
             </div>
 
@@ -64,7 +64,7 @@
                 <h3>Participez</h3>
                 <i class="fa fa-4x fa-calendar-check-o" aria-hidden="true"></i>
                 <p>Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
-                <a href = "#carte"><button class = "btn">En savoir plus</button></a>
+                <a href = "{{ path('map') }}"><button class = "btn">En savoir plus</button></a>
 
             </div>
 
@@ -90,7 +90,7 @@
 
             </p>
 
-            <a href = "#contact"><button class = "btn">Nous contacter</button></a>
+            <a href = "{{ path('contact') }}"><button class = "btn">Nous contacter</button></a>
 
         </div>
 
