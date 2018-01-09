@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UsersPictures
@@ -31,9 +32,11 @@ class UsersPictures
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="picture_file", type="string", length=255)
+     *
+     * @Assert\File(mimeTypes={ "image/jpeg" })
      */
-    private $url;
+    private $pictureFile;
 
     /**
     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Users", mappedBy="picture", cascade={"all"})
@@ -76,30 +79,6 @@ class UsersPictures
     }
 
     /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return UsersPictures
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
      * Set user
      *
      * @param \AppBundle\Entity\Users $user
@@ -121,5 +100,29 @@ class UsersPictures
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set pictureFile
+     *
+     * @param string $pictureFile
+     *
+     * @return UsersPictures
+     */
+    public function setPictureFile($pictureFile)
+    {
+        $this->pictureFile = $pictureFile;
+
+        return $this;
+    }
+
+    /**
+     * Get pictureFile
+     *
+     * @return string
+     */
+    public function getPictureFile()
+    {
+        return $this->pictureFile;
     }
 }

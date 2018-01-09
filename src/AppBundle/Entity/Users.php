@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Users
@@ -78,7 +79,9 @@ class Users extends BaseUser
     protected $observations;
 
     /**
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\UsersPictures", inversedBy="user", cascade={"all"})
+    * @ORM\Column(name="user_picture", type="string", nullable=true)
+    *
+    * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
     */
     protected $picture;
 
@@ -375,14 +378,15 @@ class Users extends BaseUser
         return $this->observations;
     }
 
+
     /**
      * Set picture
      *
-     * @param \AppBundle\Entity\UsersPictures $picture
+     * @param string $picture
      *
      * @return Users
      */
-    public function setPicture(\AppBundle\Entity\UsersPictures $picture = null)
+    public function setPicture($picture)
     {
         $this->picture = $picture;
 
@@ -392,7 +396,7 @@ class Users extends BaseUser
     /**
      * Get picture
      *
-     * @return \AppBundle\Entity\UsersPictures
+     * @return string
      */
     public function getPicture()
     {
