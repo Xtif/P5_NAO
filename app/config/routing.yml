@@ -2,6 +2,36 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
+homepage:
+    path: /
+    defaults:
+      _controller: "AppBundle:Default:index"
+
+map:
+    path: /map
+    defaults:
+      _controller: "AppBundle:Default:map"
+
+add_observation:
+    path: /add
+    defaults:
+      _controller: "AppBundle:Default:add"
+
+dashboard:
+    path: /dashboard
+    defaults:
+      _controller: "AppBundle:Default:dashboard"
+
+user_list:
+    path: /userList
+    defaults:
+      _controller: "AppBundle:Default:userList"
+
+contact:
+    path: /contact
+    defaults:
+      _controller: "AppBundle:Default:contact"
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
