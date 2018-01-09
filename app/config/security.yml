@@ -2,10 +2,20 @@
 # https://symfony.com/doc/current/security.html
 security:
 
+    # Encryption on user data
+    encoders:
+        AppBundle\Entity\Users: bcrypt
+
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    role_hierarchy:
+        ROLE_PARTICULIER: ROLE_USER
+        ROLE_NATURALISTE: [ROLE_PARTICULIER, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: [ROLE_NATURALISTE, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -14,11 +24,24 @@ security:
             security: false
 
         main:
-            anonymous: ~
-            # activate different ways to authenticate
+            pattern: ^/
+            anonymous: true
+            provider: fos_userbundle
+            logout:
+                path: /deconnexion
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+            form_login:
+                login_path: /connexion
+                csrf_token_generator: security.csrf.token_manager
+                always_use_default_target_path: true
+                default_target_path: /profil
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+            remember_me:
+                secret: '%secret%'
+
+    # access_control:
+        # - { path: /profil, roles: ROLE_PARTICULIER }
+        # - { path: /ajoutobservation, roles: ROLE_PARTICULIER }
+        # - { path: /listeobservations, roles: ROLE_NATURALISTE }
+        # - { path: /listeutilisateur, roles: ROLE_ADMIN }
+        # - { path: /tableaudebord, roles: ROLE_ADMIN }
