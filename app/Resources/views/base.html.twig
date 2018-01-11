@@ -21,7 +21,7 @@
 
     <body data-spy = "scroll" data-target = "#wrap">
 
-        <div id = "wrap">
+        <div id = "page-wrap">
 
           {% block messages %}
 
@@ -33,7 +33,7 @@
 
               <div id = "logo-wrap" class = "col-20">
 
-                  <a href = "#wrap"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
+                  <a href = "{{ path('homepage') }}"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
 
               </div>
 
@@ -47,8 +47,8 @@
 
                   <ul class = "list-unstyled flex-row text-center">
 
-                      <a href = "#ccm"><li class = "active">Comment ça marche ?</li></a>
-                      <a href = "#qsn"><li>Qui sommes-nous ?</li></a>
+                      <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
+                      <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
                       <a href = "{{ path('map') }}"><li>Carte interative</li></a>
                       <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
                       <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
@@ -63,8 +63,8 @@
 
                 <div id = "header-social-medias">
 
-                    <a href = "www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
-                    <a href = "www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href = "https://www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
+                    <a href = "https://www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
 
                 </div>
 
@@ -83,20 +83,20 @@
 
           {% block body %}{% endblock %}
 
-          <footer class = "flex-row">
-
-              <a href = "{{ path('legal_notice') }}">Mentions légales</a>
-              <div id = "footer-social-medias">
-
-                  <a href = "www.nao.instagram.com"><i class="fa fa-3x fa-instagram" aria-hidden="true"></i></a>
-                  <a href = "www.nao.facebook.com"><i class="fa fa-3x fa-facebook-square" aria-hidden="true"></i></a>
-
-              </div>
-              <a href = "{{ path('tos') }}">Conditions générales d'utilisation</a>
-
-          </footer>
-
         </div>
+
+        <footer class = "flex-row">
+
+            <a href = "{{ path('legal_notice') }}">Mentions légales</a>
+            <div id = "footer-social-medias">
+
+                <a href = "https://www.nao.instagram.com"><i class="fa fa-3x fa-instagram" aria-hidden="true"></i></a>
+                <a href = "https://www.nao.facebook.com"><i class="fa fa-3x fa-facebook-square" aria-hidden="true"></i></a>
+
+            </div>
+            <a href = "{{ path('tos') }}">Conditions générales d'utilisation</a>
+
+        </footer>
 
         {% block javascripts %}
 
