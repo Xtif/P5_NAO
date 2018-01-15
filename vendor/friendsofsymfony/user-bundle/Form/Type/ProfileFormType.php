@@ -177,7 +177,8 @@ class ProfileFormType extends AbstractType
                 FileType::class, 
                 array(
                     'label' => false,
-                    'attr' => array('class' => 'col-lg-2 m-auto')
+                    'attr' => array('class' => 'col-lg-2 m-auto'),
+                    'required' => false
                 )
             )
         ;

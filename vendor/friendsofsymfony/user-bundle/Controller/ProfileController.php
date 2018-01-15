@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\File;
 
+
 /**
  * Controller managing the user profile.
  *
@@ -75,11 +76,8 @@ class ProfileController extends Controller
         /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.profile.form.factory');
 
-        if ($user->getPicture() == null) {
-          $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/Avatar_utilisateur_carre.jpg'));
-        } else { 
-          $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/' . $user->getPicture()));
-        }
+        $pictureFilename = $user->getPicture(); // Recupération du nom de la photo
+        $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/' . $user->getPicture())); // Création d'un objet File pour le champ photo du formulaire
 
         $form = $formFactory->createForm();
         $form->setData($user);
@@ -89,19 +87,20 @@ class ProfileController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
-
+            
             // Gestion de la photo
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $user->getPicture();
+            if ($user->getPicture() == null) { // Si le champ photo est vide
+                $picture = new File($this->getParameter('users_pictures_directory') . '/' . $pictureFilename); // On utilise l'ancienne photo           
+            } else { // Si le user a renseigné une photo
+              $picture = new File($user->getPicture()); // On crée un fichier photo avec pour le formulaire
+              $pictureFilename = $user->getUsername() . '.' . $picture->guessExtension(); // On modifie son nom pour l'enregistrement "username.extension"
+              $picture->move( // On la déplace dans le dossier src/Images/UsersPictures/
+                $this->getParameter('users_pictures_directory'),
+                $pictureFilename
+              );
+            }
 
-            $fileName = $user->getUsername() . '.' . $file->guessExtension();
-
-            $file->move(
-              $this->getParameter('users_pictures_directory'),
-              $fileName
-            );
-
-            $user->setPicture($fileName);
+            $user->setPicture($pictureFilename); // On assigne la photo a l'objet user
 
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
@@ -117,6 +116,8 @@ class ProfileController extends Controller
 
             return $response;
         }
+
+        $user->setPicture($pictureFilename); // On assigne la photo a l'objet user
 
         return $this->render('@FOSUser/Profile/edit.html.twig', array(
             'form' => $form->createView(), 'user' => $user

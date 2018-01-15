@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Users
@@ -79,7 +80,7 @@ class Users extends BaseUser
     protected $observations;
 
     /**
-    * @ORM\Column(name="user_picture", type="string", nullable=true)
+    * @ORM\Column(name="user_picture", type="string", nullable=false)
     *
     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
     */
@@ -92,6 +93,7 @@ class Users extends BaseUser
     {
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setStatus("Particulier");
+        $this->setPicture(new File($this->users_pictures_directory . '/Avatar.jpeg'));
     }
 
     /**
