@@ -307,7 +307,7 @@ class NativeSessionHandler extends \SessionHandler
 {
 public function __construct()
 {
-@trigger_error('The '.__NAMESPACE__.'\NativeSessionHandler class is deprecated since version 3.4 and will be removed in 4.0. Use the \SessionHandler class instead.', E_USER_DEPRECATED);
+@trigger_error('The '.__NAMESPACE__.'\NativeSessionHandler class is deprecated since Symfony 3.4 and will be removed in 4.0. Use the \SessionHandler class instead.', E_USER_DEPRECATED);
 }
 }
 }
@@ -573,6 +573,256 @@ return $this->getBag($this->flashName);
 private function getAttributeBag()
 {
 return $this->storage->getBag($this->attributeName)->getBag();
+}
+}
+}
+namespace Symfony\Bundle\FrameworkBundle\Templating
+{
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+class GlobalVariables
+{
+protected $container;
+public function __construct(ContainerInterface $container)
+{
+$this->container = $container;
+}
+public function getToken()
+{
+if (!$this->container->has('security.token_storage')) {
+return;
+}
+return $this->container->get('security.token_storage')->getToken();
+}
+public function getUser()
+{
+if (!$token = $this->getToken()) {
+return;
+}
+$user = $token->getUser();
+if (!is_object($user)) {
+return;
+}
+return $user;
+}
+public function getRequest()
+{
+if ($this->container->has('request_stack')) {
+return $this->container->get('request_stack')->getCurrentRequest();
+}
+}
+public function getSession()
+{
+if ($request = $this->getRequest()) {
+return $request->getSession();
+}
+}
+public function getEnvironment()
+{
+return $this->container->getParameter('kernel.environment');
+}
+public function getDebug()
+{
+return (bool) $this->container->getParameter('kernel.debug');
+}
+}
+}
+namespace Symfony\Component\Templating
+{
+interface TemplateReferenceInterface
+{
+public function all();
+public function set($name, $value);
+public function get($name);
+public function getPath();
+public function getLogicalName();
+public function __toString();
+}
+}
+namespace Symfony\Component\Templating
+{
+class TemplateReference implements TemplateReferenceInterface
+{
+protected $parameters;
+public function __construct($name = null, $engine = null)
+{
+$this->parameters = array('name'=> $name,'engine'=> $engine,
+);
+}
+public function __toString()
+{
+return $this->getLogicalName();
+}
+public function set($name, $value)
+{
+if (array_key_exists($name, $this->parameters)) {
+$this->parameters[$name] = $value;
+} else {
+throw new \InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
+}
+return $this;
+}
+public function get($name)
+{
+if (array_key_exists($name, $this->parameters)) {
+return $this->parameters[$name];
+}
+throw new \InvalidArgumentException(sprintf('The template does not support the "%s" parameter.', $name));
+}
+public function all()
+{
+return $this->parameters;
+}
+public function getPath()
+{
+return $this->parameters['name'];
+}
+public function getLogicalName()
+{
+return $this->parameters['name'];
+}
+}
+}
+namespace Symfony\Bundle\FrameworkBundle\Templating
+{
+use Symfony\Component\Templating\TemplateReference as BaseTemplateReference;
+class TemplateReference extends BaseTemplateReference
+{
+public function __construct($bundle = null, $controller = null, $name = null, $format = null, $engine = null)
+{
+$this->parameters = array('bundle'=> $bundle,'controller'=> $controller,'name'=> $name,'format'=> $format,'engine'=> $engine,
+);
+}
+public function getPath()
+{
+$controller = str_replace('\\','/', $this->get('controller'));
+$path = (empty($controller) ?'': $controller.'/').$this->get('name').'.'.$this->get('format').'.'.$this->get('engine');
+return empty($this->parameters['bundle']) ?'views/'.$path :'@'.$this->get('bundle').'/Resources/views/'.$path;
+}
+public function getLogicalName()
+{
+return sprintf('%s:%s:%s.%s.%s', $this->parameters['bundle'], $this->parameters['controller'], $this->parameters['name'], $this->parameters['format'], $this->parameters['engine']);
+}
+}
+}
+namespace Symfony\Component\Templating
+{
+interface TemplateNameParserInterface
+{
+public function parse($name);
+}
+}
+namespace Symfony\Component\Templating
+{
+class TemplateNameParser implements TemplateNameParserInterface
+{
+public function parse($name)
+{
+if ($name instanceof TemplateReferenceInterface) {
+return $name;
+}
+$engine = null;
+if (false !== $pos = strrpos($name,'.')) {
+$engine = substr($name, $pos + 1);
+}
+return new TemplateReference($name, $engine);
+}
+}
+}
+namespace Symfony\Bundle\FrameworkBundle\Templating
+{
+use Symfony\Component\Templating\TemplateReferenceInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Templating\TemplateNameParser as BaseTemplateNameParser;
+class TemplateNameParser extends BaseTemplateNameParser
+{
+protected $kernel;
+protected $cache = array();
+public function __construct(KernelInterface $kernel)
+{
+$this->kernel = $kernel;
+}
+public function parse($name)
+{
+if ($name instanceof TemplateReferenceInterface) {
+return $name;
+} elseif (isset($this->cache[$name])) {
+return $this->cache[$name];
+}
+$name = str_replace(':/',':', preg_replace('#/{2,}#','/', str_replace('\\','/', $name)));
+if (false !== strpos($name,'..')) {
+throw new \RuntimeException(sprintf('Template name "%s" contains invalid characters.', $name));
+}
+if ($this->isAbsolutePath($name) || !preg_match('/^(?:([^:]*):([^:]*):)?(.+)\.([^\.]+)\.([^\.]+)$/', $name, $matches) || 0 === strpos($name,'@')) {
+return parent::parse($name);
+}
+$template = new TemplateReference($matches[1], $matches[2], $matches[3], $matches[4], $matches[5]);
+if ($template->get('bundle')) {
+try {
+$this->kernel->getBundle($template->get('bundle'));
+} catch (\Exception $e) {
+throw new \InvalidArgumentException(sprintf('Template name "%s" is not valid.', $name), 0, $e);
+}
+}
+return $this->cache[$name] = $template;
+}
+private function isAbsolutePath($file)
+{
+$isAbsolute = (bool) preg_match('#^(?:/|[a-zA-Z]:)#', $file);
+if ($isAbsolute) {
+@trigger_error('Absolute template path support is deprecated since Symfony 3.1 and will be removed in 4.0.', E_USER_DEPRECATED);
+}
+return $isAbsolute;
+}
+}
+}
+namespace Symfony\Component\Config
+{
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+interface FileLocatorInterface
+{
+public function locate($name, $currentPath = null, $first = true);
+}
+}
+namespace Symfony\Bundle\FrameworkBundle\Templating\Loader
+{
+use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Templating\TemplateReferenceInterface;
+class TemplateLocator implements FileLocatorInterface
+{
+protected $locator;
+protected $cache;
+private $cacheHits = array();
+public function __construct(FileLocatorInterface $locator, $cacheDir = null)
+{
+if (null !== $cacheDir && file_exists($cache = $cacheDir.'/templates.php')) {
+$this->cache = require $cache;
+}
+$this->locator = $locator;
+}
+protected function getCacheKey($template)
+{
+return $template->getLogicalName();
+}
+public function locate($template, $currentPath = null, $first = true)
+{
+if (!$template instanceof TemplateReferenceInterface) {
+throw new \InvalidArgumentException('The template must be an instance of TemplateReferenceInterface.');
+}
+$key = $this->getCacheKey($template);
+if (isset($this->cacheHits[$key])) {
+return $this->cacheHits[$key];
+}
+if (isset($this->cache[$key])) {
+return $this->cacheHits[$key] = realpath($this->cache[$key]) ?: $this->cache[$key];
+}
+try {
+return $this->cacheHits[$key] = $this->locator->locate($template->getPath(), $currentPath);
+} catch (\InvalidArgumentException $e) {
+throw new \InvalidArgumentException(sprintf('Unable to find template "%s" : "%s".', $template, $e->getMessage()), 0, $e);
+}
 }
 }
 }
@@ -1481,7 +1731,7 @@ $url = substr($url, 0, -2).'%2E%2E';
 $url = substr($url, 0, -1).'%2E';
 }
 $schemeAuthority ='';
-if ($host = $this->context->getHost()) {
+$host = $this->context->getHost();
 $scheme = $this->context->getScheme();
 if ($requiredSchemes) {
 if (!in_array($scheme, $requiredSchemes, true)) {
@@ -1514,7 +1764,7 @@ $referenceType = self::NETWORK_PATH;
 }
 }
 }
-if (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) {
+if ((self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) && !empty($host)) {
 $port ='';
 if ('http'=== $scheme && 80 != $this->context->getHttpPort()) {
 $port =':'.$this->context->getHttpPort();
@@ -1523,7 +1773,6 @@ $port =':'.$this->context->getHttpsPort();
 }
 $schemeAuthority = self::NETWORK_PATH === $referenceType ?'//': "$scheme://";
 $schemeAuthority .= $host.$port;
-}
 }
 if (self::RELATIVE_PATH === $referenceType) {
 $url = self::getRelativePath($this->context->getPathInfo(), $url);
@@ -2844,7 +3093,7 @@ $e = null;
 $meta = false;
 $signalingException = new \UnexpectedValueException();
 $prevUnserializeHandler = ini_set('unserialize_callback_func','');
-$prevErrorHandler = set_error_handler(function ($type, $msg, $file, $line, $context) use (&$prevErrorHandler, $signalingException) {
+$prevErrorHandler = set_error_handler(function ($type, $msg, $file, $line, $context = array()) use (&$prevErrorHandler, $signalingException) {
 if (E_WARNING === $type &&'Class __PHP_Incomplete_Class has no unserializer'=== $msg) {
 throw $signalingException;
 }
@@ -2886,14 +3135,6 @@ return true;
 }
 return parent::isFresh();
 }
-}
-}
-namespace Symfony\Component\Config
-{
-use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
-interface FileLocatorInterface
-{
-public function locate($name, $currentPath = null, $first = true);
 }
 }
 namespace Symfony\Component\Config
@@ -3525,7 +3766,7 @@ return $this->compiled;
 }
 public function isFrozen()
 {
-@trigger_error(sprintf('The %s() method is deprecated since version 3.3 and will be removed in 4.0. Use the isCompiled() method instead.', __METHOD__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The %s() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the isCompiled() method instead.', __METHOD__), E_USER_DEPRECATED);
 return $this->parameterBag instanceof FrozenParameterBag;
 }
 public function getParameterBag()
@@ -3597,7 +3838,7 @@ $id = $normalizedId;
 continue;
 }
 if (!$this->methodMap && !$this instanceof ContainerBuilder && __CLASS__ !== static::class && method_exists($this,'get'.strtr($id, $this->underscoreMap).'Service')) {
-@trigger_error('Generating a dumped container without populating the method map is deprecated since 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
+@trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
 return true;
 }
 return false;
@@ -3632,7 +3873,7 @@ unset($this->loading[$id]);
 $id = $normalizedId;
 continue;
 } elseif (!$this->methodMap && !$this instanceof ContainerBuilder && __CLASS__ !== static::class && method_exists($this, $method ='get'.strtr($id, $this->underscoreMap).'Service')) {
-@trigger_error('Generating a dumped container without populating the method map is deprecated since 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
+@trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
 return 4 === $invalidBehavior ? null : $this->{$method}();
 }
 break;
@@ -3685,7 +3926,7 @@ public function getServiceIds()
 {
 $ids = array();
 if (!$this->methodMap && !$this instanceof ContainerBuilder && __CLASS__ !== static::class) {
-@trigger_error('Generating a dumped container without populating the method map is deprecated since 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
+@trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', E_USER_DEPRECATED);
 foreach (get_class_methods($this) as $method) {
 if (preg_match('/^get(.+)Service$/', $method, $match)) {
 $ids[] = self::underscore($match[1]);
@@ -3751,7 +3992,7 @@ $id = (string) $id;
 if (isset($this->normalizedIds[$normalizedId = strtolower($id)])) {
 $normalizedId = $this->normalizedIds[$normalizedId];
 if ($id !== $normalizedId) {
-@trigger_error(sprintf('Service identifiers will be made case sensitive in Symfony 4.0. Using "%s" instead of "%s" is deprecated since version 3.3.', $id, $normalizedId), E_USER_DEPRECATED);
+@trigger_error(sprintf('Service identifiers will be made case sensitive in Symfony 4.0. Using "%s" instead of "%s" is deprecated since Symfony 3.3.', $id, $normalizedId), E_USER_DEPRECATED);
 }
 } else {
 $normalizedId = $this->normalizedIds[$normalizedId] = $id;
@@ -3956,12 +4197,12 @@ if ($this instanceof \PHPUnit_Framework_MockObject_MockObject || $this instanceo
 $class = get_parent_class($class);
 }
 if (__CLASS__ !== $class) {
-@trigger_error(sprintf('The %s class is deprecated since version 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The %s class is deprecated since Symfony 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
 }
 }
 public function addListenerService($eventName, $callback, $priority = 0)
 {
-@trigger_error(sprintf('The %s class is deprecated since version 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The %s class is deprecated since Symfony 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
 if (!is_array($callback) || 2 !== count($callback)) {
 throw new \InvalidArgumentException('Expected an array("service", "method") argument');
 }
@@ -4015,7 +4256,7 @@ return parent::getListenerPriority($eventName, $listener);
 }
 public function addSubscriberService($serviceId, $class)
 {
-@trigger_error(sprintf('The %s class is deprecated since version 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The %s class is deprecated since Symfony 3.3 and will be removed in 4.0. Use EventDispatcher with closure factories instead.', __CLASS__), E_USER_DEPRECATED);
 foreach ($class::getSubscribedEvents() as $eventName => $params) {
 if (is_string($params)) {
 $this->listenerIds[$eventName][] = array($serviceId, $params, 0);
@@ -4030,7 +4271,7 @@ $this->listenerIds[$eventName][] = array($serviceId, $listener[0], isset($listen
 }
 public function getContainer()
 {
-@trigger_error('The '.__METHOD__.'() method is deprecated since version 3.3 as its class will be removed in 4.0. Inject the container or the services you need in your listeners/subscribers instead.', E_USER_DEPRECATED);
+@trigger_error('The '.__METHOD__.'() method is deprecated since Symfony 3.3 as its class will be removed in 4.0. Inject the container or the services you need in your listeners/subscribers instead.', E_USER_DEPRECATED);
 return $this->container;
 }
 protected function lazyLoad($eventName)
@@ -4852,7 +5093,7 @@ throw $e;
 }
 $response = $event->getResponse();
 if ($response->headers->has('X-Status-Code')) {
-@trigger_error(sprintf('Using the X-Status-Code header is deprecated since version 3.3 and will be removed in 4.0. Use %s::allowCustomResponseCode() instead.', GetResponseForExceptionEvent::class), E_USER_DEPRECATED);
+@trigger_error(sprintf('Using the X-Status-Code header is deprecated since Symfony 3.3 and will be removed in 4.0. Use %s::allowCustomResponseCode() instead.', GetResponseForExceptionEvent::class), E_USER_DEPRECATED);
 $response->setStatusCode($response->headers->get('X-Status-Code'));
 $response->headers->remove('X-Status-Code');
 } elseif (!$event->isAllowingCustomResponseCode() && !$response->isClientError() && !$response->isServerError() && !$response->isRedirect()) {
@@ -5136,36 +5377,6 @@ return $controller;
 }
 namespace Symfony\Component\Security\Http
 {
-use Symfony\Component\HttpFoundation\Request;
-interface AccessMapInterface
-{
-public function getPatterns(Request $request);
-}
-}
-namespace Symfony\Component\Security\Http
-{
-use Symfony\Component\HttpFoundation\RequestMatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
-class AccessMap implements AccessMapInterface
-{
-private $map = array();
-public function add(RequestMatcherInterface $requestMatcher, array $attributes = array(), $channel = null)
-{
-$this->map[] = array($requestMatcher, $attributes, $channel);
-}
-public function getPatterns(Request $request)
-{
-foreach ($this->map as $elements) {
-if (null === $elements[0] || $elements[0]->matches($request)) {
-return array($elements[1], $elements[2]);
-}
-}
-return array(null, null);
-}
-}
-}
-namespace Symfony\Component\Security\Http
-{
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
@@ -5371,7 +5582,7 @@ $this->allowIfEqualGrantedDeniedDecisions = (bool) $allowIfEqualGrantedDeniedDec
 }
 public function setVoters(array $voters)
 {
-@trigger_error(sprintf('The %s() method is deprecated since version 3.3 and will be removed in 4.0. Pass the voters to the constructor instead.', __METHOD__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The %s() method is deprecated since Symfony 3.3 and will be removed in 4.0. Pass the voters to the constructor instead.', __METHOD__), E_USER_DEPRECATED);
 $this->voters = $voters;
 }
 public function decide(TokenInterface $token, array $attributes, $object = null)
@@ -5615,7 +5826,7 @@ return $this->config;
 }
 public function getContext()
 {
-@trigger_error(sprintf('Method %s() is deprecated since version 3.3 and will be removed in 4.0. Use %s::getListeners/getExceptionListener() instead.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
+@trigger_error(sprintf('Method %s() is deprecated since Symfony 3.3 and will be removed in 4.0. Use %s::getListeners/getExceptionListener() instead.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 return array($this->getListeners(), $this->getExceptionListener());
 }
 public function getListeners()
@@ -9314,6 +9525,7 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 class DoctrineParamConverter implements ParamConverterInterface
 {
@@ -9371,8 +9583,15 @@ $method = $options['repository_method'];
 } else {
 $method ='find';
 }
+$om = $this->getManager($options['entity_manager'], $class);
+if ($options['evict_cache'] && $om instanceof EntityManagerInterface) {
+$cacheProvider = $om->getCache();
+if ($cacheProvider && $cacheProvider->containsEntity($class, $id)) {
+$cacheProvider->evictEntity($class, $id);
+}
+}
 try {
-return $this->getManager($options['entity_manager'], $class)->getRepository($class)->$method($id);
+return $om->getRepository($class)->$method($id);
 } catch (NoResultException $e) {
 return;
 }
@@ -9427,7 +9646,9 @@ $criteria[$field] = $request->attributes->get($attribute);
 }
 }
 if ($options['strip_null']) {
-$criteria = array_filter($criteria, function ($value) { return !is_null($value); });
+$criteria = array_filter($criteria, function ($value) {
+return !is_null($value);
+});
 }
 if (!$criteria) {
 return false;
@@ -9494,7 +9715,7 @@ return !$em->getMetadataFactory()->isTransient($configuration->getClass());
 }
 private function getOptions(ParamConverter $configuration)
 {
-$defaultValues = array('entity_manager'=> null,'exclude'=> array(),'mapping'=> array(),'strip_null'=> false,'expr'=> null,'id'=> null,'repository_method'=> null,'map_method_signature'=> false,
+$defaultValues = array('entity_manager'=> null,'exclude'=> array(),'mapping'=> array(),'strip_null'=> false,'expr'=> null,'id'=> null,'repository_method'=> null,'map_method_signature'=> false,'evict_cache'=> false,
 );
 $passedOptions = $configuration->getOptions();
 if (isset($passedOptions['repository_method'])) {
@@ -9550,13 +9771,15 @@ return;
 if ($converterName = $configuration->getConverter()) {
 if (!isset($this->namedConverters[$converterName])) {
 throw new \RuntimeException(sprintf("No converter named '%s' found for conversion of parameter '%s'.",
-$converterName, $configuration->getName()
+$converterName,
+$configuration->getName()
 ));
 }
 $converter = $this->namedConverters[$converterName];
 if (!$converter->supports($configuration)) {
 throw new \RuntimeException(sprintf("Converter '%s' does not support conversion of parameter '%s'.",
-$converterName, $configuration->getName()
+$converterName,
+$configuration->getName()
 ));
 }
 $converter->apply($request, $configuration);
@@ -9873,7 +10096,9 @@ $roles = $this->roleHierarchy->getReachableRoles($token->getRoles());
 } else {
 $roles = $token->getRoles();
 }
-$variables = array('token'=> $token,'user'=> $token->getUser(),'object'=> $request,'subject'=> $request,'request'=> $request,'roles'=> array_map(function ($role) { return $role->getRole(); }, $roles),'trust_resolver'=> $this->trustResolver,'auth_checker'=> $this->authChecker,
+$variables = array('token'=> $token,'user'=> $token->getUser(),'object'=> $request,'subject'=> $request,'request'=> $request,'roles'=> array_map(function ($role) {
+return $role->getRole();
+}, $roles),'trust_resolver'=> $this->trustResolver,'auth_checker'=> $this->authChecker,
 );
 $controllerArguments = $this->argumentNameConverter->getControllerArguments($event);
 if ($diff = array_intersect(array_keys($variables), array_keys($controllerArguments))) {

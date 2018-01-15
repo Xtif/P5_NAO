@@ -64,10 +64,10 @@ class Users extends \AppBundle\Entity\Users implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'id', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'username', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'firstname', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'lastname', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'adress', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'postalCode', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'city', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'email', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'phone', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'password', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'status', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'observations', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'picture'];
+            return ['__isInitialized__', 'id', 'firstname', 'lastname', 'adress', 'postalCode', 'city', 'phone', 'status', 'observations', 'picture', 'username', 'usernameCanonical', 'email', 'emailCanonical', 'enabled', 'salt', 'password', 'plainPassword', 'lastLogin', 'confirmationToken', 'passwordRequestedAt', 'groups', 'roles'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'id', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'username', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'firstname', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'lastname', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'adress', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'postalCode', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'city', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'email', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'phone', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'password', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'status', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'observations', '' . "\0" . 'AppBundle\\Entity\\Users' . "\0" . 'picture'];
+        return ['__isInitialized__', 'id', 'firstname', 'lastname', 'adress', 'postalCode', 'city', 'phone', 'status', 'observations', 'picture', 'username', 'usernameCanonical', 'email', 'emailCanonical', 'enabled', 'salt', 'password', 'plainPassword', 'lastLogin', 'confirmationToken', 'passwordRequestedAt', 'groups', 'roles'];
     }
 
     /**
@@ -461,6 +461,402 @@ class Users extends \AppBundle\Entity\Users implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPicture', []);
 
         return parent::getPicture();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addRole($role)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addRole', [$role]);
+
+        return parent::addRole($role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'serialize', []);
+
+        return parent::serialize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'unserialize', [$serialized]);
+
+        return parent::unserialize($serialized);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function eraseCredentials()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'eraseCredentials', []);
+
+        return parent::eraseCredentials();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUsernameCanonical()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsernameCanonical', []);
+
+        return parent::getUsernameCanonical();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSalt()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSalt', []);
+
+        return parent::getSalt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmailCanonical()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmailCanonical', []);
+
+        return parent::getEmailCanonical();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPlainPassword()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPlainPassword', []);
+
+        return parent::getPlainPassword();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLastLogin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastLogin', []);
+
+        return parent::getLastLogin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getConfirmationToken()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getConfirmationToken', []);
+
+        return parent::getConfirmationToken();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoles', []);
+
+        return parent::getRoles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasRole($role)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasRole', [$role]);
+
+        return parent::hasRole($role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isAccountNonExpired()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAccountNonExpired', []);
+
+        return parent::isAccountNonExpired();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isAccountNonLocked()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAccountNonLocked', []);
+
+        return parent::isAccountNonLocked();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isCredentialsNonExpired()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isCredentialsNonExpired', []);
+
+        return parent::isCredentialsNonExpired();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEnabled()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isEnabled', []);
+
+        return parent::isEnabled();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuperAdmin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isSuperAdmin', []);
+
+        return parent::isSuperAdmin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeRole($role)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeRole', [$role]);
+
+        return parent::removeRole($role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUsernameCanonical($usernameCanonical)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsernameCanonical', [$usernameCanonical]);
+
+        return parent::setUsernameCanonical($usernameCanonical);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSalt($salt)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSalt', [$salt]);
+
+        return parent::setSalt($salt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEmailCanonical($emailCanonical)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmailCanonical', [$emailCanonical]);
+
+        return parent::setEmailCanonical($emailCanonical);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEnabled($boolean)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEnabled', [$boolean]);
+
+        return parent::setEnabled($boolean);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSuperAdmin($boolean)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSuperAdmin', [$boolean]);
+
+        return parent::setSuperAdmin($boolean);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPlainPassword($password)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPlainPassword', [$password]);
+
+        return parent::setPlainPassword($password);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLastLogin(\DateTime $time = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastLogin', [$time]);
+
+        return parent::setLastLogin($time);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setConfirmationToken', [$confirmationToken]);
+
+        return parent::setConfirmationToken($confirmationToken);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPasswordRequestedAt(\DateTime $date = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPasswordRequestedAt', [$date]);
+
+        return parent::setPasswordRequestedAt($date);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPasswordRequestedAt()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPasswordRequestedAt', []);
+
+        return parent::getPasswordRequestedAt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPasswordRequestNonExpired($ttl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPasswordRequestNonExpired', [$ttl]);
+
+        return parent::isPasswordRequestNonExpired($ttl);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRoles(array $roles)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRoles', [$roles]);
+
+        return parent::setRoles($roles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGroups()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getGroups', []);
+
+        return parent::getGroups();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGroupNames()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getGroupNames', []);
+
+        return parent::getGroupNames();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasGroup($name)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasGroup', [$name]);
+
+        return parent::hasGroup($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addGroup(\FOS\UserBundle\Model\GroupInterface $group)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addGroup', [$group]);
+
+        return parent::addGroup($group);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeGroup(\FOS\UserBundle\Model\GroupInterface $group)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeGroup', [$group]);
+
+        return parent::removeGroup($group);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
     }
 
 }

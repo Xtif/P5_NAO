@@ -23,29 +23,29 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_9a18aba6fd5517e0053efee68efb53fa71d5cb955a3fe8be0f8a5452104dab5b = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_9a18aba6fd5517e0053efee68efb53fa71d5cb955a3fe8be0f8a5452104dab5b->enter($__internal_9a18aba6fd5517e0053efee68efb53fa71d5cb955a3fe8be0f8a5452104dab5b_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "default/index.html.twig"));
+        $__internal_e8a375efd6c646f0f63a6d1b80f77fa60291d40cc663c42baba7adef3ea5055e = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_e8a375efd6c646f0f63a6d1b80f77fa60291d40cc663c42baba7adef3ea5055e->enter($__internal_e8a375efd6c646f0f63a6d1b80f77fa60291d40cc663c42baba7adef3ea5055e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "default/index.html.twig"));
 
-        $__internal_1993e94179e89be1cbf0802178ce3b3ac953dc3d1027f01beb89778532e57514 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_1993e94179e89be1cbf0802178ce3b3ac953dc3d1027f01beb89778532e57514->enter($__internal_1993e94179e89be1cbf0802178ce3b3ac953dc3d1027f01beb89778532e57514_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "default/index.html.twig"));
+        $__internal_88cb52e9a7b143fffc2a6593618a93c450181b6c3e9ffece65bfc81669e8d943 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_88cb52e9a7b143fffc2a6593618a93c450181b6c3e9ffece65bfc81669e8d943->enter($__internal_88cb52e9a7b143fffc2a6593618a93c450181b6c3e9ffece65bfc81669e8d943_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "default/index.html.twig"));
 
         $this->parent->display($context, array_merge($this->blocks, $blocks));
         
-        $__internal_9a18aba6fd5517e0053efee68efb53fa71d5cb955a3fe8be0f8a5452104dab5b->leave($__internal_9a18aba6fd5517e0053efee68efb53fa71d5cb955a3fe8be0f8a5452104dab5b_prof);
+        $__internal_e8a375efd6c646f0f63a6d1b80f77fa60291d40cc663c42baba7adef3ea5055e->leave($__internal_e8a375efd6c646f0f63a6d1b80f77fa60291d40cc663c42baba7adef3ea5055e_prof);
 
         
-        $__internal_1993e94179e89be1cbf0802178ce3b3ac953dc3d1027f01beb89778532e57514->leave($__internal_1993e94179e89be1cbf0802178ce3b3ac953dc3d1027f01beb89778532e57514_prof);
+        $__internal_88cb52e9a7b143fffc2a6593618a93c450181b6c3e9ffece65bfc81669e8d943->leave($__internal_88cb52e9a7b143fffc2a6593618a93c450181b6c3e9ffece65bfc81669e8d943_prof);
 
     }
 
     // line 3
     public function block_stylesheets($context, array $blocks = array())
     {
-        $__internal_af53a06172a80051f2c217310e5084f625784d95c425ef041f38ff39a4eadc9a = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_af53a06172a80051f2c217310e5084f625784d95c425ef041f38ff39a4eadc9a->enter($__internal_af53a06172a80051f2c217310e5084f625784d95c425ef041f38ff39a4eadc9a_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "stylesheets"));
+        $__internal_337918c9808d1808af80d6e05abf0beacdf3ee2e54ff68f46ac0423d814fc984 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_337918c9808d1808af80d6e05abf0beacdf3ee2e54ff68f46ac0423d814fc984->enter($__internal_337918c9808d1808af80d6e05abf0beacdf3ee2e54ff68f46ac0423d814fc984_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        $__internal_deda5cc5999079bfffec8cf9763c62cc2d533f5c0aa38a0c5442c32a69a69cae = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_deda5cc5999079bfffec8cf9763c62cc2d533f5c0aa38a0c5442c32a69a69cae->enter($__internal_deda5cc5999079bfffec8cf9763c62cc2d533f5c0aa38a0c5442c32a69a69cae_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "stylesheets"));
+        $__internal_309ab6a52085706ddaf1225b2472cf5e698d7c6bc7392c73e726df27e5bc38ab = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_309ab6a52085706ddaf1225b2472cf5e698d7c6bc7392c73e726df27e5bc38ab->enter($__internal_309ab6a52085706ddaf1225b2472cf5e698d7c6bc7392c73e726df27e5bc38ab_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "stylesheets"));
 
         // line 4
         echo "
@@ -60,21 +60,21 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
 ";
         
-        $__internal_deda5cc5999079bfffec8cf9763c62cc2d533f5c0aa38a0c5442c32a69a69cae->leave($__internal_deda5cc5999079bfffec8cf9763c62cc2d533f5c0aa38a0c5442c32a69a69cae_prof);
+        $__internal_309ab6a52085706ddaf1225b2472cf5e698d7c6bc7392c73e726df27e5bc38ab->leave($__internal_309ab6a52085706ddaf1225b2472cf5e698d7c6bc7392c73e726df27e5bc38ab_prof);
 
         
-        $__internal_af53a06172a80051f2c217310e5084f625784d95c425ef041f38ff39a4eadc9a->leave($__internal_af53a06172a80051f2c217310e5084f625784d95c425ef041f38ff39a4eadc9a_prof);
+        $__internal_337918c9808d1808af80d6e05abf0beacdf3ee2e54ff68f46ac0423d814fc984->leave($__internal_337918c9808d1808af80d6e05abf0beacdf3ee2e54ff68f46ac0423d814fc984_prof);
 
     }
 
     // line 10
     public function block_body($context, array $blocks = array())
     {
-        $__internal_6243086ee836d1ff54682fc408c179c2ba59a767ebe5aafb9a23475e58a71f36 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_6243086ee836d1ff54682fc408c179c2ba59a767ebe5aafb9a23475e58a71f36->enter($__internal_6243086ee836d1ff54682fc408c179c2ba59a767ebe5aafb9a23475e58a71f36_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
+        $__internal_77872bf80ff9eb67d6a9ea788d663f6483eef1bd1ad8dfa2a6897f19e4b2dc45 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_77872bf80ff9eb67d6a9ea788d663f6483eef1bd1ad8dfa2a6897f19e4b2dc45->enter($__internal_77872bf80ff9eb67d6a9ea788d663f6483eef1bd1ad8dfa2a6897f19e4b2dc45_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
 
-        $__internal_02c678bfe6425077085a1fe5cc97199c591621211966edc94f9d2fbad628db55 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_02c678bfe6425077085a1fe5cc97199c591621211966edc94f9d2fbad628db55->enter($__internal_02c678bfe6425077085a1fe5cc97199c591621211966edc94f9d2fbad628db55_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
+        $__internal_bf61b789f0477d7cc8f77f40af55f0221ba1a0d49e4ed59f233642e00fe0a853 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_bf61b789f0477d7cc8f77f40af55f0221ba1a0d49e4ed59f233642e00fe0a853->enter($__internal_bf61b789f0477d7cc8f77f40af55f0221ba1a0d49e4ed59f233642e00fe0a853_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
 
         // line 11
         echo "
@@ -90,9 +90,14 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"header-section-box\" class = \"flex-column\">
 
-                <p>Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
-                <a href = \"#comment-ça-marche\"><button class = \"btn ccm\">Comment ça marche ?</button></a>
-                <a href = \"#qui-sommes-nous\"><button class = \"btn qsn\">Qui sommes-nous ?</button></a>
+                <p class = \"flex-row\">Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
+
+                <div id = \"buttons\" class = \"flex-column\">
+
+                    <a href = \"#comment-ça-marche\"><button class = \"btn ccm\">Comment ça marche ?</button></a>
+                    <a href = \"#qui-sommes-nous\"><button class = \"btn qsn\">Qui sommes-nous ?</button></a>
+
+                </div>
 
             </div>
 
@@ -112,11 +117,11 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"ccm-section-search-box\" class = \"flex-column\">
 
-                <h3>Recherchez</h3>
+                <h3 class = \"flex-row\">Recherchez</h3>
                 <i class=\"fa fa-4x fa-search\" aria-hidden=\"true\"></i>
-                <p>Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
+                <p class = \"flex-row\">Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
                 <a href = \"";
-        // line 49
+        // line 54
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("map");
         echo "\"><button class = \"btn\">Parcourir la carte</button></a>
 
@@ -124,11 +129,11 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"ccm-section-observation-box\" class = \"flex-column\">
 
-                <h3>Observez</h3>
+                <h3 class = \"flex-row\">Observez</h3>
                 <i class=\"fa fa-4x fa-binoculars\" aria-hidden=\"true\"></i>
-                <p>Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
+                <p class = \"flex-row\">Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
                 <a href = \"";
-        // line 58
+        // line 63
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("add_observation");
         echo "\"><button class = \"btn\">En savoir plus</button></a>
 
@@ -136,11 +141,11 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"ccm-section-participate-box\" class = \"flex-column\">
 
-                <h3>Participez</h3>
+                <h3 class = \"flex-row\">Participez</h3>
                 <i class=\"fa fa-4x fa-calendar-check-o\" aria-hidden=\"true\"></i>
-                <p>Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
+                <p class = \"flex-row\">Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
                 <a href = \"";
-        // line 67
+        // line 72
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("map");
         echo "\"><button class = \"btn\">En savoir plus</button></a>
 
@@ -169,7 +174,7 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
             </p>
 
             <a href = \"";
-        // line 93
+        // line 98
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("contact");
         echo "\"><button class = \"btn\">Nous contacter</button></a>
 
@@ -179,39 +184,39 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
 ";
         
-        $__internal_02c678bfe6425077085a1fe5cc97199c591621211966edc94f9d2fbad628db55->leave($__internal_02c678bfe6425077085a1fe5cc97199c591621211966edc94f9d2fbad628db55_prof);
+        $__internal_bf61b789f0477d7cc8f77f40af55f0221ba1a0d49e4ed59f233642e00fe0a853->leave($__internal_bf61b789f0477d7cc8f77f40af55f0221ba1a0d49e4ed59f233642e00fe0a853_prof);
 
         
-        $__internal_6243086ee836d1ff54682fc408c179c2ba59a767ebe5aafb9a23475e58a71f36->leave($__internal_6243086ee836d1ff54682fc408c179c2ba59a767ebe5aafb9a23475e58a71f36_prof);
+        $__internal_77872bf80ff9eb67d6a9ea788d663f6483eef1bd1ad8dfa2a6897f19e4b2dc45->leave($__internal_77872bf80ff9eb67d6a9ea788d663f6483eef1bd1ad8dfa2a6897f19e4b2dc45_prof);
 
     }
 
-    // line 101
+    // line 106
     public function block_javascripts($context, array $blocks = array())
     {
-        $__internal_11dad1e07a05ffba1728936d2a060035530f75f51a8bf71cb4cb66cbcb1a6784 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_11dad1e07a05ffba1728936d2a060035530f75f51a8bf71cb4cb66cbcb1a6784->enter($__internal_11dad1e07a05ffba1728936d2a060035530f75f51a8bf71cb4cb66cbcb1a6784_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
+        $__internal_24a46a160afbdc945debc89e680775dffe552e8f8a2eb21377c0c045340ddcf9 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_24a46a160afbdc945debc89e680775dffe552e8f8a2eb21377c0c045340ddcf9->enter($__internal_24a46a160afbdc945debc89e680775dffe552e8f8a2eb21377c0c045340ddcf9_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        $__internal_30b2da73bfb572d5865b6aaa700f970a825eed439b5f373a423a3657cfa4d1ac = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_30b2da73bfb572d5865b6aaa700f970a825eed439b5f373a423a3657cfa4d1ac->enter($__internal_30b2da73bfb572d5865b6aaa700f970a825eed439b5f373a423a3657cfa4d1ac_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
+        $__internal_bb42b172fcf9ba7098b23cf1d9c151c68f50823ec4791e51b121786f4676a56c = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_bb42b172fcf9ba7098b23cf1d9c151c68f50823ec4791e51b121786f4676a56c->enter($__internal_bb42b172fcf9ba7098b23cf1d9c151c68f50823ec4791e51b121786f4676a56c_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 102
+        // line 107
         echo "
     ";
-        // line 103
+        // line 108
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
     <script src = \"";
-        // line 104
+        // line 109
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("JS/home.js"), "html", null, true);
         echo "\"></script>
 
 ";
         
-        $__internal_30b2da73bfb572d5865b6aaa700f970a825eed439b5f373a423a3657cfa4d1ac->leave($__internal_30b2da73bfb572d5865b6aaa700f970a825eed439b5f373a423a3657cfa4d1ac_prof);
+        $__internal_bb42b172fcf9ba7098b23cf1d9c151c68f50823ec4791e51b121786f4676a56c->leave($__internal_bb42b172fcf9ba7098b23cf1d9c151c68f50823ec4791e51b121786f4676a56c_prof);
 
         
-        $__internal_11dad1e07a05ffba1728936d2a060035530f75f51a8bf71cb4cb66cbcb1a6784->leave($__internal_11dad1e07a05ffba1728936d2a060035530f75f51a8bf71cb4cb66cbcb1a6784_prof);
+        $__internal_24a46a160afbdc945debc89e680775dffe552e8f8a2eb21377c0c045340ddcf9->leave($__internal_24a46a160afbdc945debc89e680775dffe552e8f8a2eb21377c0c045340ddcf9_prof);
 
     }
 
@@ -227,7 +232,7 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
     public function getDebugInfo()
     {
-        return array (  206 => 104,  202 => 103,  199 => 102,  190 => 101,  173 => 93,  144 => 67,  132 => 58,  120 => 49,  80 => 11,  71 => 10,  58 => 6,  54 => 5,  51 => 4,  42 => 3,  11 => 1,);
+        return array (  211 => 109,  207 => 108,  204 => 107,  195 => 106,  178 => 98,  149 => 72,  137 => 63,  125 => 54,  80 => 11,  71 => 10,  58 => 6,  54 => 5,  51 => 4,  42 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -263,9 +268,14 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"header-section-box\" class = \"flex-column\">
 
-                <p>Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
-                <a href = \"#comment-ça-marche\"><button class = \"btn ccm\">Comment ça marche ?</button></a>
-                <a href = \"#qui-sommes-nous\"><button class = \"btn qsn\">Qui sommes-nous ?</button></a>
+                <p class = \"flex-row\">Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
+
+                <div id = \"buttons\" class = \"flex-column\">
+
+                    <a href = \"#comment-ça-marche\"><button class = \"btn ccm\">Comment ça marche ?</button></a>
+                    <a href = \"#qui-sommes-nous\"><button class = \"btn qsn\">Qui sommes-nous ?</button></a>
+
+                </div>
 
             </div>
 
@@ -285,27 +295,27 @@ class __TwigTemplate_3600cc78cdcca7057e0183a9a66b5240574c75abd7c4d631bf37f423c42
 
             <div id = \"ccm-section-search-box\" class = \"flex-column\">
 
-                <h3>Recherchez</h3>
+                <h3 class = \"flex-row\">Recherchez</h3>
                 <i class=\"fa fa-4x fa-search\" aria-hidden=\"true\"></i>
-                <p>Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
+                <p class = \"flex-row\">Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
                 <a href = \"{{ path('map') }}\"><button class = \"btn\">Parcourir la carte</button></a>
 
             </div>
 
             <div id = \"ccm-section-observation-box\" class = \"flex-column\">
 
-                <h3>Observez</h3>
+                <h3 class = \"flex-row\">Observez</h3>
                 <i class=\"fa fa-4x fa-binoculars\" aria-hidden=\"true\"></i>
-                <p>Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
+                <p class = \"flex-row\">Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
                 <a href = \"{{ path('add_observation') }}\"><button class = \"btn\">En savoir plus</button></a>
 
             </div>
 
             <div id = \"ccm-section-participate-box\" class = \"flex-column\">
 
-                <h3>Participez</h3>
+                <h3 class = \"flex-row\">Participez</h3>
                 <i class=\"fa fa-4x fa-calendar-check-o\" aria-hidden=\"true\"></i>
-                <p>Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
+                <p class = \"flex-row\">Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
                 <a href = \"{{ path('map') }}\"><button class = \"btn\">En savoir plus</button></a>
 
             </div>
