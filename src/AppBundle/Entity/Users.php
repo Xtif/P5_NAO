@@ -93,7 +93,7 @@ class Users extends BaseUser
     {
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setStatus("Particulier");
-        $this->setPicture(new File($this->users_pictures_directory . '/Avatar.jpeg'));
+        $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
     }
 
     /**

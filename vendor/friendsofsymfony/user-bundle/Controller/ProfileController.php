@@ -77,7 +77,7 @@ class ProfileController extends Controller
         $formFactory = $this->get('fos_user.profile.form.factory');
 
         $pictureFilename = $user->getPicture(); // Recupération du nom de la photo
-        $user->setPicture(new File($this->getParameter('users_pictures_directory') . '/' . $user->getPicture())); // Création d'un objet File pour le champ photo du formulaire
+        $user->setPicture(new File($user->getPicture())); // Création d'un objet File pour le champ photo du formulaire
 
         $form = $formFactory->createForm();
         $form->setData($user);
@@ -90,10 +90,10 @@ class ProfileController extends Controller
             
             // Gestion de la photo
             if ($user->getPicture() == null) { // Si le champ photo est vide
-                $picture = new File($this->getParameter('users_pictures_directory') . '/' . $pictureFilename); // On utilise l'ancienne photo           
+                $picture = new File($pictureFilename); // On utilise l'ancienne photo           
             } else { // Si le user a renseigné une photo
               $picture = new File($user->getPicture()); // On crée un fichier photo avec pour le formulaire
-              $pictureFilename = $user->getUsername() . '.' . $picture->guessExtension(); // On modifie son nom pour l'enregistrement "username.extension"
+              $pictureFilename = 'Images/UsersPictures/' . $user->getUsername() . '.' . $picture->guessExtension(); // On modifie son nom pour l'enregistrement "username.extension"
               $picture->move( // On la déplace dans le dossier src/Images/UsersPictures/
                 $this->getParameter('users_pictures_directory'),
                 $pictureFilename
