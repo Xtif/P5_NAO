@@ -14,9 +14,9 @@ add_observation:
       _controller: "AppBundle:Default:add"
 
 dashboard:
-    path: /dashboard
+    path: /tableau_de_bord
     defaults:
-      _controller: "AppBundle:Default:dashboard"
+      _controller: "AppBundle:Dashboard:dashboard"
 
 user_list:
     path: /liste_utilisateur
