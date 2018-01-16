@@ -48,13 +48,14 @@
 
 
 	<h2 class="mt-3">Observations</h2>
-	<div class="col-lg-11">
-		<table class="table mt-3">
+	<div class="col-lg-12 m-auto p-0">
+		<table id="table-profil-show" class="table mt-3 hover">
 		  <thead class="main-thead">
 		    <tr>
 		      <th>Nom de l'espèce</th>
 		      <th class="text-right">Date</th>
 		      <th class="text-right">Coordonnées GPS</th>
+		      <th class="text-right">En savoir plus</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -63,6 +64,9 @@
 			      <td>{{ observation.birdname }}</td>
 			      <td class="text-right">{{ observation.publishedat|date("d/m/Y") }}</td>
 			      <td class="text-right">{{ observation.longitude }} / {{ observation.latitude }}</td>
+			      <td class="text-right">
+			      	<a href="#">Consulter</a>
+			      </td>
 			    </tr>
 		  	{% endfor %}
 		  </tbody>

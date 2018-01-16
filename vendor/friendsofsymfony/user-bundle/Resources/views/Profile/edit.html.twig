@@ -1,15 +1,24 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}Profil utilisateur{% endblock %}
 
 {% block fos_user_content %}
 
-	<div class="col-lg-8 m-auto">
-		<h1>PROFIL</h1>
+	<div class="col-lg-11 m-auto">
+		<h1>VOTRE PROFIL</h1>
 	</div>
 
-	<div class="col-lg-7 m-auto">
+	<div class="col-lg-10 m-auto">
   	{% include "@FOSUser/Profile/edit_content.html.twig" %}
 	</div>
 
 {% endblock fos_user_content %}
+
+{% block javascripts %}
+	{{ parent() }}
+  <script src = "{{ asset('JS/profil_user_edit.js') }}"></script>
+{% endblock %}

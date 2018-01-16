@@ -1,6 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="col-lg-11">
+<h2 class="mt-3">Vos informations</h2>
+
+<div class="col-lg-8 m-auto">
+
 	{{ form_start(
 		form, {
 			'action': path('fos_user_profile_edit'), 
@@ -64,3 +67,35 @@
 </div>
 
 {{ form_end(form) }}
+
+<h2 class="mt-3">Vos observations</h2>
+<div class="col-lg-12">
+	<table id="table-profil-edit" class="table mt-3 hover">
+	  <thead class="main-thead">
+	    <tr>
+	      <th>Nom de l'espèce</th>
+	      <th class="text-right">Date</th>
+	      <th class="text-right">Coordonnées GPS</th>
+	      <th class="text-right">Statut</th>
+	      <th class="text-right">Gérer</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	{% for observation in user.observations %}
+		    <tr>
+		      <td>{{ observation.birdname }}</td>
+		      <td class="text-right align-middle">{{ observation.publishedat|date("d/m/Y") }}</td>
+		      <td class="text-right align-middle">{{ observation.longitude }} / {{ observation.latitude }}</td>
+		      <td class="text-right align-middle">{{ observation.state }}</td>
+		      <td class="text-right align-middle">
+				    {% if observation.state == "En attente" %}
+				    	<a href="#">Modifier</a>
+				    {% else %}
+				    	-
+				    {% endif %}
+				  </td>
+		    </tr>
+	  	{% endfor %}
+	  </tbody>
+	</table>
+</div>

@@ -26,13 +26,13 @@
 			      <th class="text-right">Gérer</th>
 			    </tr>
 			  </thead>
-			  <tbody class="table-body">
+			  <tbody>
 			  	{% for user in allUsers %}
 				    <tr>
 				      <td class="align-middle"><a href="#">{{ user.username }}</a></td>
 				      <td class="text-right align-middle">{{ user.status }}</td>
 				      <td class="text-right align-middle">{{ user.observations|length }}</td>
-				      <td class="text-right align-middle">{{ user.roles|join }}</td>
+				      <td class="text-right align-middle">{{ user.observationsPublished }}</td>
 				      <td class="text-right align-middle">
 				      	{% if user.status != "Administrateur" %}
 				      		<a href="{{ path('remove_user', {'id': user.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
