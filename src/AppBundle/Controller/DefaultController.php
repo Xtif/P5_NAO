@@ -36,12 +36,6 @@ class DefaultController extends Controller
 
     }
 
-    public function userListAction(Request $request) {
-
-        return $this->render('default/user_list.html.twig');
-
-    }
-
     public function contactAction(Request $request) {
 
         return $this->render('default/contact.html.twig');

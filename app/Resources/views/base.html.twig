@@ -13,7 +13,9 @@
         {% block stylesheets %}
 
             <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" />
-            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />
+            <link rel = "stylesheet" href = "https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+            <link rel = "stylesheet" href = "{{ asset('JS/DataTables/datatables.min.css') }}" />
+            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />            
 
         {% endblock %}
 
@@ -100,10 +102,12 @@
 
         {% block javascripts %}
 
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
             <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js"></script>
             <script src = "https://use.fontawesome.com/86150c9ee5.js"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+            <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 
         {% endblock %}

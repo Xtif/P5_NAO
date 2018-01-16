@@ -29,6 +29,18 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    # Services des repository
+    AppBundle\Repository\UsersRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\Users
+
+    # Services des entités
+    AppBundle\Service\UsersService:
+        public: true
+        arguments:
+            - AppBundle\Repository\UsersRepository
+
     # add more services, or override services that need manual wiring 
     # AppBundle\Service\ExampleService: 
     #     arguments: 

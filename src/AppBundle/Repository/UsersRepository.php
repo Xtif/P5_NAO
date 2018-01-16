@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class UsersRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllByUsernameAsc() 
+	{
+		return $this
+			->createQueryBuilder('u') // On construit la query qui recupère tous les users via le querybuilder
+			->orderBy('u.username', 'ASC') // On les tri par username croissant
+			->getQuery() // On crée la query
+			->getResult(); // On retourne le résultat
+	} // End findAllByUsername()
+
+
 }

@@ -91,6 +91,7 @@ class Users extends BaseUser
      */
     public function __construct()
     {
+        parent::__construct();
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setStatus("Particulier");
         $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
