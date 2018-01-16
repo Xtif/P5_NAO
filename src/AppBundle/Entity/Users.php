@@ -80,6 +80,13 @@ class Users extends BaseUser
     protected $observations;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="observations_published", type="integer", nullable=true)
+     */
+    protected $observations_published;
+
+    /**
     * @ORM\Column(name="user_picture", type="string", nullable=false)
     *
     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
@@ -95,6 +102,7 @@ class Users extends BaseUser
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setStatus("Particulier");
         $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
+        $this->setObservationsPublished(0);
     }
 
     /**
@@ -404,5 +412,29 @@ class Users extends BaseUser
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     * Set observationsPublished
+     *
+     * @param integer $observationsPublished
+     *
+     * @return Users
+     */
+    public function setObservationsPublished($observationsPublished)
+    {
+        $this->observations_published = $observationsPublished;
+
+        return $this;
+    }
+
+    /**
+     * Get observationsPublished
+     *
+     * @return integer
+     */
+    public function getObservationsPublished()
+    {
+        return $this->observations_published;
     }
 }
