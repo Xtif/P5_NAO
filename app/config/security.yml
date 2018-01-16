@@ -5,6 +5,7 @@ security:
     # Encryption on user data
     encoders:
         AppBundle\Entity\Users: bcrypt
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -39,9 +40,12 @@ security:
             remember_me:
                 secret: '%secret%'
 
-    # access_control:
+    access_control:
         # - { path: /profil, roles: ROLE_PARTICULIER }
         # - { path: /ajoutobservation, roles: ROLE_PARTICULIER }
         # - { path: /listeobservations, roles: ROLE_NATURALISTE }
-        # - { path: /listeutilisateur, roles: ROLE_ADMIN }
+        - { path: /liste_utilisateur, roles: ROLE_ADMIN }
+        - { path: ^/naturaliser_utilisateur, roles: ROLE_ADMIN }
+        - { path: ^/retrograder_utilisateur, roles: ROLE_ADMIN }
+        - { path: ^/supprimer_utilisateur, roles: ROLE_ADMIN }
         # - { path: /tableaudebord, roles: ROLE_ADMIN }
