@@ -29,6 +29,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    AppBundle\Controller\UsersController:
+        arguments: 
+            - '@AppBundle\Service\UsersService'
+
     # Services des repository
     AppBundle\Repository\UsersRepository:
         factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
@@ -39,9 +43,34 @@ services:
     AppBundle\Service\UsersService:
         public: true
         arguments:
-            - AppBundle\Repository\UsersRepository
+            - '@AppBundle\Repository\UsersRepository' # Utilisation du service de repository User
+            - '@fos_user.user_manager' # utilisation du service fos user manager 
 
-    # add more services, or override services that need manual wiring 
-    # AppBundle\Service\ExampleService: 
-    #     arguments: 
-    #         $someArgument: 'some_value' 
+    # Services de formulaire lié au FOSUserBundle personnalisé
+    app.form.profile:
+        class: 'UserBundle\Form\Type\ProfileFormType'
+        arguments: [%fos_user.model.user.class%]
+        decorates: fos_user.profile.form.type # Indique le service qui sera remplacé par app.form.profile
+        tags:
+            - { name: form.type, alias: app_user_profile }
+
+    app.form.registration:
+        class: 'UserBundle\Form\Type\RegistrationFormType'
+        arguments: [%fos_user.model.user.class%]
+        decorates: fos_user.registration.form.type # Indique le service qui sera remplacé par app.form.profile
+        tags:
+            - { name: form.type, alias: app_user_registration } 
+
+    app.form.changePassword:
+        class: 'UserBundle\Form\Type\ChangePasswordFormType'
+        arguments: [%fos_user.model.user.class%]
+        decorates: fos_user.change_password.form.type # Indique le service qui sera remplacé par app.form.profile
+        tags:
+            - { name: form.type, alias: app_user_change_password } 
+
+    app.form.resetting:
+        class: 'UserBundle\Form\Type\ResettingFormType'
+        arguments: [%fos_user.model.user.class%]
+        decorates: fos_user.resetting.form.type # Indique le service qui sera remplacé par app.form.profile
+        tags:
+            - { name: form.type, alias: app_user_resetting }                   

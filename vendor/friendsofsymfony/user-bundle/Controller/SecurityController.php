@@ -27,12 +27,6 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $user = $this->getUser();
-
-        if ($user) {
-            return $this->redirectToRoute('fos_user_profile_show');
-        }
-        
         /** @var $session Session */
         $session = $request->getSession();
 

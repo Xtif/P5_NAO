@@ -24,8 +24,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\File\File;
-
 
 /**
  * Controller managing the user profile.
@@ -41,7 +39,7 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('Cet utilisateur n\'a pas accès à cette section.');
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
         return $this->render('@FOSUser/Profile/show.html.twig', array(
@@ -60,7 +58,7 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('Cet utilisateur n\'a pas accès à cette section.');
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
         /** @var $dispatcher EventDispatcherInterface */
@@ -76,9 +74,6 @@ class ProfileController extends Controller
         /** @var $formFactory FactoryInterface */
         $formFactory = $this->get('fos_user.profile.form.factory');
 
-        $pictureFilename = $user->getPicture(); // Recupération du nom de la photo
-        $user->setPicture(new File($user->getPicture())); // Création d'un objet File pour le champ photo du formulaire
-
         $form = $formFactory->createForm();
         $form->setData($user);
 
@@ -87,20 +82,6 @@ class ProfileController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
-            
-            // Gestion de la photo
-            if ($user->getPicture() == null) { // Si le champ photo est vide
-                $picture = new File($pictureFilename); // On utilise l'ancienne photo           
-            } else { // Si le user a renseigné une photo
-              $picture = new File($user->getPicture()); // On crée un fichier photo avec pour le formulaire
-              $pictureFilename = 'Images/UsersPictures/' . $user->getUsername() . '.' . $picture->guessExtension(); // On modifie son nom pour l'enregistrement "username.extension"
-              $picture->move( // On la déplace dans le dossier src/Images/UsersPictures/
-                $this->getParameter('users_pictures_directory'),
-                $pictureFilename
-              );
-            }
-
-            $user->setPicture($pictureFilename); // On assigne la photo a l'objet user
 
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
@@ -117,10 +98,8 @@ class ProfileController extends Controller
             return $response;
         }
 
-        $user->setPicture($pictureFilename); // On assigne la photo a l'objet user
-
         return $this->render('@FOSUser/Profile/edit.html.twig', array(
-            'form' => $form->createView(), 'user' => $user
+            'form' => $form->createView(),
         ));
     }
 }

@@ -76,3 +76,6 @@ fos_user:
     from_email:
         address: "info@nao.com"
         sender_name: "NAO Message"
+    profile:
+        form:
+            name: app_user_profile

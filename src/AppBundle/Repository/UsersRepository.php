@@ -27,7 +27,6 @@ class UsersRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('status', $status) // On sélectionne uniquement les users correspondant au status recherché
 			->getQuery() // On crée la query
 			->getResult(); // On retourne le résultat
-
 		return count($users);
 	} // End findAllByUsername()
 

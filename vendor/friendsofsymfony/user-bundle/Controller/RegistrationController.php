@@ -25,7 +25,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Controller managing the registration.
@@ -68,7 +67,7 @@ class RegistrationController extends Controller
             if ($form->isValid()) {
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-                
+
                 $userManager->updateUser($user);
 
                 if (null === $response = $event->getResponse()) {
@@ -109,7 +108,7 @@ class RegistrationController extends Controller
         $user = $this->get('fos_user.user_manager')->findUserByEmail($email);
 
         if (null === $user) {
-            throw new NotFoundHttpException(sprintf('L\'utilisateur avec l\'email "%s" n\'existe pas', $email));
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
 
         return $this->render('@FOSUser/Registration/check_email.html.twig', array(
@@ -133,7 +132,7 @@ class RegistrationController extends Controller
         $user = $userManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
-            throw new NotFoundHttpException(sprintf('L\'utilisateur avec le token "%s" n\existe pas', $token));
+            throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
         }
 
         /** @var $dispatcher EventDispatcherInterface */
@@ -164,14 +163,13 @@ class RegistrationController extends Controller
     {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('Cet utilisateur n\'a pas accès à cette section.');
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return new RedirectResponse($this->generateUrl('fos_user_profile_show', array('user' => $user)));
-
-        // return $this->redirectToRoute('@FOSUser/Profile/show.html.twig', array(
-        //     'user' => $user,
-        // ));
+        return $this->render('@FOSUser/Registration/confirmed.html.twig', array(
+            'user' => $user,
+            'targetUrl' => $this->getTargetUrlFromSession(),
+        ));
     }
 
     /**

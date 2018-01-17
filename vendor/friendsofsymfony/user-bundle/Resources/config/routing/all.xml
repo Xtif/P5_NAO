@@ -8,14 +8,14 @@
         resource="@FOSUserBundle/Resources/config/routing/security.xml" />
     <import
         resource="@FOSUserBundle/Resources/config/routing/profile.xml"
-        prefix="/profil" />
+        prefix="/profile" />
     <import
         resource="@FOSUserBundle/Resources/config/routing/registration.xml"
-        prefix="/inscription" />
+        prefix="/register" />
     <import
         resource="@FOSUserBundle/Resources/config/routing/resetting.xml"
-        prefix="/motdepasseperdu" />
+        prefix="/resetting" />
     <import
         resource="@FOSUserBundle/Resources/config/routing/change_password.xml"
-        prefix="/profil" />
+        prefix="/profile" />
 </routes>
