@@ -134,6 +134,8 @@
 
 #ccm-section-content {
 
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -307,8 +309,156 @@
 
 /*                  Médias Queries                  */
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 992px) {
 
+    #header-section-title {
 
+        width: 90%;
+
+    }
+
+    #header-section-box {
+
+        width: 80%;
+
+    }
+
+    #ccm {
+
+        height: 175vh;
+
+    }
+
+    #ccm-section-title {
+
+        width: 90%;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    #ccm-section-content {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 155vh;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    #ccm-section-title.is-showing, #ccm-section-content.is-showing {
+
+        opacity: 1;
+        transform: translateX(0px);
+
+    }
+
+    #ccm-section-search-box, #ccm-section-observation-box, #ccm-section-participate-box {
+
+        width: 80%;
+        height: 50vh;
+
+    }
+
+    #ccm-section-search-box {
+
+        transform: translate(0px, 0px);
+
+    }
+
+     #ccm-section-participate-box {
+
+        transform: translate(0px, 0px);
+
+     }
+
+     #qsn-section-title {
+
+        width: 90%;
+
+    }
+
+    #qsn-section-content p {
+
+        width: 80%;
+
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    #header-section-title h1 {
+
+        font-size: 1.5em;
+
+    }
+
+    #header-section-box p {
+
+        font-size: 1.4em;
+
+    }
+
+    #header-section-box button {
+
+        font-size: 1em;
+
+    }
+
+    #ccm-section-title h2 {
+
+        font-size: 1.4em;
+
+    }
+
+    #ccm-section-content h3 {
+
+        font-size: 1.6em;
+
+    }
+
+    #ccm-section-content p {
+
+        font-size: 1.1em;
+
+    }
+
+    #qsn {
+
+        justify-content: space-around;
+        height: 70vh;
+
+    }
+
+    #qsn-section-title {
+
+        margin-bottom: 0;
+
+    }
+
+    #qsn-section-title h2 {
+
+        font-size: 1.4em;
+
+    }
+
+    #qsn-section-content {
+
+      background: red;
+      height: 50vh;
+
+    }
+
+    #qsn-section-content p {
+
+        font-size: 1.1em;
+
+    }
 
 }
