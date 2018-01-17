@@ -21,9 +21,14 @@
 
             <div id = "header-section-box" class = "flex-column">
 
-                <p>Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
-                <a href = "#comment-ça-marche"><button class = "btn ccm">Comment ça marche ?</button></a>
-                <a href = "#qui-sommes-nous"><button class = "btn qsn">Qui sommes-nous ?</button></a>
+                <p class = "flex-row">Rejoignez une communauté investie dans l'observation et le recensement des oiseaux</p>
+
+                <div id = "buttons" class = "flex-column">
+
+                    <a href = "#comment-ça-marche"><button class = "btn ccm">Comment ça marche ?</button></a>
+                    <a href = "#qui-sommes-nous"><button class = "btn qsn">Qui sommes-nous ?</button></a>
+
+                </div>
 
             </div>
 
@@ -39,31 +44,31 @@
 
         </div>
 
-        <div id = "ccm-section-content" class = "flex-row">
+        <div id = "ccm-section-content">
 
             <div id = "ccm-section-search-box" class = "flex-column">
 
-                <h3>Recherchez</h3>
+                <h3 class = "flex-row">Recherchez</h3>
                 <i class="fa fa-4x fa-search" aria-hidden="true"></i>
-                <p>Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
+                <p class = "flex-row">Parcourez notre carte interactive pour localiser les espèces observées par la comunauté.</p>
                 <a href = "{{ path('map') }}"><button class = "btn">Parcourir la carte</button></a>
 
             </div>
 
             <div id = "ccm-section-observation-box" class = "flex-column">
 
-                <h3>Observez</h3>
+                <h3 class = "flex-row">Observez</h3>
                 <i class="fa fa-4x fa-binoculars" aria-hidden="true"></i>
-                <p>Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
+                <p class = "flex-row">Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
                 <a href = "{{ path('add_observation') }}"><button class = "btn">En savoir plus</button></a>
 
             </div>
 
             <div id = "ccm-section-participate-box" class = "flex-column">
 
-                <h3>Participez</h3>
+                <h3 class = "flex-row">Participez</h3>
                 <i class="fa fa-4x fa-calendar-check-o" aria-hidden="true"></i>
-                <p>Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
+                <p class = "flex-row">Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
                 <a href = "{{ path('map') }}"><button class = "btn">En savoir plus</button></a>
 
             </div>

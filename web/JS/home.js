@@ -10,21 +10,53 @@ $(window).scroll(function() {
 
     });
 
-    if($wScroll > $('#ccm').offset().top - $(window).height()) {
+    if($(window).width() > 992) {
 
-        var $offset = Math.min(0, $wScroll -  $('#ccm').offset().top + $(window).height() - 500);
+        if($wScroll > $('#ccm').offset().top - $(window).height()) {
 
-        $('#ccm-section-search-box').css({
+            var $offset = Math.min(0, $wScroll -  $('#ccm').offset().top + $(window).height() - 500);
 
-            'transform': 'translate('+ $offset +'px, '+ Math.abs($offset * 0.2) +'px)'
+            $('#ccm-section-search-box').css({
 
-        })
+                'transform': 'translate('+ $offset +'px, '+ Math.abs($offset * 0.2) +'px)'
 
-        $('#ccm-section-participate-box').css({
+            })
 
-            'transform': 'translate('+ Math.abs($offset) +'px, '+ Math.abs($offset * 0.2) +'px)'
+            $('#ccm-section-participate-box').css({
 
-        })
+                'transform': 'translate('+ Math.abs($offset) +'px, '+ Math.abs($offset * 0.2) +'px)'
+
+            })
+
+        }
+
+    } else if($(window).width() < 992) {
+
+        if($wScroll > $('#ccm').offset().top - $(window).height() / 1.6) {
+
+            $('#ccm').children().each(function(i) {
+
+                setTimeout(function() {
+
+                    $('#ccm').children().eq(i).addClass('is-showing');
+
+                }, 150 * (i + 1));
+
+            });
+
+        } else {
+
+            $('#ccm').children().each(function(i) {
+
+                setTimeout(function() {
+
+                    $('#ccm').children().eq(i).removeClass('is-showing');
+
+                }, 150 * (i + 1));
+
+            });
+
+        }
 
     }
 
@@ -59,6 +91,20 @@ $(window).scroll(function() {
 /*          on click effects          */
 
 $(function() {
+
+    $('#icon').on('click', function(){
+
+       $('#icon').toggleClass('isActive');
+       $('#menu-xs').fadeToggle(300);
+
+   });
+
+   $('#menu-xs li').on('click', function() {
+
+      $('#icon').toggleClass('isActive');
+      $('#menu-xs').fadeToggle(300);
+
+   });
 
     $('.ccm').on('click', function(e) {
 

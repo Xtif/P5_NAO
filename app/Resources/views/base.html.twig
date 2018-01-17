@@ -31,55 +31,77 @@
 
           <header id = "myScrollspy" class = "flex-row">
 
-              <div id = "logo-wrap" class = "col-20">
+              <div id = "navbar" class = "flex-row">
 
-                  <a href = "{{ path('homepage') }}"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
+                  <div id = "logo-wrap" class = "col-20">
 
-              </div>
+                      <a href = "{{ path('homepage') }}"><img id = "logo" src = "{{ asset('Images/logo.png') }}" alt = "Logo_NAO" /></a>
 
-              <div id = "icon" class = "navbar-toggle collapsed hidden-lg hidden-md hidden-sm">
+                  </div>
 
-                  <div id = "hamburger"></div>
+                  <nav id = "menu" class = "flex-row">
 
-              </div>
+                      <ul class = "list-unstyled flex-row text-center">
 
-              <nav id = "menu" class = "col-60 flex-row">
+                          <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
+                          <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
+                          <a href = "{{ path('map') }}"><li>Carte interative</li></a>
+                          <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                          <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                          <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                          <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
 
-                  <ul class = "list-unstyled flex-row text-center">
+                      </ul>
 
-                      <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
-                      <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
-                      <a href = "{{ path('map') }}"><li>Carte interative</li></a>
-                      <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
-                      <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
-                      <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
-                      <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
+                  </nav>
 
-                  </ul>
+                  <div id = "header-end" class = "flex-column">
 
-              </nav>
+                      <div id = "header-social-medias" class = "flex-row">
 
-              <div id = "header-end" class = "flex-column col-20">
+                          <a href = "https://www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
+                          <a href = "https://www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
 
-                <div id = "header-social-medias">
+                      </div>
 
-                    <a href = "https://www.nao.instagram.com"><i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
-                    <a href = "https://www.nao.facebook.com"><i class="fa fa-2x fa-facebook-square" aria-hidden="true"></i></a>
+                      <div id = "account" class = "flex-column">
 
-                </div>
+                          <!-- Ici seront placé les liens se connecter et mon compte en fonction des utilisateurs connectés ou non -->
 
-                <div id = "account" class = "flex-column">
+                          <a href = "#">Mon compte</a>
+                          <a href = "{{ path('fos_user_security_login') }}">Se connecter</a>
 
-                    <!-- Ici seront placé les liens se connecter et mon compte en fonction des utilisateurs connectés ou non -->
+                      </div>
 
-                    <a href = "#">Mon compte</a>
-                    <a href = "{{ path('fos_user_security_login') }}">Se connecter</a>
+                      <div id = "icon" class = "navbar-toggle collapsed">
 
-                </div>
+                          <div id = "hamburger"></div>
+
+                      </div>
+
+                  </div>
 
               </div>
 
           </header>
+
+          <nav id = "menu-xs" class = "flex-row">
+
+              <ul class = "list-unstyled flex-column text-center">
+
+                  <a href = "#comment-ça-marche"><li class = "active ccm">Comment ça marche ?</li></a>
+                  <a href = "#qui-sommes-nous"><li class = "qsn">Qui sommes-nous ?</li></a>
+                  <a href = "{{ path('map') }}"><li>Carte interative</li></a>
+                  <a href = "{{ path('add_observation') }}"><li>Ajouter une observation</li></a> <!-- Si utilisateur connecté -->
+                  <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
+                  <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
+                  <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
+                  <a href = "#"><li>Mon compte</li></a>
+                  <a href = "{{ path('fos_user_security_login') }}"><li>Se connecter</li></a>
+
+              </ul>
+
+          </nav>
 
           {% block body %}{% endblock %}
 
