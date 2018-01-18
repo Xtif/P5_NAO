@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Users
@@ -78,7 +80,16 @@ class Users extends BaseUser
     protected $observations;
 
     /**
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\UsersPictures", inversedBy="user", cascade={"all"})
+     * @var int
+     *
+     * @ORM\Column(name="observations_published", type="integer", nullable=true)
+     */
+    protected $observations_published;
+
+    /**
+    * @ORM\Column(name="user_picture", type="string", nullable=false)
+    *
+    * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
     */
     protected $picture;
 
@@ -87,8 +98,11 @@ class Users extends BaseUser
      */
     public function __construct()
     {
+        parent::__construct();
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setStatus("Particulier");
+        $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
+        $this->setObservationsPublished(0);
     }
 
     /**
@@ -375,14 +389,15 @@ class Users extends BaseUser
         return $this->observations;
     }
 
+
     /**
      * Set picture
      *
-     * @param \AppBundle\Entity\UsersPictures $picture
+     * @param string $picture
      *
      * @return Users
      */
-    public function setPicture(\AppBundle\Entity\UsersPictures $picture = null)
+    public function setPicture($picture)
     {
         $this->picture = $picture;
 
@@ -392,10 +407,34 @@ class Users extends BaseUser
     /**
      * Get picture
      *
-     * @return \AppBundle\Entity\UsersPictures
+     * @return string
      */
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     * Set observationsPublished
+     *
+     * @param integer $observationsPublished
+     *
+     * @return Users
+     */
+    public function setObservationsPublished($observationsPublished)
+    {
+        $this->observations_published = $observationsPublished;
+
+        return $this;
+    }
+
+    /**
+     * Get observationsPublished
+     *
+     * @return integer
+     */
+    public function getObservationsPublished()
+    {
+        return $this->observations_published;
     }
 }

@@ -4,13 +4,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+
 /**
  * Users
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  */
-class Users
+class Users extends BaseUser
 {
     /**
      * @var int
@@ -19,89 +23,86 @@ class Users
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
-    private $username;
+    protected $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      */
-    private $firstname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=255)
-     */
-    private $lastname;
+    protected $lastname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="adress", type="string", length=255, nullable=true)
      */
-    private $adress;
+    protected $adress;
 
     /**
      * @var int
      *
      * @ORM\Column(name="postal_code", type="integer", nullable=true)
      */
-    private $postalCode;
+    protected $postalCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      */
-    private $city;
+    protected $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
-    private $email;
+    protected $phone;
 
     /**
-     * @var int
+     * @var var string
      *
-     * @ORM\Column(name="phone", type="integer", nullable=true)
+     * @ORM\Column(name="status", type="string", length=255, nullable=false)
      */
-    private $phone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="status", type="smallint")
-     */
-    private $status;
+    protected $status;
 
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Observations", mappedBy="user", cascade={"all"})
     */
-
-    private $observations;
+    protected $observations;
 
     /**
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\UsersPictures", inversedBy="user", cascade={"all"})
-    */
+     * @var int
+     *
+     * @ORM\Column(name="observations_published", type="integer", nullable=true)
+     */
+    protected $observations_published;
 
-    private $picture;
+    /**
+    * @ORM\Column(name="user_picture", type="string", nullable=false)
+    *
+    * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
+    */
+    protected $picture;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setStatus("Particulier");
+        $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
+    }
 
     /**
      * Get id
@@ -351,5 +352,64 @@ class Users
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add observation
+     *
+     * @param \AppBundle\Entity\Observations $observation
+     *
+     * @return Users
+     */
+    public function addObservation(\AppBundle\Entity\Observations $observation)
+    {
+        $this->observations[] = $observation;
+
+        return $this;
+    }
+
+    /**
+     * Remove observation
+     *
+     * @param \AppBundle\Entity\Observations $observation
+     */
+    public function removeObservation(\AppBundle\Entity\Observations $observation)
+    {
+        $this->observations->removeElement($observation);
+    }
+
+    /**
+     * Get observations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservations()
+    {
+        return $this->observations;
+    }
+
+
+    /**
+     * Set picture
+     *
+     * @param string $picture
+     *
+     * @return Users
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return string
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }

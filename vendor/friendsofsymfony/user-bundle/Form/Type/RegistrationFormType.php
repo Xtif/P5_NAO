@@ -37,41 +37,15 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'email', 
-                LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), 
-                array(
-                    'label' => 'Email', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'username', 
-                null, 
-                array(
-                    'label' => 'Nom d\'utilisateur', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'plainPassword', 
-                LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), 
-                array(
-                    'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
-                    'options' => array('translation_domain' => 'FOSUserBundle'),
-                    'first_options' => array(
-                        'label' => 'Mot de passe',
-                        'attr' => array('class' => 'form-control col-lg-10 ml-auto mr-auto form-group')
-                    ),
-                    'second_options' => array(
-                        'label' => 'Confirmer mot de passe',
-                        'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                    ),
-                    'invalid_message' => 'Les deux mot de passe ne sont pas identiques.'
-                )
-            )
+            ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
+            ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
+            ->add('plainPassword', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), array(
+                'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
+                'options' => array('translation_domain' => 'FOSUserBundle'),
+                'first_options' => array('label' => 'form.password'),
+                'second_options' => array('label' => 'form.password_confirmation'),
+                'invalid_message' => 'fos_user.password.mismatch',
+            ))
         ;
     }
 

@@ -52,23 +52,23 @@ class Observations
     /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="longitude", type="decimal", precision=8, scale=6)
      */
     private $longitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="latitude", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="latitude", type="decimal", precision=8, scale=6)
      */
     private $latitude;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="published", type="smallint")
+     * @ORM\Column(name="state", type="string")
      */
-    private $published;
+    private $state;
 
     /**
      * @var \DateTime
@@ -320,5 +320,70 @@ class Observations
     public function getReported()
     {
         return $this->reported;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pictures = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add picture
+     *
+     * @param \AppBundle\Entity\Pictures $picture
+     *
+     * @return Observations
+     */
+    public function addPicture(\AppBundle\Entity\Pictures $picture)
+    {
+        $this->pictures[] = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Remove picture
+     *
+     * @param \AppBundle\Entity\Pictures $picture
+     */
+    public function removePicture(\AppBundle\Entity\Pictures $picture)
+    {
+        $this->pictures->removeElement($picture);
+    }
+
+    /**
+     * Get pictures
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\Users $user
+     *
+     * @return Observations
+     */
+    public function setUser(\AppBundle\Entity\Users $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\Users
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -36,15 +36,12 @@ class ResettingFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('plainPassword', 
-            LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), 
-            array(
-                'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'Nouveau mot de passe'),
-                'second_options' => array('label' => 'Confirmation nouveau mot de passe'),
-                'invalid_message' => 'Les deux mot de passe ne sont pas identiques.',
-                'attr' => array('class' => 'form-control col-lg-10 m-auto')
+        $builder->add('plainPassword', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), array(
+            'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
+            'options' => array('translation_domain' => 'FOSUserBundle'),
+            'first_options' => array('label' => 'form.new_password'),
+            'second_options' => array('label' => 'form.new_password_confirmation'),
+            'invalid_message' => 'fos_user.password.mismatch',
         ));
     }
 

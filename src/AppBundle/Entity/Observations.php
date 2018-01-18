@@ -66,9 +66,9 @@ class Observations
     /**
      * @var int
      *
-     * @ORM\Column(name="published", type="smallint")
+     * @ORM\Column(name="state", type="string")
      */
-    private $published;
+    private $state;
 
     /**
      * @var \DateTime
@@ -385,5 +385,29 @@ class Observations
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return Observations
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }

@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  */
 interface UserInterface extends AdvancedUserInterface, \Serializable
 {
-    const ROLE_DEFAULT = 'ROLE_PARTICULIER';
+    const ROLE_DEFAULT = 'ROLE_USER';
 
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 

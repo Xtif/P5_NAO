@@ -39,7 +39,7 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('Cet utilisateur n\'a pas accès à cette section.');
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
         return $this->render('@FOSUser/Profile/show.html.twig', array(
@@ -58,7 +58,7 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
         if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('Cet utilisateur n\'a pas accès à cette section.');
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
         /** @var $dispatcher EventDispatcherInterface */

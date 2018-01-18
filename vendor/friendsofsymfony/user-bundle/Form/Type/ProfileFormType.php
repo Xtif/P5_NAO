@@ -41,7 +41,7 @@ class ProfileFormType extends AbstractType
         $this->buildUserForm($builder, $options);
 
         $constraintsOptions = array(
-            'message' => 'Le mot de passe est incorrect.',
+            'message' => 'fos_user.current_password.invalid',
         );
 
         if (!empty($options['validation_groups'])) {
@@ -49,9 +49,8 @@ class ProfileFormType extends AbstractType
         }
 
         $builder->add('current_password', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'), array(
-            'label' => 'Renseigner votre mot de passe pour valider les modifications*',
+            'label' => 'form.current_password',
             'translation_domain' => 'FOSUserBundle',
-            'attr' => array('class' => 'form-control col-lg-10 m-auto'),
             'mapped' => false,
             'constraints' => array(
                 new NotBlank(),
@@ -99,78 +98,8 @@ class ProfileFormType extends AbstractType
     protected function buildUserForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'username', 
-                null, 
-                array(
-                    'label' => 'Nom d\'utilisateur*', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'lastname', 
-                null, 
-                array(
-                    'label' => 'Nom', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'firstname', 
-                null, 
-                array(
-                    'label' => 'Prénom', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'adress', 
-                null, 
-                array(
-                    'label' => 'Adresse', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'postalCode', 
-                null, 
-                array(
-                    'label' => 'Code postal', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'city', 
-                null, 
-                array(
-                    'label' => 'Ville', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'phone', 
-                null, 
-                array(
-                    'label' => 'Téléphone', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
-            ->add(
-                'email', 
-                LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), 
-                array(
-                    'label' => 'Email*', 
-                    'translation_domain' => 'FOSUserBundle',
-                    'attr' => array('class' => 'form-control col-lg-10 m-auto')
-                )
-            )
+            ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
+            ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
         ;
     }
 }

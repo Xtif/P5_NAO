@@ -1,15 +1,5 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
-{% block title %}Mot de passe perdu{% endblock %}
-
 {% block fos_user_content %}
-
-	<div class="col-lg-8 m-auto">
-		<h1>MOT DE PASSE PERDU</h1>
-	</div>
-
-	<div class="col-lg-7 m-auto">
-  	{% include "@FOSUser/Resetting/reset_content.html.twig" %}
-	</div>
-
+{% include "@FOSUser/Resetting/reset_content.html.twig" %}
 {% endblock fos_user_content %}

@@ -14,14 +14,14 @@ add_observation:
       _controller: "AppBundle:Default:add"
 
 dashboard:
-    path: /dashboard
+    path: /tableau_de_bord
     defaults:
-      _controller: "AppBundle:Default:dashboard"
+      _controller: "AppBundle:Dashboard:dashboard"
 
 user_list:
-    path: /userList
+    path: /liste_utilisateur
     defaults:
-      _controller: "AppBundle:Default:userList"
+      _controller: "AppBundle:Users:userList"
 
 contact:
     path: /contact
@@ -60,5 +60,22 @@ fos_user_change_password:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+promote_user:
+    path: "/naturaliser_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:promoteUser"
+
+demote_user:
+    path: "/retrograder_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:demoteUser"
+
+remove_user:
+    path: "/supprimer_utilisateur/{id}"
+    defaults:
+      _controller: "AppBundle:Users:removeUser"
+
+
 
 

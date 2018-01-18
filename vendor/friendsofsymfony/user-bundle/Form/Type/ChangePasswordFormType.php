@@ -39,7 +39,7 @@ class ChangePasswordFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $constraintsOptions = array(
-            'message' => 'Le mot de passe est incorrect.',
+            'message' => 'fos_user.current_password.invalid',
         );
 
         if (!empty($options['validation_groups'])) {
