@@ -92,20 +92,6 @@ $(window).scroll(function() {
 
 $(function() {
 
-    $('#icon').on('click', function(){
-
-       $('#icon').toggleClass('isActive');
-       $('#menu-xs').fadeToggle(300);
-
-   });
-
-   $('#menu-xs li').on('click', function() {
-
-      $('#icon').toggleClass('isActive');
-      $('#menu-xs').fadeToggle(300);
-
-   });
-
     $('.ccm').on('click', function(e) {
 
         $('body, html').animate({
