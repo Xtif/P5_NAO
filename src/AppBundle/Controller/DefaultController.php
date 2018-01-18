@@ -20,7 +20,13 @@ class DefaultController extends Controller
 
     public function mapAction(Request $request) {
 
-        return $this->render('default/map.html.twig');
+        $birds = $this->getDoctrine()->getRepository('AppBundle:Birds')->findAll();
+
+        return $this->render('default/map.html.twig', array(
+
+            'birds' => $birds
+
+        ));
 
     }
 

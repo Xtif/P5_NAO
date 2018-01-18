@@ -1,7 +1,58 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/map.css') }}" />
+
+{% endblock %}
+
 {% block body %}
 
-ici sera placé la carte interactive... test merge OK? ...
+    <div id = "body-wrap">
+
+        <h1>Carte interactive</h1>
+
+        <div id = "inputs-selection">
+
+            <div id = "species">
+
+                <label for = "species-input">1 - Sélectionnez l'espèce que vous recherchez</label>
+                <select id = "species-input" name = "species-input">
+
+                    <option disabled selected value></option>
+                    {% for bird in birds %}
+                    <option value = "{{ bird.race}}">{{ bird.race }}</option>
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div id = "locality">
+
+                <label for = "locality-input">2 - Renseignez une localité (facultatif)</label>
+                <input type = "text" id = "locality-input" name = "locality-input" />
+                <button class = "btn">Valider</button>
+
+            </div>
+
+        </div>
+
+        <div id = "observations-section">
+
+            <label>3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
+
+            <div id = "map">Ici se trouvera l'API Google Map</div>
+
+            <div id = "observations-list">
+
+              <p>Ici se trouvera la tableau des observations</p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}
