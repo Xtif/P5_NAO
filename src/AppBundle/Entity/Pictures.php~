@@ -4,6 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Pictures
  *
@@ -24,9 +27,16 @@ class Pictures
     /**
      * @var string
      *
-     * @ORM\Column(name="alt", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $alt;
+    private $name;
+
+    /**
+     * @ORM\Column(name="file", type="string", nullable=false)
+     *
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
+     */
+    private $file;
 
     /**
      * @var string
@@ -97,5 +107,29 @@ class Pictures
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Set observation
+     *
+     * @param \AppBundle\Entity\Observations $observation
+     *
+     * @return Pictures
+     */
+    public function setObservation(\AppBundle\Entity\Observations $observation = null)
+    {
+        $this->observation = $observation;
+
+        return $this;
+    }
+
+    /**
+     * Get observation
+     *
+     * @return \AppBundle\Entity\Observations
+     */
+    public function getObservation()
+    {
+        return $this->observation;
     }
 }

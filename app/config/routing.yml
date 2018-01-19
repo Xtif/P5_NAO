@@ -9,15 +9,50 @@ map:
       _controller: "AppBundle:Default:map"
 
 add_observation:
-    path: /add
+    path: /ajouter_observation
     defaults:
-      _controller: "AppBundle:Default:add"
+      _controller: "AppBundle:Observations:add"
+
+modify_observation:
+    path: /modifier_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:modify"
+
+publish_observation:
+    path: /publier_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:publish"
+
+remove_observation:
+    path: /suppression_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:remove"
+
+report_observation:
+    path: /signaler_observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:report"
+
+observation:
+    path: /observation/{id}
+    defaults:
+      _controller: "AppBundle:Observations:observation"
+
+observation_list:
+    path: /liste_observation
+    defaults:
+      _controller: "AppBundle:Observations:observationList"
 
 dashboard:
     path: /tableau_de_bord
     defaults:
       _controller: "AppBundle:Dashboard:dashboard"
 
+user:
+  path: /user/{id}
+  defaults:
+    _controller: "AppBundle:Users:user"
+    
 user_list:
     path: /liste_utilisateur
     defaults:
@@ -75,6 +110,16 @@ remove_user:
     path: "/supprimer_utilisateur/{id}"
     defaults:
       _controller: "AppBundle:Users:removeUser"
+
+error_page:
+    path: "/error"
+    defaults:
+      _controller: "AppBundle:Error:error"
+
+ajax_dropzone:
+    path: "/ajax_dropzone"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxDropzone"
 
 
 

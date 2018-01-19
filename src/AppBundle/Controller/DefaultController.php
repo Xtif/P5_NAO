@@ -24,18 +24,6 @@ class DefaultController extends Controller
 
     }
 
-    public function addAction(Request $request) {
-
-        return $this->render('default/add_observation.html.twig');
-
-    }
-
-    public function dashboardAction(Request $request) {
-
-        return $this->render('default/dashboard.html.twig');
-
-    }
-
     public function contactAction(Request $request) {
 
         return $this->render('default/contact.html.twig');

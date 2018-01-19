@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     users_pictures_directory: '%kernel.project_dir%/web/Images/UsersPictures'
+    observations_pictures_directory : '%kernel.project_dir%/web/Images/ObservationsPictures'
 
 services:
     # default configuration for services in *this* file
@@ -33,11 +34,25 @@ services:
         arguments: 
             - '@AppBundle\Service\UsersService'
 
+    AppBundle\Controller\ObservationsController:
+        arguments: 
+            - '@AppBundle\Service\ObservationsService'
+
+    AppBundle\Controller\DashboardController:
+        arguments: 
+            - '@AppBundle\Service\ObservationsService'
+            - '@AppBundle\Service\UsersService'
+
     # Services des repository
     AppBundle\Repository\UsersRepository:
         factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
         arguments:
             - AppBundle\Entity\Users
+
+    AppBundle\Repository\ObservationsRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\Observations
 
     # Services des entités
     AppBundle\Service\UsersService:
@@ -45,6 +60,13 @@ services:
         arguments:
             - '@AppBundle\Repository\UsersRepository' # Utilisation du service de repository User
             - '@fos_user.user_manager' # utilisation du service fos user manager 
+
+    AppBundle\Service\ObservationsService:
+        public: true
+        arguments:
+            - '@AppBundle\Repository\ObservationsRepository' # Utilisation du service de repository User
+            - '@doctrine.orm.entity_manager'
+            - '@AppBundle\Service\UsersService'
 
     # Services de formulaire lié au FOSUserBundle personnalisé
     app.form.profile:

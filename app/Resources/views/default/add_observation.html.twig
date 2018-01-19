@@ -1,1 +1,91 @@
-ici sera placer l'ajout d'une observation...
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/add_observation.css') }}" />
+
+{% endblock %}
+
+{% block title %}Ajouter une observation{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" style="padding-top: 100px;">
+		<div class="col-lg-11 m-auto">
+			<h1>AJOUTER UNE OBSERVATION</h1>
+		</div>
+
+<div class="col-lg-8 m-auto">
+
+{# <form method="post" action="{{ path('add_observation') }}" class='dropzone' id="mydropzone" enctype="multipart/form-data"> #}
+	{{ form_start(form) }}
+
+	{{ form_errors(form) }}
+
+	<div class="form-group">
+		{{ form_row(form.birdName) }}
+	</div>
+
+	<div class="form-group">
+		{{ form_row(form.birdRace) }}
+	</div>
+
+	<div class="form-group">
+		{{ form_row(form.publishedAt) }}
+	</div>
+
+	<p>Coordonnées GPS</p>	
+
+	<div class="form-group row">
+		<div class="col-lg-2 offset-lg-1">
+			{{ form_label(form.latitude) }}
+		</div>
+		<div class="col-lg-8">
+			{{ form_widget(form.latitude) }}
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-lg-2 offset-lg-1">
+			{{ form_label(form.longitude) }}
+		</div>
+		<div class="col-lg-8">
+			{{ form_widget(form.longitude) }}
+		</div>
+	</div>
+
+	<div class="form-group">
+		{{ form_row(form.content) }}
+	</div>
+
+{# 	<div class="form-group">
+		{{ form_row(form.pictures) }}
+	</div>
+ #}
+	<div class="form-group">
+		<label for="dropzone-previews">Photos (facultatif)</label>
+		<div class="dropzone-previews dropzone mb-3 col-lg-10 m-auto" id="mydropzone" action="{{ path('ajax_dropzone') }}"></div>
+	</div>
+
+	<div class="form-group col-lg-4 m-auto">
+		{{ form_row(form.submit) }}
+	</div>
+	{{ form_rest(form) }}
+
+</form>
+       
+
+
+
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+  <script src = "{{ asset('JS/add_observation.js') }}"></script>
+
+{% endblock %}

@@ -214,11 +214,11 @@ footer .fa {
     color: white;
 }
 
-tbody, tbody a, tbody a:hover {
+.main-tbody, .main-tbody a, .main-tbody a:hover {
     color: #138496;
 }
 
-tbody tr:hover {
+.main-tbody tr:hover {
     background-color: #FFB966 !important;
 }
 
