@@ -13,27 +13,40 @@
 
         <h1>Carte interactive</h1>
 
-        <div id = "inputs-selection">
+        <div id = "inputs-section">
 
-            <div id = "species">
+            <div id = "species" class = "flex-column">
 
                 <label for = "species-input">1 - Sélectionnez l'espèce que vous recherchez</label>
-                <select id = "species-input" name = "species-input">
 
-                    <option disabled selected value></option>
-                    {% for bird in birds %}
-                    <option value = "{{ bird.race}}">{{ bird.race }}</option>
-                    {% endfor %}
+                <div id = "species-input-wrap">
 
-                </select>
+                    <select id = "species-input" name = "species-input">
+
+                        <option disabled selected hidden value = "">Sélectionnez l'espèce</option>
+
+                        {% for bird in birds %}
+
+                            <option value = "{{ bird.race}}">{{ bird.race }}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
 
             </div>
 
-            <div id = "locality">
+            <div id = "locality" class = "flex-column">
 
                 <label for = "locality-input">2 - Renseignez une localité (facultatif)</label>
-                <input type = "text" id = "locality-input" name = "locality-input" />
-                <button class = "btn">Valider</button>
+
+                <div id = "locality-input-wrap" class = "flex-row">
+
+                    <input type = "text" id = "locality-input" name = "locality-input" placeholder = "Renseignez une localité" />
+                    <button id = "locality-button" class = "btn btn-primary">Valider</button>
+
+                </div>
 
             </div>
 
@@ -43,7 +56,11 @@
 
             <label>3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
 
-            <div id = "map">Ici se trouvera l'API Google Map</div>
+            <div id = map-wrap>
+
+                <div id = "map"></div>
+
+            </div>
 
             <div id = "observations-list">
 
@@ -54,5 +71,13 @@
         </div>
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+<script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
+<script src = "{{ asset('JS/map.js') }}"></script>
 
 {% endblock %}
