@@ -48,7 +48,6 @@ class ObservationsService
       $this->em->persist($observation);
       $this->em->flush();
       return $observation;
-    	return true;
     } else { // Si l'id ne correspond à aucune observation
     	return false;
     } 

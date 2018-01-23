@@ -13,10 +13,18 @@ class UsersService
 		$this->fosUserManager = $fosUserManager; // Récupération du service FosUserManager (injection de dépendance)
 	}
 
-  public function findAllByUsernameAsc() 
-  {
+  public function findAllByUsernameAsc() {
     return $this->usersRepository->findAllByUsernameAsc();
   } // End of findAllByUsernameAsc()
+
+  public function findById($id) {
+    $user = $this->fosUserManager->findUserBy(array('id' => $id));
+    if ($user) { // Si le user existe
+      return $user;
+    } else { // Si l'id ne correspond à aucun user
+      return false;
+    }
+  }
 
   public function promoteUser($id) { 
     $user = $this->fosUserManager->findUserBy(array('id' => $id));

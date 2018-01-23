@@ -13,6 +13,16 @@ class UsersController extends Controller
     $this->usersService = $usersService;
   }
 
+  public function userAction($id) {
+    $user = $this->usersService->findById($id);
+    $activeUser = $this->getUser();
+    if ($user == $activeUser) {
+      return $this->render('@FOSUser/Profile/show.html.twig', array('user' => $user,));
+    } else {
+      return $this->render('default/user.html.twig', array("user" => $user));
+    }
+  }
+
   public function userListAction(Request $request) {
     $allUsers = $this->usersService->findAllByUsernameAsc();    
     return $this->render('default/users_list.html.twig', array("allUsers" => $allUsers));
@@ -47,6 +57,8 @@ class UsersController extends Controller
       return $this->redirectToRoute('user_list');
     }
   } 
+
+
 
 
 }
