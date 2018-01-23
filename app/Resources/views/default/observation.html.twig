@@ -30,10 +30,9 @@
 			</div>
 		{% endfor %}
 
-
 		<!-- Observation -->
 		<div class="col-lg-10 m-auto">
-			<h2>{{ observation.birdName }} - {{ observation.birdRace }}</h2>
+			<h2>{{ observation.birdName }} - {{ observation.birdRace.race }}</h2>
 		</div>
 
 		<div class="col-lg-9 m-auto">
@@ -50,28 +49,35 @@
 			<div class="row">
 
 				<div class="col-lg-6">
-					<div id="carouselIndicators" class="carousel slide" data-ride="carousel">
-					  <ol class="carousel-indicators">
-					  	{% for i in 1..5 %}
-					    	<li data-target="#carouselIndicators" data-slide-to="{{ i }}" {% if i == 1 %}class="active"{% endif %}></li>
-					    {% endfor %}
-					  </ol>
-					  <div class="carousel-inner" role="listbox">
-					    {% for i in 1..5 %}
-					    		<div class="carousel-item {% if i == 1 %}active{% endif %}">
-					      	<img class="d-block img-fluid" src="{{ asset('Images/ObservationsPictures/Observation_' ~ observation.id ~ '_Picture_' ~ i ~ '.jpeg') }}" alt="Slide">
-					    	</div>
-					    {% endfor %}
-					  </div>
-					  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-					    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					    <span class="sr-only">Previous</span>
-					  </a>
-					  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-					    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-					    <span class="sr-only">Next</span>
-					  </a>
-					</div>
+
+					{% if observation.pictures is not empty %}
+						<div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+						  <ol class="carousel-indicators">
+						  	{% for i in 1..observation.pictures|length %}
+						    	<li data-target="#carouselIndicators" data-slide-to="{{ i }}" {% if i == 1 %}class="active"{% endif %}></li>
+						    {% endfor %}
+						  </ol>
+						  <div class="carousel-inner" role="listbox">
+						  	{% set i = 1 %}
+						    {% for picture in observation.pictures %}
+						    		<div class="carousel-item {% if i == 1 %}active{% endif %}">
+						      		<img class="d-block img-fluid" src="{{ asset('' ~ picture.name ~ '') }}" alt="Slide">
+						    		</div>
+						    {% set i = i + 1 %}
+						    {% endfor %}
+						  </div>
+						  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Previous</span>
+						  </a>
+						  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Next</span>
+						  </a>
+						</div>
+					{% else %}
+						<img class="col-lg-12 p-0" src="{{ asset('Images/ObservationsPictures/Default.jpg') }}" alt="Icone_default">
+					{% endif %}
 				</div>
 
 				<div class="col-lg-6">
@@ -87,20 +93,33 @@
 			<div class="col-lg-6 mt-3">
 				<div class="row">
 					{% if observation.state == "En attente" or observation.state == "Publiée" %}
+						
 						{% if observation.state == "En attente" %}
-							<div class="mr-2">
-								<a href="{{ path('modify_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-info" role="button">Modifier</a>
-							</div>
-							<div class="mr-2">
-								<a href="{{ path('publish_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-success" role="button">Publier</a>
-							</div>
-						{% endif %}					
+							
+							{% if activeUser == observation.user %}
+								<div class="mr-2">
+									<a href="{{ path('modify_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-info" role="button">Modifier</a>
+								</div>
+							{% endif %}
+
+							{% if activeUser.status == "Naturaliste" or activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
+								<div class="mr-2">
+									<a href="{{ path('publish_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-success" role="button">Publier</a>
+								</div>
+							{% endif %}
+
+						{% endif %}	
+
 						<div class="mr-2">
 							<a href="{{ path('report_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-warning" role="button">Signaler</a>
 						</div>
-						<div class="mr-2">
-							<a href="{{ path('remove_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-danger confirmModalLien" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
-						</div>
+
+						{% if activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
+							<div class="mr-2">
+								<a href="{{ path('remove_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-danger confirmModalLien" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
+							</div>
+						{% endif %}
+
 					{% endif %}
 				</div>
 			</div>

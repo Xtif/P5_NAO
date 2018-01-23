@@ -49,7 +49,7 @@
 			  	{% for observation in allObservations %}
 				    <tr>
 				      <td class="align-middle">{{ observation.birdName }}</td>
-				      <td class="text-right align-middle">{{ observation.birdRace }}</td>
+				      <td class="text-right align-middle">{{ observation.birdRace.race }}</td>
 				      <td class="text-right align-middle">{{ observation.publishedAt|date('d/m/Y') }}</td>
 				      <td class="text-right align-middle">
 				      	<a href="{{ path('user', {'id': observation.user.id}) }}">

@@ -46,12 +46,12 @@
 			  <tbody>
 			  	{% for user in allUsers %}
 				    <tr>
-				      <td class="align-middle"><a href="#">{{ user.username }}</a></td>
+				      <td class="align-middle"><a href="{{ path('user', {'id': user.id}) }}">{{ user.username }}</a></td>
 				      <td class="text-right align-middle">{{ user.status }}</td>
 				      <td class="text-right align-middle">{{ user.observations|length }}</td>
 				      <td class="text-right align-middle">{{ user.observationsPublished }}</td>
 				      <td class="text-right align-middle">
-				      	{% if user.status != "Administrateur" %}
+				      	{% if user.status != "Administrateur" and user.status != "Super Administrateur" %}
 				      		<a href="{{ path('remove_user', {'id': user.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
 				      		{% if user.status == "Particulier" %}
 				      			<a href="{{ path('promote_user', {'id': user.id }) }}">Naturaliser</a><br/>
