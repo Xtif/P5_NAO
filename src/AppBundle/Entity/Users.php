@@ -100,9 +100,22 @@ class Users extends BaseUser
     {
         parent::__construct();
         $this->observations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = array('ROLE_PARTICULIER');
         $this->setStatus("Particulier");
         $this->setPicture(new File('Images/UsersPictures/Avatar.jpeg'));
         $this->setObservationsPublished(0);
+    }
+
+    public function setUsernameCanonical($usernameCanonical)
+    {
+        // On remplace les caractères speciaux
+        $usernameCanonical = htmlentities($usernameCanonical, ENT_NOQUOTES, 'utf-8');
+        $usernameCanonical = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $usernameCanonical);
+        $usernameCanonical = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $usernameCanonical); // pour les ligatures e.g. '&oelig;'
+        $usernameCanonical = preg_replace('#&[^;]+;#', '', $usernameCanonical); // supprime les autres caractères
+
+        $this->usernameCanonical = $usernameCanonical;
+        return $this;
     }
 
     /**

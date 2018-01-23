@@ -38,7 +38,8 @@ class Observations
     /**
      * @var string
      *
-     * @ORM\Column(name="bird_race", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Birds")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $birdRace;
 

@@ -39,14 +39,7 @@ class Pictures
     private $file;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255)
-     */
-    private $url;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="pictures", cascade={"all"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="pictures")
     */
 
     private $observation;
@@ -83,30 +76,6 @@ class Pictures
     public function getFile()
     {
         return $this->file;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return Pictures
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
     }
 
     /**
