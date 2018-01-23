@@ -174,7 +174,7 @@ var Dropzone = function (_Emitter) {
          * How many file uploads to process in parallel (See the
          * Enqueuing file uploads* documentation section for more info)
          */
-        parallelUploads: 2,
+        parallelUploads: 5,
 
         /**
          * Whether to send multiple files in one request. If
@@ -419,7 +419,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The text used before any files are dropped.
          */
-        dictDefaultMessage: "Glisser ici vos photos",
+        dictDefaultMessage: "Cliquer ici pour ajouter vos photos ou glisser les directement dans le cadre (format .jpg ou .png inférieur à 2Mo)",
 
         /**
          * The text that replaces the default message text it the browser is not supported.

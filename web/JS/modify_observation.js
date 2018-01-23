@@ -20,10 +20,15 @@ Dropzone.options.mydropzone = {
         myDropzone.processQueue(); // On traite la queue de photos
       });
 
-      // this.on("sendingmultiple", function() {
-      // });
+      this.on("sendingmultiple", function(file, xhr, formData) {
+        var existingPictures = [];
+        $("figure img[alt]").each(function(index) {
+          existingPictures.push($(this).attr("alt"));
+        });
+        formData.append("existingPictures", existingPictures); // Si il y a deja des photos on les envoie
+      });
 
-      this.on("successmultiple", function(files, response) {   
+      this.on("successmultiple", function(files, response) {
         $("form").submit(); // Une fois les photos envoyées et traité, on poste le formulaire
       });
 
@@ -32,13 +37,31 @@ Dropzone.options.mydropzone = {
   } // End of init()
 };
 
+
 $(document).ready(function() {
 
   // Soumission du formulaire si pas de photos
-  $("#form_submit").on('click',function() {
+  $("#form_submit").click(function() {
     if($("div[class*='dz-preview']").length == 0) {
       $("form").submit();
     }
+  });
+
+  // Gestion de la suppression des photos deja presentes
+  $("figcaption a").click(function(e) {
+    e.preventDefault();
+    var pictureName = this.id;
+    $.ajax({
+      url: urlRemovePicture,
+      type: 'GET',
+      data: { 'pictureName': pictureName },
+      success: function() {
+        $("figure[class~='" + pictureName + "']").remove();
+      },
+      error: function() {
+        console.log("Erreur");
+      }
+    });
   });
 
   //Datepicker en francais
