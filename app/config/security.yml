@@ -30,22 +30,25 @@ security:
             provider: fos_userbundle
             logout:
                 path: /deconnexion
-
+            access_denied_url: /access_refuse
             form_login:
                 login_path: /connexion
                 csrf_token_generator: security.csrf.token_manager
                 always_use_default_target_path: true
                 default_target_path: /profil
-
             remember_me:
                 secret: '%secret%'
 
     access_control:
-        # - { path: /profil, roles: ROLE_PARTICULIER }
-        # - { path: /ajoutobservation, roles: ROLE_PARTICULIER }
-        # - { path: /listeobservations, roles: ROLE_NATURALISTE }
+        - { path: /profil, roles: ROLE_PARTICULIER }
+        - { path: /ajouter_observation, roles: ROLE_PARTICULIER }
+        - { path: ^/modifier_observation, roles: ROLE_PARTICULIER }
+        - { path: ^/signaler_observation, roles: ROLE_PARTICULIER }
+        - { path: /liste_observation, roles: ROLE_NATURALISTE }
+        - { path: ^/publier_observation, roles: ROLE_NATURALISTE }
         - { path: /liste_utilisateur, roles: ROLE_ADMIN }
         - { path: ^/naturaliser_utilisateur, roles: ROLE_ADMIN }
         - { path: ^/retrograder_utilisateur, roles: ROLE_ADMIN }
         - { path: ^/supprimer_utilisateur, roles: ROLE_ADMIN }
-        # - { path: /tableaudebord, roles: ROLE_ADMIN }
+        - { path: ^/suppression_observation, roles: ROLE_ADMIN }
+        - { path: /tableau_de_bord, roles: ROLE_ADMIN }

@@ -116,10 +116,25 @@ error_page:
     defaults:
       _controller: "AppBundle:Error:error"
 
+access_denied:
+    path: "/access_refuse"
+    defaults:
+      _controller: "AppBundle:Error:accessDenied"
+
 ajax_dropzone:
     path: "/ajax_dropzone"
     defaults:
       _controller: "AppBundle:Observations:ajaxDropzone"
+
+ajax_dropzone_modify:
+    path: "/ajax_dropzone_modify"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxDropzoneModify"
+
+ajax_remove_picture:
+    path : "/ajax_remove_picture"
+    defaults:
+      _controller: "AppBundle:Observations:ajaxRemovePicture"
 
 
 

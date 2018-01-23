@@ -37,6 +37,7 @@ services:
     AppBundle\Controller\ObservationsController:
         arguments: 
             - '@AppBundle\Service\ObservationsService'
+            - '@AppBundle\Service\PicturesService'
 
     AppBundle\Controller\DashboardController:
         arguments: 
@@ -54,19 +55,30 @@ services:
         arguments:
             - AppBundle\Entity\Observations
 
+    AppBundle\Repository\PicturesRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\Pictures
+
     # Services des entités
     AppBundle\Service\UsersService:
         public: true
         arguments:
-            - '@AppBundle\Repository\UsersRepository' # Utilisation du service de repository User
+            - '@AppBundle\Repository\UsersRepository' # Utilisation du service de repository Users
             - '@fos_user.user_manager' # utilisation du service fos user manager 
 
     AppBundle\Service\ObservationsService:
         public: true
         arguments:
-            - '@AppBundle\Repository\ObservationsRepository' # Utilisation du service de repository User
+            - '@AppBundle\Repository\ObservationsRepository' # Utilisation du service de repository Observations
             - '@doctrine.orm.entity_manager'
             - '@AppBundle\Service\UsersService'
+
+    AppBundle\Service\PicturesService:
+        public: true
+        arguments:
+            - '@AppBundle\Repository\PicturesRepository' # Utilisation du service de repository Pictures
+            - '@doctrine.orm.entity_manager'
 
     # Services de formulaire lié au FOSUserBundle personnalisé
     app.form.profile:
