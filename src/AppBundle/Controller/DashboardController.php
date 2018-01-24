@@ -8,12 +8,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller
 {
+  private $observationsService;
+  private $usersService;
+
+  public function __construct($observationsService, $usersService) {
+    $this->observationsService = $observationsService;
+    $this->usersService = $usersService;
+  }
+
   public function dashboardAction(Request $request) {
 
-    $countParticuliers = $this->getDoctrine()->getManager()->getRepository('AppBundle:Users')->countUsers('Particulier');  
-    $countNaturalistes = $this->getDoctrine()->getManager()->getRepository('AppBundle:Users')->countUsers('Naturaliste'); 
-    $countObservationsPublished = 0; 
-    $countObservationsWaiting = 0;
+    $countParticuliers = $this->usersService->countUsers('Particulier');  
+    $countNaturalistes = $this->usersService->countUsers('Naturaliste'); 
+    $countObservationsPublished = $this->observationsService->countObservations('Publiée'); 
+    $countObservationsWaiting = $this->observationsService->countObservations('En attente');
 
     return $this->render(
       'default/dashboard.html.twig', 

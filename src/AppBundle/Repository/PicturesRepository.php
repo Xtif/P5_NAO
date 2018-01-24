@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class PicturesRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllTempByUsername($usernameCanonical) 
+	{
+		return $this
+			->createQueryBuilder('p') // On construit la query qui recupère toutes les picutres via le querybuilder
+			->where('p.name LIKE :exp') // On récupère que ceux qui contiennent "temp" dans leur nom
+			->setParameter(':exp', '%temp%')
+			->andWhere('p.name LIKE :usernameCanonical') // Et le usernameCanonical dans leur nom
+			->setParameter(':usernameCanonical', '%' . $usernameCanonical . '%')
+			->getQuery() // On crée la query
+			->getResult(); // On retourne le résultat
+	} // End findAllTempByUsername()
+
+	public function findOneByName($name)
+	{
+		return $this->findOneBy(['name' => $name]);
+	} // End of findByName()
+
 }

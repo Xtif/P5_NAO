@@ -38,7 +38,8 @@ class Observations
     /**
      * @var string
      *
-     * @ORM\Column(name="bird_race", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Birds")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $birdRace;
 
@@ -64,7 +65,7 @@ class Observations
     private $latitude;
 
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="state", type="string")
      */
@@ -78,9 +79,9 @@ class Observations
     private $publishedAt;
 
     /**
-     * @var bool
+     * @var int
      *
-     * @ORM\Column(name="reported", type="boolean")
+     * @ORM\Column(name="reported", type="integer")
      */
     private $reported;
 
@@ -95,6 +96,17 @@ class Observations
     */
 
     private $user;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pictures = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->state = "En attente";
+        $this->publishedAt = new \DateTime();
+        $this->reported = 0;
+    }
 
     /**
      * Get id
@@ -320,13 +332,6 @@ class Observations
     public function getReported()
     {
         return $this->reported;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->pictures = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

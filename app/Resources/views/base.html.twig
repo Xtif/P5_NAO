@@ -13,9 +13,12 @@
         {% block stylesheets %}
 
             <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.css" type="text/css" />
             <link rel = "stylesheet" href = "https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
             <link rel = "stylesheet" href = "{{ asset('JS/DataTables/datatables.min.css') }}" />
-            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />            
+            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />    
+            <link rel = "stylesheet" href = "{{ asset('CSS/DropzoneJS/dropzone.css') }}" />
+
 
         {% endblock %}
 
@@ -103,11 +106,16 @@
         {% block javascripts %}
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
             <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
             <script type = "text/javascript" src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js"></script>
             <script src = "https://use.fontawesome.com/86150c9ee5.js"></script>
             <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script> 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+            <script src="{{ asset('JS/DropzoneJS/dropzone.js') }}"></script>
+
 
 
         {% endblock %}

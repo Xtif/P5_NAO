@@ -1,6 +1,23 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{% extends "base.html.twig" %}
 
-<div class="fos_user_user_show">
+{% block stylesheets %}
+
+    {{ parent() }}
+    {# <link rel = "stylesheet" href = "{{ asset('CSS/user.css') }}" /> #}
+
+{% endblock %}
+
+{% block title %}Fiche utilisateur{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style="padding-top: 100px;">
+
+
+	<div class="col-lg-11 m-auto">
+		<h1>UTILISATEUR</h1>
+	</div>
+
+<div class="col-lg-10 m-auto">
 	<h2>Informations</h2>
 
 	<div class="col-lg-11">
@@ -38,23 +55,6 @@
 		</div>
 	</div>
 
-	<div class="col-lg-11 mt-3">
-		<div class="row">
-			<div class="col-lg-3">
-				<a href="{{ path('fos_user_profile_edit') }}" style="width: 100%;" class="btn btn-info" role="button">Modifier vos informations</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-lg-11 mt-3">
-		<div class="row">
-			<div class="col-lg-3">
-				<a href="{{ path('fos_user_change_password') }}" style="width: 100%;" class="btn btn-secondary" role="button">Modifier votre mot de passe</a>
-			</div>
-		</div>
-	</div>
-
-
 	<h2 class="mt-3">Observations</h2>
 	<div class="col-lg-12 m-auto p-0">
 		<table id="table-profil-show" class="table mt-3 hover">
@@ -73,7 +73,7 @@
 			      <td class="text-right">{{ observation.publishedat|date("d/m/Y") }}</td>
 			      <td class="text-right">{{ observation.longitude }} / {{ observation.latitude }}</td>
 			      <td class="text-right">
-			      	<a href="{{ path('observation', {'id': observation.id }) }}">Consulter</a>
+			      	<a href="{{ path('observation', { 'id' : observation.id }) }}">Consulter</a>
 			      </td>
 			    </tr>
 		  	{% endfor %}
@@ -81,5 +81,12 @@
 		</table>
 	</div>
 
+</div>
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src = "{{ asset('JS/profil_user_show.js') }}"></script>
+{% endblock %}

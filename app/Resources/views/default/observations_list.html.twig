@@ -3,16 +3,16 @@
 {% block stylesheets %}
 
     {{ parent() }}
-    {# <link rel = "stylesheet" href = "{{ asset('CSS/users_list.css') }}" /> #}
+    {# <link rel = "stylesheet" href = "{{ asset('CSS/observations_list.css') }}" /> #}
 
 {% endblock %}
 
-{% block title %}Liste utilisateurs{% endblock %}
+{% block title %}Liste observations{% endblock %}
 
 {% block body %}
 	<div class="container-fluid" style="padding-top: 100px;">
 		<div class="col-lg-11 m-auto">
-			<h1>LISTE UTILISATEURS</h1>
+			<h1>LISTE OBSERVATIONS</h1>
 		</div>
 
 		<!-- Gestion des messages flash -->
@@ -31,35 +31,40 @@
 		{% endfor %}
 
 
-		<!-- Tableau des users -->
+		<!-- Tableau des observations -->
 		<div class="col-lg-11 m-auto">
-			<table id="user-table" class="table mt-3 hover">
+			<table id="observation-table" class="table mt-3 hover">
 			  <thead class="main-thead">
 			    <tr>
-			      <th>Nom utilisateur</th>
+			      <th>Nom de l'oiseau</th>
+			      <th class="text-right">Nom de l'espèce</th>
+			      <th class="text-right">Date</th>
+			      <th class="text-right">Auteur</th>
 			      <th class="text-right">Statut</th>
-			      <th class="text-right">Observations</th>
-			      <th class="text-right">Observations validées</th>
+			      <th class="text-right">Signalement</th>
 			      <th class="text-right">Gérer</th>
 			    </tr>
 			  </thead>
-			  <tbody>
-			  	{% for user in allUsers %}
+			  <tbody class="main-tbody">
+			  	{% for observation in allObservations %}
 				    <tr>
-				      <td class="align-middle"><a href="{{ path('user', {'id': user.id}) }}">{{ user.username }}</a></td>
-				      <td class="text-right align-middle">{{ user.status }}</td>
-				      <td class="text-right align-middle">{{ user.observations|length }}</td>
-				      <td class="text-right align-middle">{{ user.observationsPublished }}</td>
+				      <td class="align-middle">{{ observation.birdName }}</td>
+				      <td class="text-right align-middle">{{ observation.birdRace.race }}</td>
+				      <td class="text-right align-middle">{{ observation.publishedAt|date('d/m/Y') }}</td>
 				      <td class="text-right align-middle">
-				      	{% if user.status != "Administrateur" and user.status != "Super Administrateur" %}
-				      		<a href="{{ path('remove_user', {'id': user.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
-				      		{% if user.status == "Particulier" %}
-				      			<a href="{{ path('promote_user', {'id': user.id }) }}">Naturaliser</a><br/>
-				      		{% elseif user.status == "Naturaliste" %}
-				      			<a href="{{ path('demote_user', {'id': user.id }) }}">Rétrograder</a><br/>
+				      	<a href="{{ path('user', {'id': observation.user.id}) }}">
+				      		{{ observation.author }}
+				      	</a>
+				      </td>
+				      <td class="text-right align-middle">{{ observation.state }}</td>
+				      <td class="text-right align-middle">{{ observation.reported }}</td>
+				      <td class="text-right align-middle">
+				      	<a href="{{ path('observation', {'id': observation.id }) }}">Consulter</a><br/>
+				      	{% if observation.state != "Supprimée" %}
+				      		{% if observation.state == "En attente" %}
+				      			<a href="{{ path('publish_observation', {'id': observation.id }) }}">Publier</a><br/>
 				      		{% endif %}
-				      	{% else %}
-				      		-
+				      		<a href="{{ path('remove_observation', {'id': observation.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
 				      	{% endif %}
 				      </td>
 				    </tr>
@@ -82,7 +87,7 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        Vous êtes sur le point de supprimer définitivement cet utilisateur, cette action est irréversible. Etes-vous sur ?
+	        Vous êtes sur le point de supprimer définitivement cette observation, cette action est irréversible. Etes-vous sur ?
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-info" id="confirmModalNon" data-dismiss="modal">Annuler</button>
@@ -98,6 +103,6 @@
 {% block javascripts %}
 
 	{{ parent() }}
-  <script src = "{{ asset('JS/users_list.js') }}"></script>
+  <script src = "{{ asset('JS/observations_list.js') }}"></script>
 
 {% endblock %}

@@ -88,7 +88,7 @@
 		      <td class="text-right align-middle">{{ observation.state }}</td>
 		      <td class="text-right align-middle">
 				    {% if observation.state == "En attente" %}
-				    	<a href="#">Modifier</a>
+				    	<a href="{{ path('modify_observation', { 'id' : observation.id }) }}">Modifier</a>
 				    {% else %}
 				    	-
 				    {% endif %}

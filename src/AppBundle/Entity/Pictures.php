@@ -4,6 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Pictures
  *
@@ -24,19 +27,19 @@ class Pictures
     /**
      * @var string
      *
-     * @ORM\Column(name="alt", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $alt;
+    private $name;
 
     /**
-     * @var string
+     * @ORM\Column(name="file", type="string", nullable=false)
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg" })
      */
-    private $url;
+    private $file;
 
     /**
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="pictures", cascade={"all"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="pictures")
     */
 
     private $observation;
@@ -52,51 +55,27 @@ class Pictures
     }
 
     /**
-     * Set alt
+     * Set file
      *
-     * @param string $alt
+     * @param string $file
      *
      * @return Pictures
      */
-    public function setAlt($alt)
+    public function setFile($file)
     {
-        $this->alt = $alt;
+        $this->file = $file;
 
         return $this;
     }
 
     /**
-     * Get alt
+     * Get file
      *
      * @return string
      */
-    public function getAlt()
+    public function getFile()
     {
-        return $this->alt;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return Pictures
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
+        return $this->file;
     }
 
     /**
@@ -122,4 +101,29 @@ class Pictures
     {
         return $this->observation;
     }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Pictures
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
 }
