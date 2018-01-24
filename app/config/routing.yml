@@ -61,15 +61,15 @@ user_list:
 contact:
     path: /contact
     defaults:
-      _controller: "AppBundle:Default:contact"
+      _controller: "AppBundle:Contact:contact"
 
 legal_notice:
-    path: /legalNotice
+    path: /mentions_legales
     defaults:
       _controller: "AppBundle:Default:legalNotice"
 
 tos:
-    path: /termsOfService
+    path: /CGU
     defaults:
       _controller: "AppBundle:Default:tos"
 

@@ -44,6 +44,10 @@ services:
             - '@AppBundle\Service\ObservationsService'
             - '@AppBundle\Service\UsersService'
 
+    AppBundle\Controller\ContactController:
+        arguments: 
+            - AppBundle\Entity\EmailContact
+
     # Services des repository
     AppBundle\Repository\UsersRepository:
         factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'

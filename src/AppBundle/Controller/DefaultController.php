@@ -24,12 +24,6 @@ class DefaultController extends Controller
 
     }
 
-    public function contactAction(Request $request) {
-
-        return $this->render('default/contact.html.twig');
-
-    }
-
     public function legalNoticeAction(Request $request) {
 
         return $this->render('default/legal_notice.html.twig');
