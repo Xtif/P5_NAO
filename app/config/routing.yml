@@ -1,3 +1,8 @@
+blog:
+    resource: "@BlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 homepage:
     path: /
     defaults:
@@ -136,6 +141,23 @@ ajax_remove_picture:
     defaults:
       _controller: "AppBundle:Observations:ajaxRemovePicture"
 
+list_news:
+    path : "/liste_actualites"
+    defaults:
+      _controller: "BlogBundle:Blog:newsList"
 
+news:
+    path : "/actualite/{id}"
+    defaults:
+      _controller: "BlogBundle:Blog:news"
 
+add_news:
+    path : "/ajouter_actualite"
+    defaults:
+      _controller: "BlogBundle:Blog:addNews"
+
+remove_news:
+    path : "/supprimer_actualite/{id}"
+    defaults:
+      _controller: "BlogBundle:Blog:removeNews"
 
