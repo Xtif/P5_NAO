@@ -104,119 +104,105 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // map
-        if ('/map' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::mapAction',  '_route' => 'map',);
+        elseif (0 === strpos($pathinfo, '/m')) {
+            // map
+            if ('/map' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::mapAction',  '_route' => 'map',);
+            }
+
+            // modify_observation
+            if (0 === strpos($pathinfo, '/modifier_observation') && preg_match('#^/modifier_observation/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'modify_observation')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::modifyAction',));
+            }
+
+            if (0 === strpos($pathinfo, '/motdepasseperdu')) {
+                // fos_user_resetting_request
+                if ('/motdepasseperdu/request' === $pathinfo) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_fos_user_resetting_request;
+                    }
+
+                    return array (  '_controller' => 'UserBundle\\Controller\\ResettingController::requestAction',  '_route' => 'fos_user_resetting_request',);
+                }
+                not_fos_user_resetting_request:
+
+                // fos_user_resetting_reset
+                if (0 === strpos($pathinfo, '/motdepasseperdu/reset') && preg_match('#^/motdepasseperdu/reset/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                        $allow = array_merge($allow, array('GET', 'POST'));
+                        goto not_fos_user_resetting_reset;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_resetting_reset')), array (  '_controller' => 'UserBundle\\Controller\\ResettingController::resetAction',));
+                }
+                not_fos_user_resetting_reset:
+
+                // fos_user_resetting_send_email
+                if ('/motdepasseperdu/send-email' === $pathinfo) {
+                    if ('POST' !== $canonicalMethod) {
+                        $allow[] = 'POST';
+                        goto not_fos_user_resetting_send_email;
+                    }
+
+                    return array (  '_controller' => 'UserBundle\\Controller\\ResettingController::sendEmailAction',  '_route' => 'fos_user_resetting_send_email',);
+                }
+                not_fos_user_resetting_send_email:
+
+                // fos_user_resetting_check_email
+                if ('/motdepasseperdu/check-email' === $pathinfo) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_fos_user_resetting_check_email;
+                    }
+
+                    return array (  '_controller' => 'UserBundle\\Controller\\ResettingController::checkEmailAction',  '_route' => 'fos_user_resetting_check_email',);
+                }
+                not_fos_user_resetting_check_email:
+
+            }
+
+            // legal_notice
+            if ('/mentions_legales' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::legalNoticeAction',  '_route' => 'legal_notice',);
+            }
+
         }
 
-        if (0 === strpos($pathinfo, '/motdepasseperdu')) {
-            // fos_user_resetting_request
-            if ('/motdepasseperdu/request' === $pathinfo) {
-                if ('GET' !== $canonicalMethod) {
-                    $allow[] = 'GET';
-                    goto not_fos_user_resetting_request;
+        elseif (0 === strpos($pathinfo, '/aj')) {
+            // add_observation
+            if ('/ajouter_observation' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::addAction',  '_route' => 'add_observation',);
+            }
+
+            if (0 === strpos($pathinfo, '/ajax_dropzone')) {
+                // ajax_dropzone
+                if ('/ajax_dropzone' === $pathinfo) {
+                    return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::ajaxDropzoneAction',  '_route' => 'ajax_dropzone',);
                 }
 
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::requestAction',  '_route' => 'fos_user_resetting_request',);
-            }
-            not_fos_user_resetting_request:
-
-            // fos_user_resetting_reset
-            if (0 === strpos($pathinfo, '/motdepasseperdu/reset') && preg_match('#^/motdepasseperdu/reset/(?P<token>[^/]++)$#s', $pathinfo, $matches)) {
-                if (!in_array($canonicalMethod, array('GET', 'POST'))) {
-                    $allow = array_merge($allow, array('GET', 'POST'));
-                    goto not_fos_user_resetting_reset;
+                // ajax_dropzone_modify
+                if ('/ajax_dropzone_modify' === $pathinfo) {
+                    return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::ajaxDropzoneModifyAction',  '_route' => 'ajax_dropzone_modify',);
                 }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_resetting_reset')), array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::resetAction',));
-            }
-            not_fos_user_resetting_reset:
-
-            // fos_user_resetting_send_email
-            if ('/motdepasseperdu/send-email' === $pathinfo) {
-                if ('POST' !== $canonicalMethod) {
-                    $allow[] = 'POST';
-                    goto not_fos_user_resetting_send_email;
-                }
-
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::sendEmailAction',  '_route' => 'fos_user_resetting_send_email',);
-            }
-            not_fos_user_resetting_send_email:
-
-            // fos_user_resetting_check_email
-            if ('/motdepasseperdu/check-email' === $pathinfo) {
-                if ('GET' !== $canonicalMethod) {
-                    $allow[] = 'GET';
-                    goto not_fos_user_resetting_check_email;
-                }
-
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ResettingController::checkEmailAction',  '_route' => 'fos_user_resetting_check_email',);
-            }
-            not_fos_user_resetting_check_email:
-
-        }
-
-        // add_observation
-        if ('/add' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::addAction',  '_route' => 'add_observation',);
-        }
-
-        // dashboard
-        if ('/dashboard' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::dashboardAction',  '_route' => 'dashboard',);
-        }
-
-        // fos_user_security_logout
-        if ('/deconnexion' === $pathinfo) {
-            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
-                $allow = array_merge($allow, array('GET', 'POST'));
-                goto not_fos_user_security_logout;
             }
 
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::logoutAction',  '_route' => 'fos_user_security_logout',);
-        }
-        not_fos_user_security_logout:
-
-        // user_list
-        if ('/userList' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::userListAction',  '_route' => 'user_list',);
-        }
-
-        // contact
-        if ('/contact' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::contactAction',  '_route' => 'contact',);
-        }
-
-        // fos_user_security_login
-        if ('/connexion' === $pathinfo) {
-            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
-                $allow = array_merge($allow, array('GET', 'POST'));
-                goto not_fos_user_security_login;
+            // ajax_remove_picture
+            if ('/ajax_remove_picture' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::ajaxRemovePictureAction',  '_route' => 'ajax_remove_picture',);
             }
 
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);
-        }
-        not_fos_user_security_login:
-
-        // legal_notice
-        if ('/legalNotice' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::legalNoticeAction',  '_route' => 'legal_notice',);
         }
 
-        // fos_user_security_check
-        if ('/login_check' === $pathinfo) {
-            if ('POST' !== $canonicalMethod) {
-                $allow[] = 'POST';
-                goto not_fos_user_security_check;
-            }
-
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::checkAction',  '_route' => 'fos_user_security_check',);
+        // access_denied
+        if ('/access_refuse' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\ErrorController::accessDeniedAction',  '_route' => 'access_denied',);
         }
-        not_fos_user_security_check:
 
-        // tos
-        if ('/termsOfService' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::tosAction',  '_route' => 'tos',);
+        // publish_observation
+        if (0 === strpos($pathinfo, '/publier_observation') && preg_match('#^/publier_observation/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'publish_observation')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::publishAction',));
         }
 
         if (0 === strpos($pathinfo, '/profil')) {
@@ -227,7 +213,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     goto not_fos_user_profile_show;
                 }
 
-                $ret = array (  '_controller' => 'FOS\\UserBundle\\Controller\\ProfileController::showAction',  '_route' => 'fos_user_profile_show',);
+                $ret = array (  '_controller' => 'UserBundle\\Controller\\ProfileController::showAction',  '_route' => 'fos_user_profile_show',);
                 if (substr($pathinfo, -1) !== '/') {
                     return array_replace($ret, $this->redirect($rawPathinfo.'/', 'fos_user_profile_show'));
                 }
@@ -243,24 +229,113 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     goto not_fos_user_profile_edit;
                 }
 
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ProfileController::editAction',  '_route' => 'fos_user_profile_edit',);
+                return array (  '_controller' => 'UserBundle\\Controller\\ProfileController::editAction',  '_route' => 'fos_user_profile_edit',);
             }
             not_fos_user_profile_edit:
 
             // fos_user_change_password
-            if ('/profil/change-password' === $pathinfo) {
+            if ('/profil/modifier_mdp' === $pathinfo) {
                 if (!in_array($canonicalMethod, array('GET', 'POST'))) {
                     $allow = array_merge($allow, array('GET', 'POST'));
                     goto not_fos_user_change_password;
                 }
 
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\ChangePasswordController::changePasswordAction',  '_route' => 'fos_user_change_password',);
+                return array (  '_controller' => 'UserBundle\\Controller\\ChangePasswordController::changePasswordAction',  '_route' => 'fos_user_change_password',);
             }
             not_fos_user_change_password:
 
         }
 
-        elseif (0 === strpos($pathinfo, '/inscription')) {
+        elseif (0 === strpos($pathinfo, '/s')) {
+            // remove_observation
+            if (0 === strpos($pathinfo, '/suppression_observation') && preg_match('#^/suppression_observation/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'remove_observation')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::removeAction',));
+            }
+
+            // remove_user
+            if (0 === strpos($pathinfo, '/supprimer_utilisateur') && preg_match('#^/supprimer_utilisateur/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'remove_user')), array (  '_controller' => 'AppBundle\\Controller\\UsersController::removeUserAction',));
+            }
+
+            // report_observation
+            if (0 === strpos($pathinfo, '/signaler_observation') && preg_match('#^/signaler_observation/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'report_observation')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::reportAction',));
+            }
+
+        }
+
+        // observation
+        if (0 === strpos($pathinfo, '/observation') && preg_match('#^/observation/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'observation')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::observationAction',));
+        }
+
+        if (0 === strpos($pathinfo, '/l')) {
+            // observation_list
+            if ('/liste_observation' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::observationListAction',  '_route' => 'observation_list',);
+            }
+
+            // user_list
+            if ('/liste_utilisateur' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\UsersController::userListAction',  '_route' => 'user_list',);
+            }
+
+            // fos_user_security_check
+            if ('/login_check' === $pathinfo) {
+                if ('POST' !== $canonicalMethod) {
+                    $allow[] = 'POST';
+                    goto not_fos_user_security_check;
+                }
+
+                return array (  '_controller' => 'UserBundle\\Controller\\SecurityController::checkAction',  '_route' => 'fos_user_security_check',);
+            }
+            not_fos_user_security_check:
+
+        }
+
+        // dashboard
+        if ('/tableau_de_bord' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\DashboardController::dashboardAction',  '_route' => 'dashboard',);
+        }
+
+        // user
+        if (0 === strpos($pathinfo, '/user') && preg_match('#^/user/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'user')), array (  '_controller' => 'AppBundle\\Controller\\UsersController::userAction',));
+        }
+
+        // contact
+        if ('/contact' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\ContactController::contactAction',  '_route' => 'contact',);
+        }
+
+        // fos_user_security_login
+        if ('/connexion' === $pathinfo) {
+            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                $allow = array_merge($allow, array('GET', 'POST'));
+                goto not_fos_user_security_login;
+            }
+
+            return array (  '_controller' => 'UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);
+        }
+        not_fos_user_security_login:
+
+        // tos
+        if ('/CGU' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::tosAction',  '_route' => 'tos',);
+        }
+
+        // fos_user_security_logout
+        if ('/deconnexion' === $pathinfo) {
+            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                $allow = array_merge($allow, array('GET', 'POST'));
+                goto not_fos_user_security_logout;
+            }
+
+            return array (  '_controller' => 'UserBundle\\Controller\\SecurityController::logoutAction',  '_route' => 'fos_user_security_logout',);
+        }
+        not_fos_user_security_logout:
+
+        if (0 === strpos($pathinfo, '/inscription')) {
             // fos_user_registration_register
             if ('/inscription' === $trimmedPathinfo) {
                 if (!in_array($canonicalMethod, array('GET', 'POST'))) {
@@ -268,7 +343,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     goto not_fos_user_registration_register;
                 }
 
-                $ret = array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::registerAction',  '_route' => 'fos_user_registration_register',);
+                $ret = array (  '_controller' => 'UserBundle\\Controller\\RegistrationController::registerAction',  '_route' => 'fos_user_registration_register',);
                 if (substr($pathinfo, -1) !== '/') {
                     return array_replace($ret, $this->redirect($rawPathinfo.'/', 'fos_user_registration_register'));
                 }
@@ -284,7 +359,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     goto not_fos_user_registration_check_email;
                 }
 
-                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::checkEmailAction',  '_route' => 'fos_user_registration_check_email',);
+                return array (  '_controller' => 'UserBundle\\Controller\\RegistrationController::checkEmailAction',  '_route' => 'fos_user_registration_check_email',);
             }
             not_fos_user_registration_check_email:
 
@@ -296,7 +371,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         goto not_fos_user_registration_confirm;
                     }
 
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_registration_confirm')), array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::confirmAction',));
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'fos_user_registration_confirm')), array (  '_controller' => 'UserBundle\\Controller\\RegistrationController::confirmAction',));
                 }
                 not_fos_user_registration_confirm:
 
@@ -307,7 +382,7 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         goto not_fos_user_registration_confirmed;
                     }
 
-                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\RegistrationController::confirmedAction',  '_route' => 'fos_user_registration_confirmed',);
+                    return array (  '_controller' => 'UserBundle\\Controller\\RegistrationController::confirmedAction',  '_route' => 'fos_user_registration_confirmed',);
                 }
                 not_fos_user_registration_confirmed:
 
@@ -323,6 +398,21 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
 
             return $ret;
+        }
+
+        // promote_user
+        if (0 === strpos($pathinfo, '/naturaliser_utilisateur') && preg_match('#^/naturaliser_utilisateur/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'promote_user')), array (  '_controller' => 'AppBundle\\Controller\\UsersController::promoteUserAction',));
+        }
+
+        // demote_user
+        if (0 === strpos($pathinfo, '/retrograder_utilisateur') && preg_match('#^/retrograder_utilisateur/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'demote_user')), array (  '_controller' => 'AppBundle\\Controller\\UsersController::demoteUserAction',));
+        }
+
+        // error_page
+        if ('/error' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\ErrorController::errorAction',  '_route' => 'error_page',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
