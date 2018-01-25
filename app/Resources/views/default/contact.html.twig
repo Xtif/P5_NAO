@@ -12,12 +12,12 @@
 {% block body %}
 	<div class="container-fluid" style="padding-top: 100px;">
 		<div class="col-lg-11 m-auto">
-			<h1>CONTACT</h1>
+			<h1 class="main-title mt-2">CONTACT</h1>
 		</div>
 
 		<div class="col-lg-10 m-auto">
 
-			<h2>Nos Amis les Oiseaux - NAO</h2>
+			<h2 class="secondary-title">Nos Amis les Oiseaux - NAO</h2>
 			<div class="col-lg-11 m-auto">
 				<p>
 					42 avenue des Zoziau<br/>
@@ -28,7 +28,7 @@
 				</p>
 			</div>
 
-			<h2 class="mt-0">Laissez nous un message</h2>
+			<h2 class="mt-0 secondary-title">Laissez nous un message</h2>
 			<!-- Gestion des messages flash -->
 			{% for message in app.flashes('Error') %}
 				<div class="error-message col-lg-11 m-auto">

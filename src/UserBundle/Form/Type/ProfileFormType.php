@@ -167,9 +167,14 @@ class ProfileFormType extends AbstractType
                 'picture', 
                 FileType::class, 
                 array(
-                    'label' => false,
-                    'attr' => array('class' => 'col-lg-2 m-auto'),
-                    'required' => false
+                    'label' => 'Modifier votre photo',
+                    'label_attr' => array(
+                        'class' => 'text-center mt-2 btn btn-info label-user-picture'
+                    ),
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'invisible'
+                    )
                 )
             )
         ;
