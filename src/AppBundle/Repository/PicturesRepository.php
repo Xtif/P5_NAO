@@ -17,7 +17,7 @@ class PicturesRepository extends \Doctrine\ORM\EntityRepository
 			->where('p.name LIKE :exp') // On récupère que ceux qui contiennent "temp" dans leur nom
 			->setParameter(':exp', '%temp%')
 			->andWhere('p.name LIKE :usernameCanonical') // Et le usernameCanonical dans leur nom
-			->setParameter(':usernameCanonical', '%' . $usernameCanonical . '%')
+			->setParameter('usernameCanonical', '%' . $usernameCanonical . '%')
 			->getQuery() // On crée la query
 			->getResult(); // On retourne le résultat
 	} // End findAllTempByUsername()
