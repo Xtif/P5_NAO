@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -27,6 +28,28 @@ class DefaultController extends Controller
             'birds' => $birds
 
         ));
+
+    }
+
+    public function raceSelectAction(Request $request) {
+
+        if($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+
+            $race = $_POST['race'];
+
+            $observations = $this->getDoctrine()->getRepository('AppBundle:Observations')->getObservationsByBirdRace($race);
+
+            $response = new JsonResponse();
+
+            $response->setData(array(
+
+                'observations' => $observations
+
+            ));
+
+            return $response;
+
+        }
 
     }
 

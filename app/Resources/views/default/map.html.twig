@@ -79,5 +79,40 @@
 {{ parent() }}
 <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
 <script src = "{{ asset('JS/map.js') }}"></script>
+<script>
+
+/*          select AJAX callback          */
+
+    $('#species-input').on('change', function() {
+
+        var selectedValue = $('#species-input option:selected').val();
+
+        $.ajax({
+
+            type: 'POST',
+            url: '{{ path("race_select") }}',
+            data: {
+
+                race: selectedValue,
+
+            },
+
+            success: function(response) {
+
+                var observations = response.observations;
+
+                for(i = 0; i < observations.length; i++) {
+
+                    alert(observations[i]);
+
+                }
+
+            }
+
+        });
+
+    });
+
+</script>
 
 {% endblock %}

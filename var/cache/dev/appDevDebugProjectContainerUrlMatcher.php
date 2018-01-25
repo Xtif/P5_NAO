@@ -104,12 +104,20 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // map
-        if ('/map' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::mapAction',  '_route' => 'map',);
+        elseif (0 === strpos($pathinfo, '/map')) {
+            // map
+            if ('/map' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::mapAction',  '_route' => 'map',);
+            }
+
+            // race_select
+            if ('/map/race' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::raceSelectAction',  '_route' => 'race_select',);
+            }
+
         }
 
-        if (0 === strpos($pathinfo, '/motdepasseperdu')) {
+        elseif (0 === strpos($pathinfo, '/motdepasseperdu')) {
             // fos_user_resetting_request
             if ('/motdepasseperdu/request' === $pathinfo) {
                 if ('GET' !== $canonicalMethod) {
