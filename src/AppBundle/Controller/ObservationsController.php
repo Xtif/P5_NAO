@@ -157,7 +157,10 @@ class ObservationsController extends Controller
       ->add('submit', 
         SubmitType::class,
           array(
-            'label' => 'Soumettre pour publication'
+            'label' => 'Soumettre pour publication',
+            'attr' => array(
+              'class' => 'btn btn-info'
+            )
           )
       );
 
@@ -281,7 +284,10 @@ class ObservationsController extends Controller
       ->add('submit', 
         SubmitType::class,
           array(
-            'label' => 'Soumettre pour publication'
+            'label' => 'Soumettre pour publication',
+            'attr' => array(
+              'class' => 'btn btn-info'
+            )
           )
       );
 

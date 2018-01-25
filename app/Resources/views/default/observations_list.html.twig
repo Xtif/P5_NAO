@@ -12,7 +12,7 @@
 {% block body %}
 	<div class="container-fluid" style="padding-top: 100px;">
 		<div class="col-lg-11 m-auto">
-			<h1>LISTE OBSERVATIONS</h1>
+			<h1 class="main-title mt-2">LISTE OBSERVATIONS</h1>
 		</div>
 
 		<!-- Gestion des messages flash -->
@@ -64,7 +64,9 @@
 				      		{% if observation.state == "En attente" %}
 				      			<a href="{{ path('publish_observation', {'id': observation.id }) }}">Publier</a><br/>
 				      		{% endif %}
-				      		<a href="{{ path('remove_observation', {'id': observation.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
+				      		{% if "ROLE_ADMIN" in app.user.roles %}
+				      			<a href="{{ path('remove_observation', {'id': observation.id }) }}" class="confirmModalLien" data-toggle="modal" data-target="#confirmModalLien">Supprimer</a><br/>
+				      		{% endif %}
 				      	{% endif %}
 				      </td>
 				    </tr>
@@ -75,7 +77,9 @@
 
 	</div>
 
+{% endblock %}
 
+{% block modal %}
 	<!--Fenetre modal de confirmation de suppresion-->
 	<div class="modal fade" id="modal_suppression" tabindex="-1" role="dialog">
 	  <div class="modal-dialog" role="document">
