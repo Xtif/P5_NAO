@@ -81,10 +81,10 @@ class ChangePasswordController extends Controller
 
             $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
+            $this->addFlash('Success', 'Votre mot de passe a bien été modifié !');
+
             return $response;
         }
-
-        $this->addFlash('Success', 'Votre mot de passe a bien été modifié !');
 
         return $this->render('@FOSUser/ChangePassword/change_password.html.twig', array(
             'form' => $form->createView(),

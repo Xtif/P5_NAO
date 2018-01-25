@@ -10,10 +10,10 @@
 {% block title %}Modifier une observation{% endblock %}
 
 {% block body %}
-	<div class="container-fluid" style="padding-top: 100px;">
-		<div class="col-lg-11 m-auto">
-			<h1>MODIFIER UNE OBSERVATION</h1>
-		</div>
+<div class="container-fluid" style="padding-top: 100px;">
+	<div class="col-lg-11 m-auto">
+		<h1 class="main-title mt-2">MODIFIER UNE OBSERVATION</h1>
+	</div>
 
 	<div class="col-lg-8 m-auto">
 
@@ -33,7 +33,7 @@
 			{{ form_row(form.publishedAt) }}
 		</div>
 
-		<p>Coordonnées GPS</p>	
+		<p class="secondary-title">Coordonnées GPS</p>	
 
 		<div class="form-group row">
 			<div class="col-lg-2 offset-lg-1">
@@ -81,9 +81,12 @@
 
 		{{ form_rest(form) }}
 
-	</div>
+		{{ form_end(form) }}
 
-	{{ form_end(form) }}
+	</div>
+</div>
+
+	
 
 {% endblock %}
 

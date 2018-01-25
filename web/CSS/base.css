@@ -28,13 +28,57 @@
 }
 
 /*          Eléments de base          */
+html {
+    height: 100%;
+}
 
 body {
 
+    position: relative;
+    min-height: 100%;
     width: 100%;
     background: #EEEEEE;
     font-family: 'Agenda-Light', 'Palatino Linotype', Arial, sans-serif;
     overflow-x: hidden;
+    padding-bottom: 5em;
+
+}
+
+footer {
+
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
+    background-color: white;
+    color: #3BA9BB;
+    padding: 5px 20px 5px;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0px;
+    z-index: 0;
+
+}
+
+footer a {
+
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+    color: #3BA9BB;
+
+}
+
+footer a:hover {
+
+    opacity: 1;
+    text-decoration: none;
+
+}
+
+footer .fa {
+
+    margin: 0 10px;
+    color: #3BA9BB;
 
 }
 
@@ -72,7 +116,6 @@ header {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100px;
     background: #EEEEEE;
     font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
     opacity: 0.7;
@@ -89,6 +132,7 @@ header:hover {
 
 #navbar {
 
+    background-color: white;
     width: 100%;
     height: 100px;
 
@@ -96,7 +140,6 @@ header:hover {
 
 #logo {
 
-    width: 100%;
     height: 100%;
 
 }
@@ -206,43 +249,66 @@ header:hover {
 
 }
 
-footer {
-
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
-    background: #EEEEEE;
-    color: #3BA9BB;
-    padding: 0 20px;
-    position: fixed;
-    bottom: 0;
-    z-index: -1;
-
+.main-title, .secondary-title, label {
+    color: #138496;
 }
 
-footer a {
-
-    opacity: 0.7;
-    transition: all 0.3s ease-in-out;
-    color: #3BA9BB;
-
+/************ TABLEAU ************/
+.main-thead {
+    background-color: #138496;
+    color: white;
 }
 
-footer a:hover {
-
-    opacity: 1;
-    text-decoration: none;
-
+.main-tbody, .main-tbody a, .main-tbody a:hover {
+    color: #138496;
 }
 
-footer .fa {
-
-    margin: 0 10px;
-    color: #3BA9BB;
-
+.main-tbody tr:hover {
+    background-color: #FFB966 !important;
 }
+
+/******** MESSAGE FLASH ***********/
+.error-message {
+    color: white;
+    background-color: #CC0000;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 35px;
+    padding-top: 5px;
+}
+
+.success-message {
+    color: white;
+    background-color: #3BBA6C;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 35px;
+    padding-top: 5px;
+}
+
+/************** BOUTONS *************/
+.btn-info {
+    background-color: #3BA9BB !important;
+}
+
+.btn-success {
+    background-color: #3BBA6C !important;
+}
+
+.btn-warning {
+    background-color: #FFA234 !important;
+}
+
+.btn-danger {
+    background-color: #CC0000 !important;
+}
+
+/*****Bouton de modification photo de profil******/
+.label-user-picture {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
 
 /*                  Médias Queries                  */
 
@@ -447,35 +513,4 @@ footer .fa {
 }
 
 
-/************ TABLEAU ************/
-.main-thead {
-    background-color: #138496;
-    color: white;
-}
 
-.main-tbody, .main-tbody a, .main-tbody a:hover {
-    color: #138496;
-}
-
-.main-tbody tr:hover {
-    background-color: #FFB966 !important;
-}
-
-/******** MESSAGE FLASH ***********/
-.error-message {
-    color: white;
-    background-color: #CC0000;
-    font-weight: bold;
-    border-radius: 5px;
-    height: 35px;
-    padding-top: 5px;
-}
-
-.success-message {
-    color: white;
-    background-color: #3BBA6C;
-    font-weight: bold;
-    border-radius: 5px;
-    height: 35px;
-    padding-top: 5px;
-}

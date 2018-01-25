@@ -12,7 +12,7 @@
 {% block body %}
 	<div class="container-fluid" style="padding-top: 100px;">
 		<div class="col-lg-11 m-auto">
-			<h1>OBSERVATION</h1>
+			<h1 class="main-title mt-2">OBSERVATION</h1>
 		</div>
 
 		<!-- Gestion des messages flash -->
@@ -31,7 +31,7 @@
 		{% endfor %}
 
 		<!-- Observation -->
-		<div class="col-lg-10 m-auto">
+		<div class="secondary-title col-lg-10 m-auto">
 			<h2>{{ observation.birdName }} - {{ observation.birdRace.race }}</h2>
 		</div>
 
@@ -94,13 +94,13 @@
 				<div class="row">
 					{% if observation.state == "En attente" or observation.state == "Publiée" %}
 						
-						{% if observation.state == "En attente" %}
-							
-							{% if activeUser == observation.user %}
+							{% if activeUser == observation.user or "ROLE_ADMIN" in app.user.roles %}
 								<div class="mr-2">
 									<a href="{{ path('modify_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-info" role="button">Modifier</a>
 								</div>
 							{% endif %}
+
+						{% if observation.state == "En attente" %}
 
 							{% if activeUser.status == "Naturaliste" or activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
 								<div class="mr-2">
@@ -123,8 +123,13 @@
 					{% endif %}
 				</div>
 			</div>
+		</div>
 
-		</div> <!--End container fluid-->
+	</div> <!--End container fluid-->
+
+{% endblock %}
+
+{% block modal %}
 	
 	<!--Fenetre modal de confirmation de suppresion-->
 	<div class="modal fade" id="modal_suppression" tabindex="-1" role="dialog">

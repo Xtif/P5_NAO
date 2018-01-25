@@ -12,19 +12,19 @@
 {% block body %}
 	<div class="container-fluid" style="padding-top: 100px;">
 		<div class="col-lg-11 m-auto">
-			<h1>LISTE UTILISATEURS</h1>
+			<h1 class="main-title mt-2">LISTE UTILISATEURS</h1>
 		</div>
 
 		<!-- Gestion des messages flash -->
 		{% for message in app.flashes('Error') %}
-			<div class="error-message col-lg-6 offset-lg-1">
+			<div class="error-message col-lg-6 offset-lg-1 mt-3 mb-3">
 				<i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
 				{{ message }}
 			</div>
 		{% endfor %}
 
 		{% for message in app.flashes('Success') %}
-			<div class="success-message col-lg-6 offset-lg-1">
+			<div class="success-message col-lg-6 offset-lg-1 mt-3 mb-3">
 				<i class="fa fa-check-circle mr-2" aria-hidden="true"></i>
 				{{ message }}
 			</div>
@@ -33,7 +33,7 @@
 
 		<!-- Tableau des users -->
 		<div class="col-lg-11 m-auto">
-			<table id="user-table" class="table mt-3 hover">
+			<table id="user-table" class="table hover">
 			  <thead class="main-thead">
 			    <tr>
 			      <th>Nom utilisateur</th>
@@ -69,8 +69,9 @@
 		</div>
 
 	</div>
+{% endblock %}
 
-
+{% block modal %}
 	<!--Fenetre modal de confirmation de suppresion-->
 	<div class="modal fade" id="modal_suppression" tabindex="-1" role="dialog">
 	  <div class="modal-dialog" role="document">
@@ -91,7 +92,6 @@
 	    </div>
 	  </div>
 	</div>
-
 {% endblock %}
 
 
