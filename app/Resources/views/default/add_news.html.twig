@@ -29,15 +29,20 @@
 			{{ form_row(form.content) }}
 		</div>
 
-		<div class="form-group">
+{# 		<div class="form-group">
 			{{ form_row(form.picture) }}
+		</div> #}
+
+		<div class="form-group">
+			<label for="dropzone-previews">Photo (facultatif, maximum 1)</label>
+			<div class="dropzone-previews dropzone mb-3 col-lg-10 m-auto" id="mydropzone" action="{{ path('ajax_dropzone_news') }}"></div>
 		</div>
 
 		<div class="form-group col-lg-4 m-auto">
 			{{ form_row(form.submit) }}
 		</div>
 		
-		<p class="m-auto font-italic text-center">Les champs marqués d'un * sont obligatoires.</p>
+		<p class="m-auto font-italic text-center col-lg-3">Les champs marqués d'un * sont obligatoires.</p>
 
 		{{ form_rest(form) }}
 

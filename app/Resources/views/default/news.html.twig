@@ -36,18 +36,22 @@
 			<p class="mb-2">Publiée le {{ news.datePublished|date('d/m/Y') }}</p>
 
 			<div class="row">
-				<div class="col-lg-6">
-					<img class="d-block img-fluid" style="width: 100%;" src="{{ asset('' ~ news.picture ~ '') }}" alt="Slide">
-				</div>
+				{% if news.picture != null %}
+					<div class="col-lg-6">
+						<img class="d-block img-fluid" style="width: 100%;" src="{{ asset('' ~ news.picture ~ '') }}" alt="Slide">
+					</div>
+				{% endif %}
 
 				<div class="col-lg-6">
 					<p class="mb-0">{{ news.content }}</p>
 				</div>
 			</div> <!--End of row-->
 
-			<div class="mr-2">
-				<a href="{{ path('remove_news', { 'id' : news.id }) }}" class="btn btn-danger confirmModalLien mt-3" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
-			</div>
+			{% if app.user != null and "ROLE_ADMIN" in app.user.roles %}
+				<div class="mr-2">
+					<a href="{{ path('remove_news', { 'id' : news.id }) }}" class="btn btn-danger confirmModalLien mt-3" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
+				</div>
+			{% endif %}
 		</div>
 
 	</div> <!--End container fluid-->

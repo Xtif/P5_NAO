@@ -142,7 +142,7 @@ ajax_remove_picture:
       _controller: "AppBundle:Observations:ajaxRemovePicture"
 
 list_news:
-    path : "/liste_actualites"
+    path : "/blog"
     defaults:
       _controller: "BlogBundle:Blog:newsList"
 
@@ -160,4 +160,9 @@ remove_news:
     path : "/supprimer_actualite/{id}"
     defaults:
       _controller: "BlogBundle:Blog:removeNews"
+
+ajax_dropzone_news:
+    path: "/ajax_dropzone_news"
+    defaults:
+      _controller: "BlogBundle:Blog:ajaxDropzoneNews"
 
