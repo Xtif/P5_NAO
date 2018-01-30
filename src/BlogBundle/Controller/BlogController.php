@@ -5,6 +5,7 @@ namespace BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use BlogBundle\Entity\News;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -35,8 +36,6 @@ class BlogController extends Controller
 
     $news = new News();
 
-    // $user->setPicture(new File($news->getPicture())); // Création d'un objet File pour le champ photo du formulaire
-
     // Création du formulaire
     $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $news);
 
@@ -60,26 +59,12 @@ class BlogController extends Controller
           )
         )
       )
-      ->add(
-        'picture', 
-        FileType::class, 
-        array(
-            'label' => 'Ajouter une photo (facultatif)',
-            'label_attr' => array(
-                'class' => 'text-center mt-2 btn btn-info label-user-picture'
-            ),
-            'required' => false,
-            'attr' => array(
-                'class' => 'invisible'
-            )
-        )
-      )
       ->add('submit', 
         SubmitType::class,
           array(
             'label' => 'Soumettre la news',
             'attr' => array(
-              'class' => 'btn btn-info text-center'
+              'class' => 'btn btn-info text-center col-lg-12'
             )
           )
       );
@@ -98,16 +83,15 @@ class BlogController extends Controller
 
         // On recupère l'entity manager
         $em = $this->getDoctrine()->getManager();
-
-        // Gestion de la photo
-        $picture = new File($news->getPicture()); // On crée un fichier photo avec pour le formulaire
-        $pictureFilename = 'Images/NewsPictures/' . $news->getDatePublished()->format('Y-m-d_H-i-s') . '_News.' . $picture->guessExtension(); // On modifie son nom pour l'enregistrement "date_News.extension"
-        $picture->move( // On la déplace dans le dossier src/Images/NewsPictures/
-          $this->getParameter('news_pictures_directory'),
-          $pictureFilename
-        );
         
-        $news->setPicture($pictureFilename); // On assigne la photo a l'objet news 
+        $picture = glob('Images/NewsPictures/News_temp.*');
+        if ($picture) {
+          $picture = new File($picture[0]);
+          $extension = explode('.', $picture->getFileName())[1];
+          $newFileName = 'Images/NewsPictures/' . $news->getDatePublished()->format('Y-m-d_H-i-s') . '_News.' . $extension;
+          rename($picture->getPathName(), $newFileName);
+          $news->setPicture($newFileName);
+        }
 
         $em->persist($news);
         $em->flush();
@@ -125,17 +109,33 @@ class BlogController extends Controller
 
   public function removeNewsAction($id)
   {
-    $news = $this->findOneBy($id);
+    $news = $this->getDoctrine()->getManager()->getRepository('BlogBundle:News')->findOneBy(['id' => $id]);
     if ($news) { // Si la news existe
-      unlink($news);
-      $this->getDoctrine()->getManager()->getRepository('BlogBundle:News')->remove($picture);
-      $this->getDoctrine()->getManager()->getRepository('BlogBundle:News')->flush();
-      return true;
+      if ($news->getPicture() && file_exists($news->getPicture())) { // Si une photo est renseignée
+        unlink($news->getPicture());
+      }
+      $this->getDoctrine()->getManager()->remove($news);
+      $this->getDoctrine()->getManager()->flush();
+      $this->addFlash('Success', 'L\'actualité a bien été supprimé !');
+      return $this->redirectToRoute('list_news');
     } else { 
-      return false;
-    } 
-    return $this->render('default/remove_news.html.twig');
+      $this->addFlash('Error', 'Cette actualité n\'existe pas !');
+      return $this->redirectToRoute('list_news');
+    }
   } // End of removeNews()
 
 
-}
+  public function ajaxDropzoneNewsAction(Request $request) {
+
+    $em = $this->getDoctrine()->getManager();
+    $pictureUploaded = $request->files->get('picture'); // Recuperation de la photo envoyée
+    $extension = $pictureUploaded[0]->guessExtension();    
+    $pictureFilename = 'Images/NewsPictures/News_temp.' . $extension; // On modifie son nom en attentant la soumission du formulaire "News_temp.extension"
+    $pictureUploaded[0]->move( 
+      $this->getParameter('news_pictures_directory'),
+      $pictureFilename
+    );
+    return new Response();
+  } // End of ajaxDropzoneNews()
+
+} // End class
