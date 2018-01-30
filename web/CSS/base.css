@@ -259,7 +259,7 @@ header:hover {
     color: white;
 }
 
-.main-tbody, .main-tbody a, .main-tbody a:hover {
+.main-tbody, .main-tbody a, .main-tbody a:hover, a, a:hover {
     color: #138496;
 }
 

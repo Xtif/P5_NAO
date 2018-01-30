@@ -52,3 +52,5 @@ security:
         - { path: ^/supprimer_utilisateur, roles: ROLE_ADMIN }
         - { path: ^/suppression_observation, roles: ROLE_ADMIN }
         - { path: /tableau_de_bord, roles: ROLE_ADMIN }
+        - { path: /add_news, roles: ROLE_ADMIN }
+        - { path: /remove_news, roles: ROLE_ADMIN }

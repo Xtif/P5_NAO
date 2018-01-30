@@ -3,6 +3,7 @@
 parameters:
     users_pictures_directory: '%kernel.project_dir%/web/Images/UsersPictures'
     observations_pictures_directory : '%kernel.project_dir%/web/Images/ObservationsPictures'
+    news_pictures_directory : '%kernel.project_dir%/web/Images/NewsPictures'
 
 services:
     # default configuration for services in *this* file
