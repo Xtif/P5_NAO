@@ -33,7 +33,9 @@
 			{{ form_row(form.publishedAt) }}
 		</div>
 
-		<p class="secondary-title">Coordonnées GPS</p>	
+		<p class="secondary-title">Coordonnées GPS</p>
+		{{ form_errors(form.latitude) }}
+		{{ form_errors(form.longitude) }}	
 
 		<div class="form-group row">
 			<div class="col-lg-2 offset-lg-1">

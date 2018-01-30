@@ -28,6 +28,17 @@ class Birds
      */
     private $race;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Observations", mappedBy="birdRace")
+     *
+     */
+    private $observations;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -61,6 +72,15 @@ class Birds
     public function getRace()
     {
         return $this->race;
+    }
+
+
+    /**
+     * @return Collection|Observations[]
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }
 

@@ -1,5 +1,12 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/user_bundle.css') }}" />
+
+{% endblock %}
+
 {% block title %}S'inscrire{% endblock %}
 
 {% block fos_user_content %}
@@ -17,4 +24,6 @@
 	</div>
 
 {% endblock fos_user_content %}
+
+
 
