@@ -6,12 +6,14 @@ Dropzone.options.mydropzone = {
   paramName: 'picture', // permet de récupérer les photos via $_FILE['picture'] 
   clickable: true,
   dictDefaultMessage: 'Cliquez ici ou glisser dans le cadre une photo maximum (fomat .jpg ou .png)',
+  dictMaxFilesExceeded: 'Vous ne pouvez pas télécharger plus d\'une photo',
   maxFiles: 1,
   accept: function(file, done) {
     done();
   },
   error: function(file, msg){
-      alert("Une erreur s'est produite lors du téléchargement, vous ne pouvez pas télécharger plus d'une photo, le format n'est pas correct ou la taille est trop grande, veuillez réessayer !");
+      alert(msg);
+      this.removeFile(file);
   },
   init: function(file) {
       var myDropzone = this;

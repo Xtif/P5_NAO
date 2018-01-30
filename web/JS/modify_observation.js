@@ -10,7 +10,8 @@ Dropzone.options.mydropzone = {
     done();
   },
   error: function(file, msg){
-      alert("Une erreur s'est produite lors du téléchargement, veuillez réessayer !");
+      alert(msg);
+      this.removeFile(file);
   },
   init: function(file) {
       var myDropzone = this;
@@ -36,6 +37,16 @@ Dropzone.options.mydropzone = {
       // });
   } // End of init()
 };
+
+// Fonctions de validation en temp reel du formulaire
+function checkGPS(field) {
+  var regex = /^[0-9]{1,2}\.[0-9]{6}$/;
+  if (!regex.test(field.value)) {
+    $(field).css("border-color", "red");
+  } else {
+    $(field).css("border-color", "transparent");
+  }
+}
 
 
 $(document).ready(function() {

@@ -28,6 +28,9 @@ class News
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank(message = "Le titre est obligatoire")
+     *
      */
     private $title;
 
@@ -42,6 +45,9 @@ class News
      * @var string
      *
      * @ORM\Column(name="content", type="text", nullable=false)
+     *
+     * @Assert\NotBlank(message = "Le contenu est obligatoire")
+     *
      */
     private $content;
 

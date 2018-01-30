@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Observations
@@ -25,6 +26,7 @@ class Observations
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
+     *
      */
     private $author;
 
@@ -32,14 +34,20 @@ class Observations
      * @var string
      *
      * @ORM\Column(name="bird_name", type="string", length=255)
+     *
+     * @Assert\NotBlank(message = "Le nom de l'oiseau est obligatoire")
+     *
      */
     private $birdName;
 
     /**
      * @var string
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Birds")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Birds", inversedBy="Observations")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\NotBlank(message = "Le nom de l'espèce est obligatoire")
+     *
      */
     private $birdRace;
 
@@ -53,16 +61,32 @@ class Observations
     /**
      * @var string
      *
-     * @ORM\Column(name="longitude", type="decimal", precision=8, scale=6)
+     * @ORM\Column(name="latitude", type="decimal", precision=8, scale=6)
+     *
+     * @Assert\NotBlank(message = "La latitude est obligatoire")
+     * @Assert\Regex(
+     *      pattern ="/^[0-9]{1,2}\.[0-9]{6}$/",
+     *      match=true,
+     *      message="Veuillez entrer une latitude valide. Un ou deux chiffres, suivis d'un point, suivit de 6 chiffres (ex: 2.542536 ou 45.124578)"
+     * )
+     *
      */
-    private $longitude;
+    private $latitude;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="latitude", type="decimal", precision=8, scale=6)
+     * @ORM\Column(name="longitude", type="decimal", precision=8, scale=6)
+     *
+     * @Assert\NotBlank(message = "La longitude est obligatoire")
+     * @Assert\Regex(
+     *      pattern ="/^[0-9]{1,2}\.[0-9]{6}$/",
+     *      match=true,
+     *      message="Veuillez entrer une longitude valide. Un ou deux chiffres, suivis d'un point, suivit de 6 chiffres (ex: 2.542536 ou 45.124578)"
+     * )
+     *
      */
-    private $latitude;
+    private $longitude;
 
     /**
      * @var string

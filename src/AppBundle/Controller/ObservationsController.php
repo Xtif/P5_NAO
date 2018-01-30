@@ -116,7 +116,8 @@ class ObservationsController extends Controller
           'html5'  => false,
           'attr'   => array(
             'class' => 'datepicker form-control col-lg-10 m-auto',
-            'placeholder' => 'Date'
+            'placeholder' => 'Date',
+            'readonly' => true
           ),
           'format' => 'd/M/y',
           'label'  => 'Date de l\'observation*',
@@ -128,19 +129,21 @@ class ObservationsController extends Controller
       )
       ->add('latitude', TextType::class,
         array(
-          'label' => 'Latitude*',
+          'label' => 'Latitude* (ex: 2.541254)',
           'attr' => array(
             'class' => 'form-control',
-            'placeholder' => 'Latitude'
+            'placeholder' => 'Latitude',
+            'onblur' => 'checkGPS(this)'
           )
         )
       )
       ->add('longitude', TextType::class,
         array(
-          'label' => 'Longitude*',
+          'label' => 'Longitude* (ex: 45.254152)',
           'attr' => array(
             'class' => 'form-control',
-            'placeholder' => 'Longitude'
+            'placeholder' => 'Longitude',
+            'onblur' => 'checkGPS(this)'
           )
         )
       )
@@ -258,7 +261,8 @@ class ObservationsController extends Controller
           'label' => 'Latitude*',
           'attr' => array(
             'class' => 'form-control',
-            'placeholder' => 'Latitude'
+            'placeholder' => 'Latitude',
+            'onblur' => 'checkGPS(this)'
           )
         )
       )
@@ -267,7 +271,8 @@ class ObservationsController extends Controller
           'label' => 'Longitude*',
           'attr' => array(
             'class' => 'form-control',
-            'placeholder' => 'Longitude'
+            'placeholder' => 'Longitude',
+            'onblur' => 'checkGPS(this)'
           )
         )
       )
@@ -339,6 +344,20 @@ class ObservationsController extends Controller
     $picturesUploaded = $request->files->get('picture'); // Recuperation des photos envoyées
     $i = 1;
 
+    // Supression d'eventuelles photos précédente sur le serveur
+    $files = glob('Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_*_temp.');
+    foreach ($files as $file) {
+      unlink($file);
+    }
+
+    // Supression d'eventuelles photos précédente dans la bdd
+    $oldPictures = $this->picturesService->findAllTempByUsername($user->getUsernameCanonical());
+    if ($oldPictures) {
+      foreach ($oldPictures as $oldPicture) {
+        $this->picturesService->removePicture($oldPicture->getName());
+      }
+    }
+
     foreach ($picturesUploaded as $picture) {
       $newPicture = new Pictures();
       $extension = $picture->guessExtension();
@@ -364,19 +383,34 @@ class ObservationsController extends Controller
 
     $i = 1;
 
+    // Supression d'eventuelles photos précédente sur le serveur
+    $files = glob('Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_*_tempbis.');
+    foreach ($files as $file) {
+      unlink($file);
+    }
+
+    // Supression d'eventuelles photos précédente dans la bdd
+    $oldPictures = $this->picturesService->findAllTempBisByUsername($user->getUsernameCanonical());
+    foreach ($oldPictures as $oldPicture) {
+      $this->picturesService->removePicture($oldPicture->getName());
+    }
+
     // Gestion des photos déja existante
     $existingPicturesName = $request->get('existingPictures'); // Recuperation de sphotos existantes
-    $splitExistingPicturesName = explode(',', $existingPicturesName); // Recuepration des noms de chaque photo
 
-    foreach ($splitExistingPicturesName as $existingPictureName) { // Pour chaque photo
-      $existingPicture = $this->picturesService->findOneByName($existingPictureName); // On recupere cette photo dans la BDD
-      $existingExtension = explode('.', $existingPictureName); // Recuperation de l'extension
-      $newName = 'Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_' . $i . '_temp.' . $existingExtension[1];
-      rename($existingPictureName, $newName); // Renommage du fichier
-      $existingPicture->setName($newName); // Renommage ds la BDD
-      $existingPicture->setFile(new File($newName)); // Attrbution du fichier dans la BDD
-      $em->persist($existingPicture); 
-      $i++;
+    if ($existingPicturesName) {
+      $splitExistingPicturesName = explode(',', $existingPicturesName); // Recuepration des noms de chaque photo
+
+      foreach ($splitExistingPicturesName as $existingPictureName) { // Pour chaque photo
+        $existingPicture = $this->picturesService->findOneByName($existingPictureName); // On recupere cette photo dans la BDD
+        $existingExtension = explode('.', $existingPictureName); // Recuperation de l'extension
+        $newName = 'Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_' . $i . '_temp.' . $existingExtension[1];
+        rename($existingPictureName, $newName); // Renommage du fichier
+        $existingPicture->setName($newName); // Renommage ds la BDD
+        $existingPicture->setFile(new File($newName)); // Attrbution du fichier dans la BDD
+        $em->persist($existingPicture); 
+        $i++;
+      }
     }
 
     // $debug = fopen('debug.txt', 'a');
@@ -390,7 +424,7 @@ class ObservationsController extends Controller
     foreach ($picturesUploaded as $picture) {
       $newPicture = new Pictures();
       $extension = $picture->guessExtension();
-      $pictureFilename = 'Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_' . $i . '_temp.' . $extension; // On modifie son nom en attentant la soumission du formulaire "Picture_temp_username_i.extension"
+      $pictureFilename = 'Images/ObservationsPictures/Picture_' . $user->getUsernameCanonical() . '_' . $i . '_tempbis.' . $extension; // On modifie son nom en attentant la soumission du formulaire "Picture_temp_username_i.extension"
       $picture->move( // On la déplace dans le dossier src/Images/UsersPictures/
         $this->getParameter('observations_pictures_directory'),
         $pictureFilename
