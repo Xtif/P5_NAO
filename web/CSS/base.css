@@ -288,7 +288,7 @@ header:hover {
 
 }
 
-.main-title, .secondary-title, label {
+.main-title, .secondary-title, label, .third-title {
     color: #138496;
 }
 

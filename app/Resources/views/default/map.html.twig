@@ -17,7 +17,7 @@
 
             <div class="form-group">
                 <label for="species-input" class="m-0 secondary-title">1 - Sélectionnez l'espèce que vous recherchez</label>
-                <div class="col-lg-10">
+                <div class="col-lg-11 m-auto">
                     <select id="species-input" name="species-input" class="form-control">
                         <option disabled selected hidden value="">Sélectionnez l'espèce</option>
                         {% for bird in birds %}
@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 <label for="locality-input" class="mt-2 mb-0 secondary-title">2 - Renseignez une localité (facultatif)</label>
-                <div class="col-lg-10">
+                <div class="col-lg-11 m-auto">
                   <div class="row">
                     <div class="col-lg-10 mb-2">
                         <input type="text" id="locality-input" name="locality-input" placeholder="Renseignez une localité" class="form-control"/>
@@ -43,15 +43,31 @@
 
 
             <label class="mt-2 mb-0 secondary-title">3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
-            <div class="col-lg-10">
+            <div class="col-lg-11 m-auto">
                 <div id = "map"></div>
             </div>
 
-            <div id = "observations-list">
-              <p>Ici se trouvera la tableau des observations</p>
+            <!-- Tableau des observations -->
+            <div class="col-lg-11 m-auto">
+                <table id="observation-table" class="table mt-3 hover">
+                  <thead class="main-thead">
+                    <tr rol="row">
+                      <th>Nom de l'oiseau</th>
+                      <th class="text-right">Nom de l'espèce</th>
+                      <th class="text-right">Date</th>
+                      <th class="text-right">Auteur</th>
+                      <th class="text-right">Statut</th>
+                      <th class="text-right">Signalement</th>
+                      <th class="text-right">Gérer</th>
+                    </tr>
+                  </thead>
+                  <tbody class="main-tbody">
+                        
+                  </tbody>
+                </table>
             </div>
 
-        </div>
+        </div> <!--End col-lg-10-->
 
     </div> <!--End container-fluid-->
 
@@ -105,7 +121,11 @@
                             for(i = 0; i < lng.length; i++) {
                                 markers.push({
                                     coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
-                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + id[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>'
+                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + id[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
+                                    birdName: birdName[i],
+                                    date: date[i],
+                                    author: author[i],
+
                                 });
 
                                 addMarkers(markers[i]);
@@ -121,6 +141,9 @@
 
                                 marker.setMap(map);
                                 gMMarkers.push(marker);
+
+                                //Ajout du marqueur dans le tableau
+                                $(".main-tbody").append('<tr role="row"><td class="align-middle birdName">' + props.birdName + '</td><td class="text-right align-middle birdRace">-</td><td class="text-right align-middle date">' + props.date + '</td><td class="text-right align-middle author">' + props.author + '</td><td class="text-right align-middle state">-</td><td class="text-right align-middle reported">-</td><td class="text-right align-middle manage">-</td></tr>');
 
                                 var infoWindow = new google.maps.InfoWindow({ // Infobulle
                                     content: props.content,

@@ -81,9 +81,13 @@
 				</div>
 
 				<div class="col-lg-6">
-					<h3>Commentaire de l'auteur :</h3>
-					<p>{{ observation.content }}</p>
-					<h3>Coordonnées GPS :</h3>
+					<h3 class="third-title">Commentaire de l'auteur :</h3>
+					{% if observation.content != null %}
+						<p>{{ observation.content }}</p>
+					{% else %}
+						<p>/</p>
+					{% endif %}
+					<h3 class="third-title">Coordonnées GPS :</h3>
 					<p>{{ observation.longitude }} / {{ observation.latitude }}</p>
 					<div id="map" class="col-lg-8"></div>
 				</div>
@@ -93,6 +97,8 @@
 			<div class="col-lg-6 mt-3">
 				<div class="row">
 					{% if observation.state == "En attente" or observation.state == "Publiée" %}
+
+						{% if activeUser != null %}
 						
 							{% if activeUser == observation.user or "ROLE_ADMIN" in app.user.roles %}
 								<div class="mr-2">
@@ -100,24 +106,26 @@
 								</div>
 							{% endif %}
 
-						{% if observation.state == "En attente" %}
+							{% if observation.state == "En attente" %}
 
-							{% if activeUser.status == "Naturaliste" or activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
+								{% if activeUser.status == "Naturaliste" or activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
+									<div class="mr-2">
+										<a href="{{ path('publish_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-success" role="button">Publier</a>
+									</div>
+								{% endif %}
+
+							{% endif %}	
+
+							<div class="mr-2">
+								<a href="{{ path('report_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-warning" role="button">Signaler</a>
+							</div>
+
+							{% if activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
 								<div class="mr-2">
-									<a href="{{ path('publish_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-success" role="button">Publier</a>
+									<a href="{{ path('remove_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-danger confirmModalLien" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
 								</div>
 							{% endif %}
 
-						{% endif %}	
-
-						<div class="mr-2">
-							<a href="{{ path('report_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-warning" role="button">Signaler</a>
-						</div>
-
-						{% if activeUser.status == "Administrateur" or activeUser.status == "Super Administrateur" %}
-							<div class="mr-2">
-								<a href="{{ path('remove_observation', { 'id' : observation.id }) }}" style="width: 100%;" class="btn btn-danger confirmModalLien" data-toggle="modal" data-target="#confirmModalLien" role="button">Supprimer</a>
-							</div>
 						{% endif %}
 
 					{% endif %}

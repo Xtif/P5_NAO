@@ -29,8 +29,6 @@ class MapController extends Controller
 
             $observations = $this->getDoctrine()->getRepository('AppBundle:Observations')->getObservationsByBirdRace($race);
 
-            
-
             $response = new JsonResponse();
             $id = [];
             $userId = [];
@@ -41,11 +39,6 @@ class MapController extends Controller
             $author = [];
             $image = [];
 
-            $debug = fopen('debug.txt', 'w');
-            fwrite($debug, var_export($observations, true));
-            fclose($debug);
-            // die();
-
             foreach ($observations as $observation) {
                 array_push($id, $observation->getId());
                 array_push($userId, $observation->getUser()->getId());
@@ -54,7 +47,11 @@ class MapController extends Controller
                 array_push($birdName, $observation->getBirdName());
                 array_push($date, $observation->getPublishedAt()->format('d/m/Y'));
                 array_push($author, $observation->getAuthor());
-                array_push($image, $observation->getPictures()[0]->getName());
+                if ($observation->getPictures()[0]) {
+                    array_push($image, $observation->getPictures()[0]->getName());
+                } else {
+                    array_push($image, "Images/ObservationsPictures/Default.jpg");
+                }
             }
 
             $response->setData(array(
