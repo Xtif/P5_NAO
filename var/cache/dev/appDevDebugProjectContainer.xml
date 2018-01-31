@@ -102,13 +102,13 @@
     <parameter key="container.dumper.inline_class_loader">true</parameter>
     <parameter key="database_host">127.0.0.1</parameter>
     <parameter key="database_port">null</parameter>
-    <parameter key="database_name">projet5</parameter>
+    <parameter key="database_name">Projet5</parameter>
     <parameter key="database_user">root</parameter>
     <parameter key="database_password">null</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">127.0.0.1</parameter>
-    <parameter key="mailer_user">user@NAO.com</parameter>
-    <parameter key="mailer_password">blablabla</parameter>
+    <parameter key="mailer_user">null</parameter>
+    <parameter key="mailer_password">null</parameter>
     <parameter key="secret">ThisTokenIsNotSoSecretChangeIt</parameter>
     <parameter key="locale">en</parameter>
     <parameter key="fragment.renderer.hinclude.global_template">null</parameter>
@@ -225,8 +225,8 @@
     <parameter key="swiftmailer.mailer.default.transport.smtp.encryption">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.port">25</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.host">127.0.0.1</parameter>
-    <parameter key="swiftmailer.mailer.default.transport.smtp.username">user@NAO.com</parameter>
-    <parameter key="swiftmailer.mailer.default.transport.smtp.password">blablabla</parameter>
+    <parameter key="swiftmailer.mailer.default.transport.smtp.username">null</parameter>
+    <parameter key="swiftmailer.mailer.default.transport.smtp.password">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.auth_mode">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.timeout">30</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.source_ip">null</parameter>
@@ -1006,11 +1006,21 @@
     <service id="session_listener" class="Symfony\Component\HttpKernel\EventListener\SessionListener">
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
+      <tag name="container.hot_path"/>
       <argument type="service" id="2_ServiceLocator~65xmhzx"/>
     </service>
     <service id="session.save_listener" class="Symfony\Component\HttpKernel\EventListener\SaveSessionListener">
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
+    </service>
+    <service id="security.csrf.token_generator" class="Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator" public="false"/>
+    <service id="security.csrf.token_storage" class="Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage" public="false">
+      <argument type="service" id="session"/>
+    </service>
+    <service id="security.csrf.token_manager" class="Symfony\Component\Security\Csrf\CsrfTokenManager" public="true">
+      <argument type="service" id="security.csrf.token_generator"/>
+      <argument type="service" id="security.csrf.token_storage"/>
+      <argument type="service" id="request_stack" on-invalid="ignore"/>
     </service>
     <service id="form.resolved_type_factory" class="Symfony\Component\Form\Extension\DataCollector\Proxy\ResolvedTypeFactoryDataCollectorProxy">
       <argument type="service" id="1_ResolvedFormTypeFactory~pqzeipx"/>
@@ -1197,15 +1207,6 @@
     <service id="deprecated.form.registry.csrf" class="stdClass">
       <property name="registry" type="collection"/>
       <deprecated>The service "%service_id%" is internal and deprecated since Symfony 3.3 and will be removed in Symfony 4.0</deprecated>
-    </service>
-    <service id="security.csrf.token_generator" class="Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator" public="false"/>
-    <service id="security.csrf.token_storage" class="Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage" public="false">
-      <argument type="service" id="session"/>
-    </service>
-    <service id="security.csrf.token_manager" class="Symfony\Component\Security\Csrf\CsrfTokenManager" public="true">
-      <argument type="service" id="security.csrf.token_generator"/>
-      <argument type="service" id="security.csrf.token_storage"/>
-      <argument type="service" id="request_stack" on-invalid="ignore"/>
     </service>
     <service id="assets.packages" class="Symfony\Component\Asset\Packages">
       <argument type="service" id="assets._default_package"/>
@@ -1630,6 +1631,14 @@
           <argument>onKernelRequest</argument>
         </argument>
         <argument>128</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument type="service" id="session_listener"/>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>-1000</argument>
       </call>
       <call method="addListener">
         <argument>kernel.response</argument>
@@ -2155,6 +2164,12 @@
       <call method="registerLoader">
         <argument>class_exists</argument>
       </call>
+    </service>
+    <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
+      <argument type="service" id="annotations.reader"/>
+      <argument type="service" id="1_ArrayCache~tu2gkw."/>
+      <argument>true</argument>
+      <property name="cacheProviderBackup" type="service" id="annotations.cache"/>
     </service>
     <service id="annotations.filesystem_cache" class="Doctrine\Common\Cache\FilesystemCache" public="false">
       <argument></argument>
@@ -2921,9 +2936,6 @@
         <argument type="service" id="twig.extension.httpfoundation"/>
       </call>
       <call method="addExtension">
-        <argument type="service" id="twig.extension.debug"/>
-      </call>
-      <call method="addExtension">
         <argument type="service" id="twig.extension.form"/>
       </call>
       <call method="addExtension">
@@ -3116,9 +3128,7 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
     </service>
-    <service id="twig.extension.debug" class="Twig\Extension\DebugExtension" public="false">
-      <tag name="twig.extension"/>
-    </service>
+    <service id="twig.extension.debug" class="Twig\Extension\DebugExtension" public="false"/>
     <service id="twig.translation.extractor" class="Symfony\Bridge\Twig\Translation\TwigExtractor">
       <tag name="translation.extractor" alias="twig"/>
       <argument type="service" id="twig"/>
@@ -3128,6 +3138,7 @@
       <tag name="monolog.logger" channel="request"/>
       <argument>twig.controller.exception:showAction</argument>
       <argument type="service" id="monolog.logger.request" on-invalid="null"/>
+      <argument>true</argument>
     </service>
     <service id="twig.controller.exception" class="Symfony\Bundle\TwigBundle\Controller\ExceptionController" public="true">
       <argument type="service" id="twig"/>
@@ -3380,10 +3391,10 @@
         <argument type="service" id="3_Swift_Transport_Esmtp_Auth_PlainAuthenticator~ygcv3fd"/>
       </argument>
       <call method="setUsername">
-        <argument>user@NAO.com</argument>
+        <argument>null</argument>
       </call>
       <call method="setPassword">
-        <argument>blablabla</argument>
+        <argument>null</argument>
       </call>
       <call method="setAuthMode">
         <argument>null</argument>
@@ -3557,7 +3568,7 @@
         <argument key="driver">pdo_mysql</argument>
         <argument key="host">127.0.0.1</argument>
         <argument key="port">null</argument>
-        <argument key="dbname">projet5</argument>
+        <argument key="dbname">Projet5</argument>
         <argument key="user">root</argument>
         <argument key="password">null</argument>
         <argument key="charset">UTF8</argument>
@@ -4510,12 +4521,6 @@
         <argument key="validator.expression" type="service" id="validator.expression"/>
       </argument>
     </service>
-    <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
-      <tag name="annotations.cached_reader" provider="annotations.cache"/>
-      <argument type="service" id="annotations.reader"/>
-      <argument type="service" id="annotations.cache"/>
-      <argument>true</argument>
-    </service>
     <service id="cache.app.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="false">
       <argument>onIOoOHD4A</argument>
       <argument>0</argument>
@@ -4582,14 +4587,14 @@
     <service id="session.storage.filesystem" alias="session.storage.mock_file"/>
     <service id="session.storage" alias="session.storage.native"/>
     <service id="session.handler" alias="session.handler.native_file"/>
+    <service id="Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface" alias="security.csrf.token_generator" public="false"/>
+    <service id="Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface" alias="security.csrf.token_storage" public="false"/>
+    <service id="Symfony\Component\Security\Csrf\CsrfTokenManagerInterface" alias="security.csrf.token_manager" public="false"/>
     <service id="Symfony\Component\Form\ResolvedFormTypeFactoryInterface" alias="form.resolved_type_factory" public="false"/>
     <service id="Symfony\Component\Form\FormRegistryInterface" alias="form.registry" public="false"/>
     <service id="Symfony\Component\Form\FormFactoryInterface" alias="form.factory" public="false"/>
     <service id="form.property_accessor" alias="property_accessor" public="false"/>
     <service id="form.choice_list_factory" alias="form.choice_list_factory.cached" public="false"/>
-    <service id="Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface" alias="security.csrf.token_generator" public="false"/>
-    <service id="Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface" alias="security.csrf.token_storage" public="false"/>
-    <service id="Symfony\Component\Security\Csrf\CsrfTokenManagerInterface" alias="security.csrf.token_manager" public="false"/>
     <service id="Symfony\Component\Asset\Packages" alias="assets.packages" public="false"/>
     <service id="templating.loader" alias="templating.loader.filesystem" public="true"/>
     <service id="templating" alias="templating.engine.twig" public="true"/>

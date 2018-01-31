@@ -77,11 +77,12 @@
 {% block javascripts %}
 
 {{ parent() }}
-<script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
 <script src = "{{ asset('JS/map.js') }}"></script>
 <script>
 
 /*          select AJAX callback          */
+
+    var markers = [];
 
     $('#species-input').on('change', function() {
 
@@ -99,13 +100,71 @@
 
             success: function(response) {
 
-                var observations = response.observations;
 
-                for(i = 0; i < observations.length; i++) {
+                var coords = response.coords;
 
-                    alert(observations[i]);
+                console.log(coords);
+
+                /*markers.length = 0;
+
+                for(i = 0; i < longitudes.length; i++) {
+
+                    var lng = longitudes[i];
 
                 }
+
+                for(i = 0; i < latitudes.length; i++) {
+
+                    var lat = latitudes[i];
+
+                }
+
+                markers.push({
+
+                    coords: {lat: lat, lng: lng},
+
+                });
+
+                // Loop through markers
+
+                for (i = 0; i < markers.length; i++) {
+
+                    addMarkers(markers[i]);
+
+                }
+
+                // Add markers function
+
+                function addMarkers(props) {
+
+                    var marker = new google.maps.Marker({
+
+                        position: props.coords,
+                        map: map,
+
+                    });
+
+                    // Check content
+
+                    if(props.content) {
+
+                        var infoWindow = new google.maps.InfoWindow({
+
+                            content: props.content,
+
+                        });
+
+                        // Listener for click on marker
+
+                        marker.addListener('click', function(){
+
+                            infoWindow.open(map, marker);
+
+                        });
+
+                    }
+
+                }*/
 
             }
 
@@ -113,6 +172,129 @@
 
     });
 
+    /*          API Google maps         */
+
+    function initMap() {
+
+        // Map Options
+
+        var latlng = new google.maps.LatLng(48.862725, 2.287592000000018);
+
+        var options = {
+
+          center: latlng,
+          zoom: 5,
+
+        };
+
+        // New Map
+
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Markers array
+
+        {% for observation in observations %}
+
+            var obsLng = {{ observation.longitude }};
+            var obsLat = {{ observation.latitude }};
+            var content = '<h1>{{ observation.birdName }}</h1>'
+
+            markers.push({
+
+                coords: {lat: obsLat, lng: obsLng},
+                content: content,
+
+            });
+
+        {% endfor %}
+
+        // Loop through markers
+
+        for (i = 0; i < markers.length; i++) {
+
+            addMarkers(markers[i]);
+
+        }
+
+        // Add markers function
+
+        function addMarkers(props) {
+
+            var marker = new google.maps.Marker({
+
+                position: props.coords,
+                map: map,
+
+            });
+
+            // Check content
+
+            if(props.content) {
+
+                var infoWindow = new google.maps.InfoWindow({
+
+                    content: props.content,
+
+                });
+
+                // Listener for click on marker
+
+                marker.addListener('click', function(){
+
+                    infoWindow.open(map, marker);
+
+                });
+
+            }
+
+        }
+
+        // Locality Choices
+
+        var geocoder = new google.maps.Geocoder();
+
+        $('#locality-button').on('click', function(e) {
+
+          e.preventDefault();
+
+            var request = {
+
+                address: $('#locality-input').val()
+
+            }
+
+            geocoder.geocode(request, function(results, status) {
+
+                if(status === google.maps.GeocoderStatus.OK) {
+
+                    var pos = results[0].geometry.location;
+
+                    map.setCenter(pos);
+                    map.setZoom(7);
+                    positionMarker.setPosition(pos);
+
+                } else {
+
+                    $('#flash-message').addClass('error-message').fadeIn(600).append('<div class = "message"><p>Veuillez entrer une localité valide</p> <br /></div>').delay(1300).fadeOut(600);
+                    $('#locality-button').prop('disabled', true);
+
+                    setTimeout(function() {
+
+                        $('.message').remove();
+                        $('#locality-button').prop('disabled', false);
+                        $('#flash-message').removeClass('error-message');
+
+                    }, 2600);
+
+                }
+
+            });
+
+        });
+
+    }
+
 </script>
+<script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
 
 {% endblock %}

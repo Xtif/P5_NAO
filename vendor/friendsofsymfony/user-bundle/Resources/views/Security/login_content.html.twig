@@ -1,36 +1,22 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% if error %}
-    <div class="message_erreur">Identifiant ou mot de passe invalide.</div>
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
 <form action="{{ path("fos_user_security_check") }}" method="post">
-  {% if csrf_token %}
-      <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-  {% endif %}
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
 
-  <div class="form-group">
-    <label for="username" class="field-label">Nom d'utilisateur ou email</label>
-    <input type="text" id="username" class="form-control col-lg-10 m-auto" name="_username" placeholder="Nom d'utilisateur ou email" required="required" />
-  </div>
+    <label for="username">{{ 'security.login.username'|trans }}</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
 
-  <div class="form-group">
-    <label for="password" class="field-label">Mot de passe</label>
-    <input type="password" id="password" class="form-control col-lg-10 m-auto" name="_password" required="required" placeholder="Mot de passe" />
-  </div>
+    <label for="password">{{ 'security.login.password'|trans }}</label>
+    <input type="password" id="password" name="_password" required="required" />
 
-{#   <div class="form-check col-lg-10 m-auto">
-    <label class="form-check-label">
-      <input type="checkbox" id="remember_me" class="form-check-input" name="_remember_me" value="on" />
-      Se souvenir de moi
-    </label>
-  </div> #}
+    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
 
-  <div class="form-group row">
-    <div class="m-auto">
-      <input type="submit" id="_submit" class="main-button" name="_submit" value="Se connecter" />
-    </div>
-  </div>
+    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
 </form>
-
-

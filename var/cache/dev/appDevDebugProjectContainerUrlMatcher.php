@@ -174,17 +174,6 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::dashboardAction',  '_route' => 'dashboard',);
         }
 
-        // fos_user_security_logout
-        if ('/deconnexion' === $pathinfo) {
-            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
-                $allow = array_merge($allow, array('GET', 'POST'));
-                goto not_fos_user_security_logout;
-            }
-
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::logoutAction',  '_route' => 'fos_user_security_logout',);
-        }
-        not_fos_user_security_logout:
-
         // user_list
         if ('/userList' === $pathinfo) {
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::userListAction',  '_route' => 'user_list',);
@@ -195,32 +184,49 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::contactAction',  '_route' => 'contact',);
         }
 
-        // fos_user_security_login
-        if ('/connexion' === $pathinfo) {
-            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
-                $allow = array_merge($allow, array('GET', 'POST'));
-                goto not_fos_user_security_login;
+        if (0 === strpos($pathinfo, '/l')) {
+            // legal_notice
+            if ('/legalNotice' === $pathinfo) {
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::legalNoticeAction',  '_route' => 'legal_notice',);
             }
 
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);
-        }
-        not_fos_user_security_login:
+            if (0 === strpos($pathinfo, '/login')) {
+                // fos_user_security_login
+                if ('/login' === $pathinfo) {
+                    if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                        $allow = array_merge($allow, array('GET', 'POST'));
+                        goto not_fos_user_security_login;
+                    }
 
-        // legal_notice
-        if ('/legalNotice' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::legalNoticeAction',  '_route' => 'legal_notice',);
-        }
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);
+                }
+                not_fos_user_security_login:
 
-        // fos_user_security_check
-        if ('/login_check' === $pathinfo) {
-            if ('POST' !== $canonicalMethod) {
-                $allow[] = 'POST';
-                goto not_fos_user_security_check;
+                // fos_user_security_check
+                if ('/login_check' === $pathinfo) {
+                    if ('POST' !== $canonicalMethod) {
+                        $allow[] = 'POST';
+                        goto not_fos_user_security_check;
+                    }
+
+                    return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::checkAction',  '_route' => 'fos_user_security_check',);
+                }
+                not_fos_user_security_check:
+
             }
 
-            return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::checkAction',  '_route' => 'fos_user_security_check',);
+            // fos_user_security_logout
+            if ('/logout' === $pathinfo) {
+                if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                    $allow = array_merge($allow, array('GET', 'POST'));
+                    goto not_fos_user_security_logout;
+                }
+
+                return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::logoutAction',  '_route' => 'fos_user_security_logout',);
+            }
+            not_fos_user_security_logout:
+
         }
-        not_fos_user_security_check:
 
         // tos
         if ('/termsOfService' === $pathinfo) {

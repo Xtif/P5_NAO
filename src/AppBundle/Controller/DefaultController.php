@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Entity\Birds;
+use AppBundle\Entity\Observations;
 
 class DefaultController extends Controller
 {
@@ -22,10 +24,12 @@ class DefaultController extends Controller
     public function mapAction(Request $request) {
 
         $birds = $this->getDoctrine()->getRepository('AppBundle:Birds')->findAll();
+        $observations = $this->getDoctrine()->getRepository('AppBundle:Observations')->getAllObservations();
 
         return $this->render('default/map.html.twig', array(
 
-            'birds' => $birds
+            'birds'        => $birds,
+            'observations' => $observations,
 
         ));
 
@@ -37,13 +41,34 @@ class DefaultController extends Controller
 
             $race = $_POST['race'];
 
-            $observations = $this->getDoctrine()->getRepository('AppBundle:Observations')->getObservationsByBirdRace($race);
+            $observations = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations')->getObservationsByBirdRace($race);
+
+            /*$debug = fopen('debug.txt', 'w');
+            fwrite($debug, var_export($observations, true));
+            fclose($debug);
+            die();*/
 
             $response = new JsonResponse();
 
+            $lng = [];
+            $lat = [];
+            $key = ['lat', 'lng'];
+
+            foreach ($observations as $observation) {
+
+                array_push($lng, $observation->getLongitude());
+                array_push($lat, $observation->getLatitude());
+
+            }
+
+            $latLng = array_merge($lat, $lng);
+            $coords = array_combine($key, $latLng);
+
             $response->setData(array(
 
-                'observations' => $observations
+                /*'longitudes' => $longitudes,
+                'latitudes'  => $latitudes,*/
+                'coords'     => $coords
 
             ));
 

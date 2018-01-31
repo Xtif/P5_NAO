@@ -8,7 +8,9 @@ public static function getSubscribedEvents();
 }
 namespace Symfony\Component\HttpKernel\EventListener
 {
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,10 +28,26 @@ return;
 }
 $request->setSession($session);
 }
+public function onKernelResponse(FilterResponseEvent $event)
+{
+if (!$event->isMasterRequest()) {
+return;
+}
+if (!$session = $event->getRequest()->getSession()) {
+return;
+}
+if ($session->isStarted() || ($session instanceof Session && $session->hasBeenStarted())) {
+$event->getResponse()
+->setPrivate()
+->setMaxAge(0)
+->headers->addCacheControlDirective('must-revalidate');
+}
+}
 public static function getSubscribedEvents()
 {
 return array(
 KernelEvents::REQUEST => array('onKernelRequest', 128),
+KernelEvents::RESPONSE => array('onKernelResponse', -1000),
 );
 }
 abstract protected function getSession();
@@ -462,6 +480,7 @@ protected $storage;
 private $flashName;
 private $attributeName;
 private $data = array();
+private $hasBeenStarted;
 public function __construct(SessionStorageInterface $storage = null, AttributeBagInterface $attributes = null, FlashBagInterface $flashes = null)
 {
 $this->storage = $storage ?: new NativeSessionStorage();
@@ -516,6 +535,10 @@ public function count()
 {
 return count($this->getAttributeBag()->all());
 }
+public function hasBeenStarted()
+{
+return $this->hasBeenStarted;
+}
 public function isEmpty()
 {
 foreach ($this->data as &$data) {
@@ -560,7 +583,7 @@ return $this->storage->getMetadataBag();
 }
 public function registerBag(SessionBagInterface $bag)
 {
-$this->storage->registerBag(new SessionBagProxy($bag, $this->data));
+$this->storage->registerBag(new SessionBagProxy($bag, $this->data, $this->hasBeenStarted));
 }
 public function getBag($name)
 {
@@ -572,7 +595,7 @@ return $this->getBag($this->flashName);
 }
 private function getAttributeBag()
 {
-return $this->storage->getBag($this->attributeName)->getBag();
+return $this->getBag($this->attributeName);
 }
 }
 }
@@ -1039,7 +1062,11 @@ apcu_add($version.'@'.$namespace, null);
 protected function doFetch(array $ids)
 {
 try {
-return apcu_fetch($ids) ?: array();
+foreach (apcu_fetch($ids, $ok) ?: array() as $k => $v) {
+if (null !== $v || $ok) {
+yield $k => $v;
+}
+}
 } catch (\Error $e) {
 throw new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine());
 }
@@ -3300,6 +3327,11 @@ $this->parameterBag->set($name, $value);
 }
 public function set($id, $service)
 {
+if (isset($this->privates['service_container']) && $this->privates['service_container'] instanceof \Closure) {
+$initialize = $this->privates['service_container'];
+unset($this->privates['service_container']);
+$initialize();
+}
 $id = $this->normalizeId($id);
 if ('service_container'=== $id) {
 throw new InvalidArgumentException('You cannot set service "service_container".');

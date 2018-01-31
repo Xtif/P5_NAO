@@ -1,5 +1,7 @@
 $(function() {
 
+    $('#flash-message').hide();
+
     $('#icon').on('click', function(){
 
        $('#icon').toggleClass('isActive');
