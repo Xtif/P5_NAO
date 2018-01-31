@@ -35,6 +35,9 @@ class MapController extends Controller
             $lng = [];
             $lat = [];
             $birdName = [];
+            $birdRace = [];
+            $state = [];
+            $reported = [];
             $date = [];
             $author = [];
             $image = [];
@@ -45,6 +48,9 @@ class MapController extends Controller
                 array_push($lng, $observation->getLongitude());
                 array_push($lat, $observation->getLatitude());
                 array_push($birdName, $observation->getBirdName());
+                array_push($birdRace, $observation->getBirdRace()->getRace());
+                array_push($state, $observation->getState());
+                array_push($reported, $observation->getReported());
                 array_push($date, $observation->getPublishedAt()->format('d/m/Y'));
                 array_push($author, $observation->getAuthor());
                 if ($observation->getPictures()[0]) {
@@ -60,6 +66,9 @@ class MapController extends Controller
                 'longitudes' => $lng,
                 'latitudes'  => $lat,
                 'birdName'   => $birdName,
+                'birdRace'   => $birdRace,
+                'state'      => $state,
+                'reported'   => $reported,
                 'date'       => $date,
                 'author'     => $author,
                 'image'      => $image,

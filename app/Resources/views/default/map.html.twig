@@ -58,7 +58,7 @@
                       <th class="text-right">Auteur</th>
                       <th class="text-right">Statut</th>
                       <th class="text-right">Signalement</th>
-                      <th class="text-right">Gérer</th>
+                      <th class="text-right">Consulter</th>
                     </tr>
                   </thead>
                   <tbody class="main-tbody">
@@ -79,6 +79,25 @@
     <script src = "{{ asset('JS/map.js') }}"></script>
     
     <script>
+
+        //////////// Gestion du tableau //////////////
+        function initTable() {
+            table = $('#observation-table').DataTable();
+            table.destroy();
+
+            table = $('#observation-table').DataTable({
+                "paging": false,
+                "searching": false,
+                "info": false,
+                "columnDefs": [
+                    {
+                        "targets": [6],
+                        "sortable": false
+                    }
+                ]
+            });
+        };
+
         /*************API Google maps************/
         var map;
         var markers = [];
@@ -102,11 +121,17 @@
                         url: '{{ path("race_select") }}',
                         data: { race: selectedValue },
                         success: function(response) {
-                            var id = response.id;
+
+                            $(".main-tbody").html("");
+
+                            var observationId = response.id;
                             var userId = response.userId;
                             var lng = response.longitudes;
                             var lat = response.latitudes;
                             var birdName = response.birdName;
+                            var birdRace = response.birdRace;
+                            var state = response.state;
+                            var reported = response.reported;
                             var date = response.date;
                             var author = response.author;
                             var image = response.image;
@@ -121,21 +146,27 @@
                             for(i = 0; i < lng.length; i++) {
                                 markers.push({
                                     coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
-                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + id[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
+                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + observationId[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
                                     birdName: birdName[i],
+                                    birdRace: birdRace[i],
+                                    state: state[i],
+                                    reported: reported[i],
                                     date: date[i],
                                     author: author[i],
-
+                                    userId: userId[i],
+                                    observationId: observationId[i]
                                 });
 
                                 addMarkers(markers[i]);
                             }
 
+                            initTable();
+
                             // Add markers function
-                            function addMarkers(props) {
+                            function addMarkers(data) {
 
                                 var marker = new google.maps.Marker({ // Marker
-                                    position: props.coords,
+                                    position: data.coords,
                                     map: map,
                                 });
 
@@ -143,10 +174,10 @@
                                 gMMarkers.push(marker);
 
                                 //Ajout du marqueur dans le tableau
-                                $(".main-tbody").append('<tr role="row"><td class="align-middle birdName">' + props.birdName + '</td><td class="text-right align-middle birdRace">-</td><td class="text-right align-middle date">' + props.date + '</td><td class="text-right align-middle author">' + props.author + '</td><td class="text-right align-middle state">-</td><td class="text-right align-middle reported">-</td><td class="text-right align-middle manage">-</td></tr>');
+                                $(".main-tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle state">' + data.state + '</td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
 
                                 var infoWindow = new google.maps.InfoWindow({ // Infobulle
-                                    content: props.content,
+                                    content: data.content,
                                     maxWidth: 150,
                                 });
 
