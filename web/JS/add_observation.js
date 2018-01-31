@@ -35,7 +35,7 @@ Dropzone.options.mydropzone = {
 
 // Fonctions de validation en temp reel du formulaire
 function checkGPS(field) {
-  var regex = /^[0-9]{1,2}\.[0-9]{6}$/;
+  var regex = /^\-?[0-9]{1,2}\.[0-9]{6}$/;
   if (!regex.test(field.value)) {
     $(field).css("border-color", "red");
   } else {

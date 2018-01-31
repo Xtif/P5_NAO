@@ -65,7 +65,7 @@ class Observations
      *
      * @Assert\NotBlank(message = "La latitude est obligatoire")
      * @Assert\Regex(
-     *      pattern ="/^[0-9]{1,2}\.[0-9]{6}$/",
+     *      pattern ="/^\-?[0-9]{1,2}\.[0-9]{6}$/",
      *      match=true,
      *      message="Veuillez entrer une latitude valide. Un ou deux chiffres, suivis d'un point, suivit de 6 chiffres (ex: 2.542536 ou 45.124578)"
      * )
@@ -80,7 +80,7 @@ class Observations
      *
      * @Assert\NotBlank(message = "La longitude est obligatoire")
      * @Assert\Regex(
-     *      pattern ="/^[0-9]{1,2}\.[0-9]{6}$/",
+     *      pattern ="/^\-?[0-9]{1,2}\.[0-9]{6}$/",
      *      match=true,
      *      message="Veuillez entrer une longitude valide. Un ou deux chiffres, suivis d'un point, suivit de 6 chiffres (ex: 2.542536 ou 45.124578)"
      * )
