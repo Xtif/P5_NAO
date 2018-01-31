@@ -56,7 +56,7 @@
 
             <label>3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
 
-            <div id = map-wrap>
+            <div id = 'map-wrap'>
 
                 <div id = "map"></div>
 
@@ -80,99 +80,16 @@
 <script src = "{{ asset('JS/map.js') }}"></script>
 <script>
 
-/*          select AJAX callback          */
+    /*          API Google maps         */
+
+    // New Map
+
+    var map;
+
+    /*          select AJAX callback          */
 
     var markers = [];
-
-    $('#species-input').on('change', function() {
-
-        var selectedValue = $('#species-input option:selected').val();
-
-        $.ajax({
-
-            type: 'POST',
-            url: '{{ path("race_select") }}',
-            data: {
-
-                race: selectedValue,
-
-            },
-
-            success: function(response) {
-
-
-                var coords = response.coords;
-
-                console.log(coords);
-
-                /*markers.length = 0;
-
-                for(i = 0; i < longitudes.length; i++) {
-
-                    var lng = longitudes[i];
-
-                }
-
-                for(i = 0; i < latitudes.length; i++) {
-
-                    var lat = latitudes[i];
-
-                }
-
-                markers.push({
-
-                    coords: {lat: lat, lng: lng},
-
-                });
-
-                // Loop through markers
-
-                for (i = 0; i < markers.length; i++) {
-
-                    addMarkers(markers[i]);
-
-                }
-
-                // Add markers function
-
-                function addMarkers(props) {
-
-                    var marker = new google.maps.Marker({
-
-                        position: props.coords,
-                        map: map,
-
-                    });
-
-                    // Check content
-
-                    if(props.content) {
-
-                        var infoWindow = new google.maps.InfoWindow({
-
-                            content: props.content,
-
-                        });
-
-                        // Listener for click on marker
-
-                        marker.addListener('click', function(){
-
-                            infoWindow.open(map, marker);
-
-                        });
-
-                    }
-
-                }*/
-
-            }
-
-        });
-
-    });
-
-    /*          API Google maps         */
+    var gMMarkers= [];
 
     function initMap() {
 
@@ -187,67 +104,92 @@
 
         };
 
-        // New Map
+        map = new google.maps.Map(document.getElementById('map'), options);
 
-        var map = new google.maps.Map(document.getElementById('map'), options);
+            $('#species-input').on('change', function() {
 
-        // Markers array
+                var selectedValue = $('#species-input option:selected').val();
 
-        {% for observation in observations %}
+                $.ajax({
 
-            var obsLng = {{ observation.longitude }};
-            var obsLat = {{ observation.latitude }};
-            var content = '<h1>{{ observation.birdName }}</h1>'
+                    type: 'POST',
+                    url: '{{ path("race_select") }}',
+                    data: {
 
-            markers.push({
+                        race: selectedValue,
 
-                coords: {lat: obsLat, lng: obsLng},
-                content: content,
+                    },
 
-            });
+                    success: function(response) {
 
-        {% endfor %}
+                        var lng = response.longitudes;
+                        var lat = response.latitudes;
 
-        // Loop through markers
+                        for(i = 0; i < gMMarkers.length; i++) {
 
-        for (i = 0; i < markers.length; i++) {
+                            console.log(gMMarkers[i]);
+                            gMMarkers[i].setMap(null);
 
-            addMarkers(markers[i]);
+                        }
 
-        }
+                        markers.length = 0;
+                        gMMarkers.length = 0;
 
-        // Add markers function
+                        for(i = 0; i < lng.length; i++) {
 
-        function addMarkers(props) {
+                            markers.push({
 
-            var marker = new google.maps.Marker({
+                                coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
 
-                position: props.coords,
-                map: map,
+                            });
 
-            });
+                            addMarkers(markers[i]);
 
-            // Check content
+                        }
 
-            if(props.content) {
+                        // Add markers function
 
-                var infoWindow = new google.maps.InfoWindow({
+                        function addMarkers(props) {
 
-                    content: props.content,
+                            var marker = new google.maps.Marker({
+
+                                position: props.coords,
+                                map: map,
+
+                            });
+
+                            console.log(marker);
+                            marker.setMap(map);
+
+                            gMMarkers.push(marker);
+
+                            // Check content
+
+                            if(props.content) {
+
+                                var infoWindow = new google.maps.InfoWindow({
+
+                                    content: props.content,
+
+                                });
+
+                                // Listener for click on marker
+
+                                marker.addListener('click', function(){
+
+                                    infoWindow.open(map, marker);
+
+                                });
+
+                            }
+
+                        }
+
+                    }
 
                 });
 
-                // Listener for click on marker
-
-                marker.addListener('click', function(){
-
-                    infoWindow.open(map, marker);
-
-                });
-
-            }
-
-        }
+            });
 
         // Locality Choices
 

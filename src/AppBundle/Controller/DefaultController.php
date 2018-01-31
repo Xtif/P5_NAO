@@ -52,7 +52,6 @@ class DefaultController extends Controller
 
             $lng = [];
             $lat = [];
-            $key = ['lat', 'lng'];
 
             foreach ($observations as $observation) {
 
@@ -61,14 +60,10 @@ class DefaultController extends Controller
 
             }
 
-            $latLng = array_merge($lat, $lng);
-            $coords = array_combine($key, $latLng);
-
             $response->setData(array(
 
-                /*'longitudes' => $longitudes,
-                'latitudes'  => $latitudes,*/
-                'coords'     => $coords
+                'longitudes' => $lng,
+                'latitudes'  => $lat,
 
             ));
 
