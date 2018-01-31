@@ -1,8 +1,3 @@
-blog:
-    resource: "@BlogBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 homepage:
     path: /
     defaults:
@@ -11,12 +6,12 @@ homepage:
 map:
     path: /map
     defaults:
-      _controller: "AppBundle:Default:map"
+      _controller: "AppBundle:Map:map"
 
 race_select:
     path: /map/race
     defaults:
-      _controller: "AppBundle:Default:raceSelect"
+      _controller: "AppBundle:Map:raceSelect"
 
 add_observation:
     path: /ajouter_observation

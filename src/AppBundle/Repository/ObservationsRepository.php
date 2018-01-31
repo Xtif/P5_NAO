@@ -29,29 +29,15 @@ class ObservationsRepository extends \Doctrine\ORM\EntityRepository
 			->getResult(); // On retourne le résultat
 		return count($observations);
 	} // End countObservation()
-    function getObservationsByBirdRace($race) {
 
-        $qb = $this->createQueryBuilder('o')
-            ->where('o.published = 1')
-            ->andWhere('o.birdRace = :race')
-            ->setParameter('race', $race)
-            ->getQuery();
+  public function getObservationsByBirdRace($race) {
+    return $this->createQueryBuilder('o')
+      ->where('o.state = :state')
+      ->setParameter('state', 'Publiée')
+      ->innerJoin('o.birdRace', 'b', 'WITH', 'b.race = :race')
+      ->setParameter('race', $race)
+      ->getQuery()
+      ->getResult();
+  } // End getObservationsByBirdRace()
 
-        $result = $qb->getResult();
-
-        return $result;
-
-    }
-
-    function getAllObservations() {
-
-        $qb = $this->createQueryBuilder('o')
-            ->where('o.published = 1')
-            ->getQuery();
-
-        $result = $qb->getResult();
-
-        return $result;
-
-    }
 }

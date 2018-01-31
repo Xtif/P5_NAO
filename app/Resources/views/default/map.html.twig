@@ -7,17 +7,19 @@
 
 {% block body %}
 
-    <div id = "body-wrap">
+    <div class="container-fluid" style="padding-top: 100px;">
 
-        <h1>Carte interactive</h1>
+        <div class="col-lg-11 m-auto">
+            <h1 class="main-title mt-2">CARTE INTERACTIVE</h1>
+        </div>
 
-        <div id = "inputs-section">
+        <div class="col-lg-10 m-auto">
 
-            <div id = "species" class = "flex-column">
-                <label for = "species-input">1 - Sélectionnez l'espèce que vous recherchez</label>
-                <div id = "species-input-wrap">
-                    <select id = "species-input" name = "species-input">
-                        <option disabled selected hidden value = "">Sélectionnez l'espèce</option>
+            <div class="form-group">
+                <label for="species-input" class="m-0 secondary-title">1 - Sélectionnez l'espèce que vous recherchez</label>
+                <div class="col-lg-10">
+                    <select id="species-input" name="species-input" class="form-control">
+                        <option disabled selected hidden value="">Sélectionnez l'espèce</option>
                         {% for bird in birds %}
                             <option value = "{{ bird.race }}">{{ bird.race }}</option>
                         {% endfor %}
@@ -25,20 +27,23 @@
                 </div>
             </div>
 
-            <div id = "locality" class = "flex-column">
-                <label for = "locality-input">2 - Renseignez une localité (facultatif)</label>
-                <div id = "locality-input-wrap" class = "flex-row">
-                    <input type = "text" id = "locality-input" name = "locality-input" placeholder = "Renseignez une localité" />
-                    <button id = "locality-button" class = "btn btn-primary">Valider</button>
+            <div class="form-group">
+                <label for="locality-input" class="mt-2 mb-0 secondary-title">2 - Renseignez une localité (facultatif)</label>
+                <div class="col-lg-10">
+                  <div class="row">
+                    <div class="col-lg-10 mb-2">
+                        <input type="text" id="locality-input" name="locality-input" placeholder="Renseignez une localité" class="form-control"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <button id="locality-button" class="btn btn-info col-lg-12">Valider</button>
+                    </div>
+                  </div>
                 </div>
             </div>
 
-        </div>
 
-        <div id = "observations-section">
-
-            <label>3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
-            <div id = 'map-wrap'>
+            <label class="mt-2 mb-0 secondary-title">3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
+            <div class="col-lg-10">
                 <div id = "map"></div>
             </div>
 
@@ -48,11 +53,12 @@
 
         </div>
 
-    </div> <!--End body-wrap-->
+    </div> <!--End container-fluid-->
 
 {% endblock %}
 
 {% block javascripts %}
+
     {{ parent() }}
     <script src = "{{ asset('JS/map.js') }}"></script>
     
@@ -80,15 +86,16 @@
                         url: '{{ path("race_select") }}',
                         data: { race: selectedValue },
                         success: function(response) {
+                            var id = response.id;
+                            var userId = response.userId;
                             var lng = response.longitudes;
                             var lat = response.latitudes;
                             var birdName = response.birdName;
                             var date = response.date;
                             var author = response.author;
-                            //var image = response.image;
+                            var image = response.image;
 
                             for(i = 0; i < gMMarkers.length; i++) {
-                                console.log(gMMarkers[i]);
                                 gMMarkers[i].setMap(null);
                             }
 
@@ -98,7 +105,7 @@
                             for(i = 0; i < lng.length; i++) {
                                 markers.push({
                                     coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
-                                    content: '<h3>' + birdName[i] + '</h3><p>' + date[i] + ' par ' + author[i] + '</p><img style = "max-width: 100%" src ="{{ asset('Images/Logo.png')}}" alt = "photo"/>'
+                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + id[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>'
                                 });
 
                                 addMarkers(markers[i]);

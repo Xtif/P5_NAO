@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class BirdsRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllByBirdRaceAsc() 
+	{
+		return $this
+			->createQueryBuilder('b') // On construit la query qui recupère toutes les races via le querybuilder
+			->orderBy('b.race', 'ASC') // On les tri par race alphabetique
+			->getQuery() // On crée la query
+			->getResult(); // On retourne le résultat
+	} // End findAllByBirdRaceAsc()
 }

@@ -292,6 +292,10 @@ header:hover {
     color: #138496;
 }
 
+.secondary-title {
+    font-size: 1.2em;
+}
+
 /************ TABLEAU ************/
 .main-thead {
     background-color: #138496;
