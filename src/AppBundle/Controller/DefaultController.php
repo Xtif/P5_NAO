@@ -52,11 +52,19 @@ class DefaultController extends Controller
 
             $lng = [];
             $lat = [];
+            $birdName = [];
+            $date = [];
+            $author = [];
+            $image = [];
 
             foreach ($observations as $observation) {
 
                 array_push($lng, $observation->getLongitude());
                 array_push($lat, $observation->getLatitude());
+                array_push($birdName, $observation->getBirdName());
+                array_push($date, $observation->getPublishedAt()->format('d/m/Y'));
+                array_push($author, $observation->getAuthor());
+                //array_push($image, $observation->getPictures()[0]->getName());
 
             }
 
@@ -64,6 +72,10 @@ class DefaultController extends Controller
 
                 'longitudes' => $lng,
                 'latitudes'  => $lat,
+                'birdName'   => $birdName,
+                'date'       => $date,
+                'author'     => $author,
+                'image'      => $image,
 
             ));
 

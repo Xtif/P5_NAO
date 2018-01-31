@@ -95,7 +95,7 @@
 
         // Map Options
 
-        var latlng = new google.maps.LatLng(48.862725, 2.287592000000018);
+        var latlng = new google.maps.LatLng(46.52863469527167, 2.43896484375);
 
         var options = {
 
@@ -124,6 +124,10 @@
 
                         var lng = response.longitudes;
                         var lat = response.latitudes;
+                        var birdName = response.birdName;
+                        var date = response.date;
+                        var author = response.author;
+                        //var image = response.image;
 
                         for(i = 0; i < gMMarkers.length; i++) {
 
@@ -140,6 +144,7 @@
                             markers.push({
 
                                 coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
+                                content: '<h3>' + birdName[i] + '</h3><p>' + date[i] + ' par ' + author[i] + '</p><img style = "max-width: 100%" src ="{{ asset('Images/Logo.png')}}" alt = "photo"/>'
 
                             });
 
@@ -165,23 +170,20 @@
 
                             // Check content
 
-                            if(props.content) {
+                            var infoWindow = new google.maps.InfoWindow({
 
-                                var infoWindow = new google.maps.InfoWindow({
+                                content: props.content,
+                                maxWidth: 150,
 
-                                    content: props.content,
+                            });
 
-                                });
+                            // Listener for click on marker
 
-                                // Listener for click on marker
+                            marker.addListener('click', function(){
 
-                                marker.addListener('click', function(){
+                                infoWindow.open(map, marker);
 
-                                    infoWindow.open(map, marker);
-
-                                });
-
-                            }
+                            });
 
                         }
 
