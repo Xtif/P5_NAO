@@ -1,7 +1,166 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel = "stylesheet" href = "{{ asset('CSS/map.css') }}" />
+{% endblock %}
+
 {% block body %}
 
-ici sera placé la carte interactive...
+    <div id = "body-wrap">
+
+        <h1>Carte interactive</h1>
+
+        <div id = "inputs-section">
+
+            <div id = "species" class = "flex-column">
+                <label for = "species-input">1 - Sélectionnez l'espèce que vous recherchez</label>
+                <div id = "species-input-wrap">
+                    <select id = "species-input" name = "species-input">
+                        <option disabled selected hidden value = "">Sélectionnez l'espèce</option>
+                        {% for bird in birds %}
+                            <option value = "{{ bird.race }}">{{ bird.race }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div id = "locality" class = "flex-column">
+                <label for = "locality-input">2 - Renseignez une localité (facultatif)</label>
+                <div id = "locality-input-wrap" class = "flex-row">
+                    <input type = "text" id = "locality-input" name = "locality-input" placeholder = "Renseignez une localité" />
+                    <button id = "locality-button" class = "btn btn-primary">Valider</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id = "observations-section">
+
+            <label>3 - Parcourez les observations sur la carte OU parcourez les observations dans la liste</label>
+            <div id = 'map-wrap'>
+                <div id = "map"></div>
+            </div>
+
+            <div id = "observations-list">
+              <p>Ici se trouvera la tableau des observations</p>
+            </div>
+
+        </div>
+
+    </div> <!--End body-wrap-->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src = "{{ asset('JS/map.js') }}"></script>
+    
+    <script>
+        /*************API Google maps************/
+        var map;
+        var markers = [];
+        var gMMarkers= [];
+
+        function initMap() {
+            // Map Options
+            var latlng = new google.maps.LatLng(46.52863469527167, 2.43896484375);
+            var options = {
+              center: latlng,
+              zoom: 5,
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), options);
+
+                $('#species-input').on('change', function() {
+                    var selectedValue = $('#species-input option:selected').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ path("race_select") }}',
+                        data: { race: selectedValue },
+                        success: function(response) {
+                            var lng = response.longitudes;
+                            var lat = response.latitudes;
+                            var birdName = response.birdName;
+                            var date = response.date;
+                            var author = response.author;
+                            //var image = response.image;
+
+                            for(i = 0; i < gMMarkers.length; i++) {
+                                console.log(gMMarkers[i]);
+                                gMMarkers[i].setMap(null);
+                            }
+
+                            markers.length = 0;
+                            gMMarkers.length = 0;
+
+                            for(i = 0; i < lng.length; i++) {
+                                markers.push({
+                                    coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
+                                    content: '<h3>' + birdName[i] + '</h3><p>' + date[i] + ' par ' + author[i] + '</p><img style = "max-width: 100%" src ="{{ asset('Images/Logo.png')}}" alt = "photo"/>'
+                                });
+
+                                addMarkers(markers[i]);
+                            }
+
+                            // Add markers function
+                            function addMarkers(props) {
+
+                                var marker = new google.maps.Marker({ // Marker
+                                    position: props.coords,
+                                    map: map,
+                                });
+
+                                marker.setMap(map);
+                                gMMarkers.push(marker);
+
+                                var infoWindow = new google.maps.InfoWindow({ // Infobulle
+                                    content: props.content,
+                                    maxWidth: 150,
+                                });
+
+                                // Listener for click on marker affichage infobulle
+                                marker.addListener('click', function(){
+                                    infoWindow.open(map, marker);
+                                });
+                            } // End addMarkers()
+                        } // End success()
+                    }); // end ajax()
+                }); // End input onchange()
+
+            // Locality Choices
+            var geocoder = new google.maps.Geocoder();
+
+            $('#locality-button').on('click', function(e) {
+
+                e.preventDefault();
+
+                var request = {
+                    address: $('#locality-input').val()
+                }
+
+                geocoder.geocode(request, function(results, status) {
+                    if(status === google.maps.GeocoderStatus.OK) {
+                        var pos = results[0].geometry.location;
+                        map.setCenter(pos);
+                        map.setZoom(7);
+                        positionMarker.setPosition(pos);
+                    } else {
+                        $('#flash-message').addClass('error-message').fadeIn(600).append('<div class = "message"><p>Veuillez entrer une localité valide</p> <br /></div>').delay(1300).fadeOut(600);
+                        $('#locality-button').prop('disabled', true);
+                        setTimeout(function() {
+                            $('.message').remove();
+                            $('#locality-button').prop('disabled', false);
+                            $('#flash-message').removeClass('error-message');
+                        }, 2600);
+                    }
+                }); // End geocode()
+            }); // End onclick()
+        } // End initMap()
+
+    </script>
+
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDUOd3W4MWdq1AcYmYab9IHuPuFm9bbzE4&callback=initMap" async defer></script>
 
 {% endblock %}

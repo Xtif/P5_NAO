@@ -13,6 +13,11 @@ map:
     defaults:
       _controller: "AppBundle:Default:map"
 
+race_select:
+    path: /map/race
+    defaults:
+      _controller: "AppBundle:Default:raceSelect"
+
 add_observation:
     path: /ajouter_observation
     defaults:

@@ -22,6 +22,8 @@
 
         {% endblock %}
 
+        {% block API %}{% endblock %}
+
     </head>
 
     <body data-spy = "scroll" data-target = "#wrap">
@@ -148,6 +150,7 @@
           </div>
           <a href = "{{ path('tos') }}">Conditions générales d'utilisation</a>
 
+            <script src = "{{ asset('JS/base.js') }}"></script>
       </footer>
 
       {% block javascripts %}
