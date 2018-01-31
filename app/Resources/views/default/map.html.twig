@@ -48,7 +48,7 @@
             </div>
 
             <!-- Tableau des observations -->
-            <div class="col-lg-11 m-auto">
+            <div class="col-lg-11 m-auto div-table">
                 <table id="observation-table" class="table mt-3 hover">
                   <thead class="main-thead">
                     <tr rol="row">
@@ -62,7 +62,7 @@
                     </tr>
                   </thead>
                   <tbody class="main-tbody">
-                        
+                    <td valign="top" colspan="7" class="text-center">Sélectionnez une espèce pour consulter les observations</td>
                   </tbody>
                 </table>
             </div>
@@ -80,12 +80,19 @@
     
     <script>
 
+        var map;
+        var markers = [];
+        var gMMarkers= [];
+
         //////////// Gestion du tableau //////////////
         function initTable() {
             table = $('#observation-table').DataTable();
             table.destroy();
 
             table = $('#observation-table').DataTable({
+                "language": {
+                    "emptyTable": "Aucune observations répertoriées pour cette espèce"
+                },
                 "paging": false,
                 "searching": false,
                 "info": false,
@@ -99,10 +106,6 @@
         };
 
         /*************API Google maps************/
-        var map;
-        var markers = [];
-        var gMMarkers= [];
-
         function initMap() {
             // Map Options
             var latlng = new google.maps.LatLng(46.52863469527167, 2.43896484375);
@@ -120,9 +123,10 @@
                         type: 'POST',
                         url: '{{ path("race_select") }}',
                         data: { race: selectedValue },
+
                         success: function(response) {
 
-                            $(".main-tbody").html("");
+                            $("tbody").remove();
 
                             var observationId = response.id;
                             var userId = response.userId;
@@ -143,21 +147,24 @@
                             markers.length = 0;
                             gMMarkers.length = 0;
 
-                            for(i = 0; i < lng.length; i++) {
-                                markers.push({
-                                    coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
-                                    content: '<a href="{{ path("observation", {"id":"0"}) }}' + observationId[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
-                                    birdName: birdName[i],
-                                    birdRace: birdRace[i],
-                                    state: state[i],
-                                    reported: reported[i],
-                                    date: date[i],
-                                    author: author[i],
-                                    userId: userId[i],
-                                    observationId: observationId[i]
-                                });
+                            if (lng.length != 0) {
+                                $("table").append('<tbody class="main-tbody"></tbody>');
+                                for(i = 0; i < lng.length; i++) {
+                                    markers.push({
+                                        coords: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])},
+                                        content: '<a href="{{ path("observation", {"id":"0"}) }}' + observationId[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
+                                        birdName: birdName[i],
+                                        birdRace: birdRace[i],
+                                        state: state[i],
+                                        reported: reported[i],
+                                        date: date[i],
+                                        author: author[i],
+                                        userId: userId[i],
+                                        observationId: observationId[i]
+                                    });
 
-                                addMarkers(markers[i]);
+                                    addMarkers(markers[i]);
+                                }
                             }
 
                             initTable();
@@ -172,9 +179,8 @@
 
                                 marker.setMap(map);
                                 gMMarkers.push(marker);
-
                                 //Ajout du marqueur dans le tableau
-                                $(".main-tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle state">' + data.state + '</td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
+                                $("tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle state">' + data.state + '</td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
 
                                 var infoWindow = new google.maps.InfoWindow({ // Infobulle
                                     content: data.content,
