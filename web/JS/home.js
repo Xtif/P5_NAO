@@ -68,19 +68,6 @@ if ($('#ccm').length) {
 
 $(function() {
 
-    $('#icon').on('click', function(){
-
-       $('#icon').toggleClass('isActive');
-       $('#menu-xs').fadeToggle(300);
-
-   });
-
-   $('#menu-xs li').on('click', function() {
-
-      $('#icon').toggleClass('isActive');
-      $('#menu-xs').fadeToggle(300);
-
-   });
 
     if (window.location.hash != null && window.location.hash != '') {
       $('body, html').animate({
