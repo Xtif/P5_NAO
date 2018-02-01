@@ -14,7 +14,7 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
 	{
 		return $this
 			->createQueryBuilder('n') // On construit la query qui recupère toutes les news via le querybuilder
-			->orderBy('n.datePublished', 'ASC') // On les tri par date croissant
+			->orderBy('n.datePublished', 'DESC') // On les tri par date croissant
 			->getQuery() // On crée la query
 			->getResult(); // On retourne le résultat
 	} // End findAllByDateAsc()
