@@ -102,3 +102,10 @@
     </section>
 
 {% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src = "{{ asset('JS/home.js') }}"></script>
+
+{% endblock %}

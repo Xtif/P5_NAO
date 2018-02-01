@@ -68,38 +68,35 @@ if ($('#ccm').length) {
 
 $(function() {
 
-    $('#icon').on('click', function(){
+    if (window.location.hash != null && window.location.hash != '') {
+      $('body, html').animate({
+        scrollTop: $(window.location.hash).offset().top - 100
+      }, 1300);
+    }
 
-        if (window.location.hash != null && window.location.hash != '') {
-          $('body, html').animate({
-            scrollTop: $(window.location.hash).offset().top - 100
-          }, 1300);
-        }
+    $('.ccm').on('click', function(e) {
+      if ($('title').html() == "Nos Amis Les Oiseaux") {
+        $('body, html').animate({
+          scrollTop: $('#ccm').offset().top - 100
+        }, 1300);
+      }
 
-        $('.ccm').on('click', function(e) {
-          if ($('title').html() == "Nos Amis Les Oiseaux") {
-            $('body, html').animate({
-              scrollTop: $('#ccm').offset().top - 100
-            }, 1300);
-          }
-
-          if ($('title').html() != "Nos Amis Les Oiseaux") {
-            window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#ccm");
-          }
-        });
-
-        $('.qsn').on('click', function(e) {
-          if ($('title').html() == "Nos Amis Les Oiseaux") {
-            $('body, html').animate({
-              scrollTop: $('#qsn').offset().top - 100
-            }, 1300);
-          }
-
-          if ($('title').html() != "Nos Amis Les Oiseaux") {
-            window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#qsn");
-          }
-        });
-
+      if ($('title').html() != "Nos Amis Les Oiseaux") {
+        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#ccm");
+      }
     });
+
+    $('.qsn').on('click', function(e) {
+      if ($('title').html() == "Nos Amis Les Oiseaux") {
+        $('body, html').animate({
+          scrollTop: $('#qsn').offset().top - 100
+        }, 1300);
+      }
+
+      if ($('title').html() != "Nos Amis Les Oiseaux") {
+        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#qsn");
+      }
+    });
+
 
 });
