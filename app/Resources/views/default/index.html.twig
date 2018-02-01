@@ -27,6 +27,7 @@
 
                     <a href = "#comment-ça-marche"><button class = "btn ccm">Comment ça marche ?</button></a>
                     <a href = "#qui-sommes-nous"><button class = "btn qsn">Qui sommes-nous ?</button></a>
+                    <a href = "{{ path('fos_user_registration_register') }}"><button class="btn">S'inscrire</button></a>
 
                 </div>
 
@@ -60,8 +61,11 @@
                 <h3 class = "flex-row">Observez</h3>
                 <i class="fa fa-4x fa-binoculars" aria-hidden="true"></i>
                 <p class = "flex-row">Rejoignez la comunauté et aidez à répertorier les espèces sur votre territoire.</p>
-                <a href = "{{ path('add_observation') }}"><button class = "btn">En savoir plus</button></a>
-
+                {% if app.user != null and "ROLE_PARTICULIER" in app.user.roles %}
+                    <a href = "{{ path('add_observation') }}"><button class = "btn">Ajouter une observation</button></a>
+                {% else %}
+                    <a href = "{{ path('fos_user_registration_register') }}"><button class = "btn">S'inscrire</button></a>
+                {% endif %}
             </div>
 
             <div id = "ccm-section-participate-box" class = "flex-column">
@@ -69,7 +73,13 @@
                 <h3 class = "flex-row">Participez</h3>
                 <i class="fa fa-4x fa-calendar-check-o" aria-hidden="true"></i>
                 <p class = "flex-row">Devenez référent et aidez à la gestion des observations et des utilisateurs.</p>
-                <a href = "{{ path('map') }}"><button class = "btn">En savoir plus</button></a>
+                {% if app.user != null and "ROLE_NATURALISTE" in app.user.roles %}
+                    <a href = "{{ path('observation_list') }}"><button class = "btn">Gérer les observations</button></a>
+                {% elseif app.user != null and "ROLE_PARTICULIER" in app.user.roles %}
+                    <a href = "{{ path('add_observation') }}"><button class = "btn">Ajouter une observation</button></a>
+                {% else %}
+                    <a href = "{{ path('fos_user_registration_register') }}"><button class = "btn">S'inscrire</button></a>
+                {% endif %}
 
             </div>
 
