@@ -125,7 +125,15 @@
                     <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
                   {% endif %}
                 {% endif %}
+                <a href = "{{ path('list_news') }}"><li>Blog</li></a>
                 <a href = "{{ path('contact') }}"><li>Nous contacter</li></a>
+                {% if app.user %}
+                  <a href = "{{ path('fos_user_profile_show') }}"><li>Mon compte</li></a>
+                  <a href = "{{ path('fos_user_security_logout') }}"><li>Se déconnecter</li></a>
+                {% else %}
+                  <a href = "{{ path('fos_user_registration_register') }}"><li>S'inscrire</li></a>
+                  <a href = "{{ path('fos_user_security_login') }}"><li>Se connecter</li></a>
+                {% endif %}
 
               </ul>
 

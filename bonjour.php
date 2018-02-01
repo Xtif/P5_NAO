@@ -1,0 +1,1 @@
+<?php echo "bonjour, Nous sommes le ".date ("Y-m-d H:i:s")."; ?>
