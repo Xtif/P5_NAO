@@ -88,7 +88,11 @@
 						<p>/</p>
 					{% endif %}
 					<h3 class="third-title">Coordonnées GPS :</h3>
-					<p>{{ observation.longitude }} / {{ observation.latitude }}</p>
+					{% if app.user == null %}
+						<p><a href="{{ path('fos_user_security_login') }}">Connectez-vous</a> ou <a href="{{ path('fos_user_registration_register') }}">créez un compte</a> pour voir ces informations.</p>
+					{% else %}
+						<p>{{ observation.longitude }} / {{ observation.latitude }}</p>
+					{% endif %}
 					<div id="map" class="col-lg-8"></div>
 				</div>
 
@@ -169,6 +173,7 @@
 	<script>
 		var longitude = {{ observation.longitude }};
 		var latitude = {{ observation.latitude }};
+		var activeUser = "{{ app.user }}";
 	</script>
   <script src = "{{ asset('JS/observation.js') }}"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxzAH9RA7GHwyfv6CZvSM5-Aml5C7igMQ&callback=initMap"></script>
