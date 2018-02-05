@@ -83,7 +83,7 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#ccm");
+        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#ccm");
       }
     });
 
@@ -95,7 +95,7 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#qsn");
+        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#qsn");
       }
     });
 
