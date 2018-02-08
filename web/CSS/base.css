@@ -28,6 +28,7 @@
 }
 
 /*          Eléments de base          */
+
 html {
     height: 100%;
 }
@@ -41,6 +42,15 @@ body {
     font-family: 'Agenda-Light', 'Palatino Linotype', Arial, sans-serif;
     overflow-x: hidden;
     padding-bottom: 5em;
+
+}
+
+#page-wrap {
+
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
+    z-index: 2;
 
 }
 
@@ -88,6 +98,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 100px;
     font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
     background-color: white;
     color: #3BA9BB;
@@ -558,6 +569,3 @@ header:hover {
     }
 
 }
-
-
-

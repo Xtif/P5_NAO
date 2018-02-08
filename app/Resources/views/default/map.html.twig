@@ -78,7 +78,7 @@
 
     {{ parent() }}
     <script src = "{{ asset('JS/map.js') }}"></script>
-    
+
     <script>
 
         var map;
@@ -206,7 +206,7 @@
                                 marker.addListener('click', function(){
                                     infoWindow.open(map, marker);
                                 });
-                                
+
                             } // End addMarkers()
                         } // End success()
                     }); // end ajax()

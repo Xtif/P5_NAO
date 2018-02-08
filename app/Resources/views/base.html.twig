@@ -16,7 +16,7 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.css" type="text/css" />
             <link rel = "stylesheet" href = "https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
             <link rel = "stylesheet" href = "{{ asset('JS/DataTables/datatables.min.css') }}" />
-            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />    
+            <link rel = "stylesheet" href = "{{ asset('CSS/base.css') }}" />
             <link rel = "stylesheet" href = "{{ asset('CSS/DropzoneJS/dropzone.css') }}" />
 
 
@@ -60,7 +60,7 @@
                             {% if "ROLE_NATURALISTE" in app.user.roles %}
                               <a href = "{{ path('observation_list') }}"><li>Liste observations</li></a> <!-- si naturaliste connecté -->
                             {% endif %}
-                            {% if "ROLE_ADMIN" in app.user.roles %}
+                            {% if "ROLE_SUPER_ADMIN" in app.user.roles %}
                               <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
                               <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
                             {% endif %}
@@ -120,7 +120,7 @@
                   {% if "ROLE_NATURALISTE" in app.user.roles %}
                     <a href = "{{ path('observation_list') }}"><li>Liste observations</li></a> <!-- si naturaliste connecté -->
                   {% endif %}
-                  {% if "ROLE_ADMIN" in app.user.roles %}
+                  {% if "ROLE_SUPER_ADMIN" in app.user.roles %}
                     <a href = "{{ path('dashboard') }}"><li>Tableau de bord</li></a> <!-- si admin connecté -->
                     <a href = "{{ path('user_list') }}"><li>Liste utilisateurs</li></a> <!-- si admin connecté -->
                   {% endif %}
@@ -169,7 +169,7 @@
           <script src = "https://use.fontawesome.com/86150c9ee5.js"></script>
           <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
           <script type = "text/javascript" src = "https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script> 
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
           <script src="{{ asset('JS/DropzoneJS/dropzone.js') }}"></script>
           <script src = "{{ asset('JS/home.js') }}"></script>
@@ -177,6 +177,6 @@
 
       {% endblock %}
 
-    
+
 
 </html>
