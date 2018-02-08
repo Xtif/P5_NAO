@@ -310,13 +310,6 @@
 
 }
 
-footer {
-
-    position: fixed;
-    bottom: 0px;
-
-}
-
 /*                  Médias Queries                  */
 
 @media screen and (max-width: 992px) {
