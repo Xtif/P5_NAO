@@ -5,11 +5,27 @@ function initMap() {
     zoom: 10,
     center: area
   });
-  var marker = new google.maps.Marker({
-    position: area,
-    map: map
-  });
-}
+
+  if (activeUser == "") {
+    var marker = new google.maps.Marker({ // Marker
+      position: area,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#3BA9BB',
+        fillOpacity: 0.5,
+        strokeColor: '#138496',
+        strokeWeight: 2,
+        scale: 30
+      },
+      map: map
+    });
+  } else {
+    var marker = new google.maps.Marker({ // Marker
+        position: area,
+        map: map
+    });
+  }
+} // End initMap
 
 
 $(document).ready(function() {

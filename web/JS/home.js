@@ -68,6 +68,7 @@ if ($('#ccm').length) {
 
 $(function() {
 
+
     if (window.location.hash != null && window.location.hash != '') {
       $('body, html').animate({
         scrollTop: $(window.location.hash).offset().top - 100
@@ -82,7 +83,7 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#ccm");
+        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#ccm");
       }
     });
 
@@ -94,7 +95,7 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://localhost/P5_NAO/web/app_dev.php/#qsn");
+        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#qsn");
       }
     });
 

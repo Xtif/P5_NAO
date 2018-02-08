@@ -5,6 +5,8 @@
     <link rel = "stylesheet" href = "{{ asset('CSS/map.css') }}" />
 {% endblock %}
 
+{% block title %}Carte interactive{% endblock %}
+
 {% block body %}
 
     <div class="container-fluid" style="padding-top: 100px;">
@@ -56,7 +58,6 @@
                       <th class="text-right">Nom de l'espèce</th>
                       <th class="text-right">Date</th>
                       <th class="text-right">Auteur</th>
-                      <th class="text-right">Statut</th>
                       <th class="text-right">Signalement</th>
                       <th class="text-right">Consulter</th>
                     </tr>
@@ -83,6 +84,7 @@
         var map;
         var markers = [];
         var gMMarkers= [];
+        var activeUser = "{{ app.user }}";
 
         //////////// Gestion du tableau //////////////
         function initTable() {
@@ -98,7 +100,7 @@
                 "info": false,
                 "columnDefs": [
                     {
-                        "targets": [6],
+                        "targets": [5],
                         "sortable": false
                     }
                 ]
@@ -134,7 +136,6 @@
                             var lat = response.latitudes;
                             var birdName = response.birdName;
                             var birdRace = response.birdRace;
-                            var state = response.state;
                             var reported = response.reported;
                             var date = response.date;
                             var author = response.author;
@@ -147,7 +148,7 @@
                             markers.length = 0;
                             gMMarkers.length = 0;
 
-                            if (lng.length != 0) {
+                            if (lng) {
                                 $("table").append('<tbody class="main-tbody"></tbody>');
                                 for(i = 0; i < lng.length; i++) {
                                     markers.push({
@@ -155,7 +156,6 @@
                                         content: '<a href="{{ path("observation", {"id":"0"}) }}' + observationId[i] + '"><h3>' + birdName[i] + '</h3></a><p>Le ' + date[i] + ' par <a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + author[i] + '</a></p><img style="max-width: 100%" src="{{ asset('') }}' + image[i] + '" alt="photo"/>',
                                         birdName: birdName[i],
                                         birdRace: birdRace[i],
-                                        state: state[i],
                                         reported: reported[i],
                                         date: date[i],
                                         author: author[i],
@@ -172,15 +172,30 @@
                             // Add markers function
                             function addMarkers(data) {
 
-                                var marker = new google.maps.Marker({ // Marker
-                                    position: data.coords,
-                                    map: map,
-                                });
+                                if (activeUser == "") {
+                                    var marker = new google.maps.Marker({ // Marker
+                                        position: data.coords,
+                                        icon: {
+                                            path: google.maps.SymbolPath.CIRCLE,
+                                            fillColor: '#3BA9BB',
+                                            fillOpacity: 0.5,
+                                            strokeColor: '#138496',
+                                            strokeWeight: 2,
+                                            scale: 30
+                                        },
+                                        map: map
+                                    });
+                                } else {
+                                    var marker = new google.maps.Marker({ // Marker
+                                        position: data.coords,
+                                        map: map
+                                    });
+                                }
 
                                 marker.setMap(map);
                                 gMMarkers.push(marker);
                                 //Ajout du marqueur dans le tableau
-                                $("tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle state">' + data.state + '</td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
+                                $("tbody").append('<tr role="row"><td class="align-middle birdName">' + data.birdName + '</td><td class="text-right align-middle birdRace">' + data.birdRace + '</td><td class="text-right align-middle date">' + data.date + '</td><td class="text-right align-middle author"><a href="{{ path("user", {"id": "0"}) }}' + userId[i] + '">' + data.author + '</a></td><td class="text-right align-middle reported">' + data.reported + '</td><td class="text-right align-middle manage"><a href="{{ path("observation", {"id": "0"}) }}' + data.observationId + '">Consulter</td></tr>');
 
                                 var infoWindow = new google.maps.InfoWindow({ // Infobulle
                                     content: data.content,
@@ -191,6 +206,7 @@
                                 marker.addListener('click', function(){
                                     infoWindow.open(map, marker);
                                 });
+                                
                             } // End addMarkers()
                         } // End success()
                     }); // end ajax()

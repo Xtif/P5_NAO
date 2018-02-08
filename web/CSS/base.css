@@ -28,13 +28,19 @@
 }
 
 /*          Eléments de base          */
+html {
+    height: 100%;
+}
 
 body {
 
+    position: relative;
+    min-height: 100%;
     width: 100%;
     background: #EEEEEE;
     font-family: 'Agenda-Light', 'Palatino Linotype', Arial, sans-serif;
     overflow-x: hidden;
+    padding-bottom: 5em;
 
 }
 
@@ -82,14 +88,14 @@ footer {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100px;
     font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
     background-color: white;
     color: #3BA9BB;
     padding: 5px 20px 5px;
-    position: fixed;
+    margin-top: 30px;
+    position: absolute;
     bottom: 0px;
-    z-index: 1;
+    z-index: 0;
 
 }
 
@@ -149,7 +155,6 @@ header {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100px;
     background: #EEEEEE;
     font-family: 'Agenda-Medium', 'Palatino Linotype', Arial, sans-serif;
     opacity: 0.7;
@@ -363,8 +368,8 @@ header:hover {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 40%;
-        height: 40%;
+        width: 30%;
+        height: 30%;
         cursor: pointer;
         border: none;
         opacity: 0.7;
@@ -383,7 +388,7 @@ header:hover {
 
     #hamburger {
 
-        width: 80%;
+        width: 70%;
         height: 2px;
         background: #3BA9BB;
         transform: translate(0%, -50%);
@@ -449,12 +454,6 @@ header:hover {
 
     }
 
-    #header-social-medias {
-
-        display: none;
-
-    }
-
     #menu-xs {
 
         width: 100%;
@@ -503,13 +502,17 @@ header:hover {
 
     }
 
+    #header-social-medias {
+        display: none;
+    }
+
 }
 
 @media screen and (max-width: 600px) {
 
     #header-end {
 
-        width: 40%;
+        width: 30%;
 
     }
 
@@ -555,3 +558,6 @@ header:hover {
     }
 
 }
+
+
+
