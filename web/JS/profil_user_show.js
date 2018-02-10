@@ -20,4 +20,6 @@ $(document).ready(function() {
 		]
 	});
 
+	$('#table-profil-show').addClass("table-responsive");
+
 }); // End of document.ready

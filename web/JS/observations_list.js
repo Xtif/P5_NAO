@@ -16,6 +16,7 @@ $(document).ready(function() {
 		]
 	});
 
+$('#observation-table').addClass("table-responsive");
 
 /////Gestion de la fenetre modale de suppression///////
   var lien;

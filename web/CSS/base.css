@@ -302,6 +302,10 @@ header:hover {
     color: white;
 }
 
+table {
+    width: 100% !important;
+}
+
 .main-tbody, .main-tbody a, .main-tbody a:hover, a, a:hover {
     color: #138496;
 }
