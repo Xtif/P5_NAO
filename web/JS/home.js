@@ -83,7 +83,10 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#ccm");
+        window.location.replace("http://nao.romaingravier.fr/#ccm");
+        $('body, html').animate({
+          scrollTop: $('#ccm').offset().top - 100
+        }, 1300);
       }
     });
 
@@ -95,7 +98,10 @@ $(function() {
       }
 
       if ($('title').html() != "Nos Amis Les Oiseaux") {
-        window.location.replace("http://www.nosamislesoiseaux.thibaultfiacre.com/#qsn");
+        window.location.replace("http://nao.romaingravier.fr/#qsn");
+        $('body, html').animate({
+          scrollTop: $('#ccm').offset().top - 100
+        }, 1300);
       }
     });
 
